@@ -1,5 +1,5 @@
 package com.cs130.connexity2;
 
-public class SearchResult {
+public class SearchController {
 
 }
