@@ -14,20 +14,19 @@ public class Connexity2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Connexity2Application.class, args);
-		
 		//TESTING CatalogSearchClient parser
 		testCatalogSearchClient();
+				
+		/*ApplicationContext ctx = SpringApplication.run(Connexity2Application.class, args);
 		
-//		ApplicationContext ctx = SpringApplication.run(Connexity2Application.class, args);
-		
-//		System.out.println("Let's inspect the beans provided by Spring Boot:");
-//
-//        String[] beanNames = ctx.getBeanDefinitionNames();
-//        Arrays.sort(beanNames);
-//        for (String beanName : beanNames) {
-//            System.out.println(beanName);
-//        }
-		
+		System.out.println("Let's inspect the beans provided by Spring Boot:");
+
+        String[] beanNames = ctx.getBeanDefinitionNames();
+        Arrays.sort(beanNames);
+        for (String beanName : beanNames) 
+			System.out.println(beanName);
+		}
+	}*/
 	}
 	
 	public static void testCatalogSearchClient() {
