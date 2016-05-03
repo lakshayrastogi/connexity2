@@ -20,4 +20,10 @@ public class HelloWorldController {
     	return "hello";
     }
  
+    
+    @RequestMapping("/main")
+    public String main(Model model)
+    {
+    	return "main";
+    }
 }
