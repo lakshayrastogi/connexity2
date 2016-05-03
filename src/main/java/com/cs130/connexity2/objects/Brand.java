@@ -6,6 +6,9 @@ public class Brand {
 	private int productCount;
 	private String url;
 	
+	public Brand() {
+	}
+
 	public Brand(String name, int productCount, String url) {
 		this.name = name;
 		this.productCount = productCount;

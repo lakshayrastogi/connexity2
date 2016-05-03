@@ -6,6 +6,10 @@ public class AttributeValue {
 	private String name;
 	private int count;
 	
+	public AttributeValue(){
+		
+	}
+	
 	public AttributeValue(int id, String name, int count) {
 		this.id = id;
 		this.name = name;

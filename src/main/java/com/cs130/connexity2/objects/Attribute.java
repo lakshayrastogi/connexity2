@@ -7,12 +7,16 @@ public class Attribute {
 	
 	private int id;
 	private String name;
-	private List<AttributeValue> myList = new ArrayList<AttributeValue>();
+	private List<AttributeValue> attributes = new ArrayList<AttributeValue>();
+	
+	public Attribute(){
+		
+	}
 	
 	public Attribute(int id, String name, List<AttributeValue> myList) {
 		this.id = id;
 		this.name = name;
-		this.myList = myList;
+		this.attributes = myList;
 	}
 	
 	public int getId() {
@@ -27,12 +31,11 @@ public class Attribute {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<AttributeValue> getMyList() {
-		return myList;
+	public List<AttributeValue> getAttributes() {
+		return attributes;
 	}
-	public void setMyList(List<AttributeValue> myList) {
-		this.myList = myList;
+	public void setAttributes(List<AttributeValue> attributes) {
+		this.attributes = attributes;
 	}
-
 	
 }

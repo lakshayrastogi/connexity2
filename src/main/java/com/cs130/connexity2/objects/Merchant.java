@@ -15,6 +15,9 @@ public class Merchant {
 	private int rating;
 	private String merchantReview;
 	
+	public Merchant() {
+	}
+
 	public Merchant(int mid, String name, String url, String merchantUrl, String logoUrl, int totalProductCount,
 			String countryCode, int rating, String merchantReview) {
 		this.mid = mid;
