@@ -14,8 +14,12 @@ import org.json.simple.parser.ParseException;
 import com.cs130.connexity2.objects.SearchResult;
 
 public class CatalogSearchClient {
+	
+	public static final String BASE_URL = "http://catalog.bizrate.com/services/catalog/v1/us/";
 	public CatalogSearchClient() {}
+	
 	static private JSONParser jsonParser = new JSONParser();
+	
 	//readUrl function from http://stackoverflow.com/questions/7467568/parsing-json-from-url
 	//Used to read JSON from URL as string
 	private static String readUrl(String urlString) throws Exception {

@@ -31,27 +31,6 @@ public class Offer {
 	public Offer(){
 		
 	}
-	
-	public Offer(int merchantId, int categoryId, int id, String title, int brandId, String brandName,
-			String description, String manufacturer, String url, List<String> images, String sku, String detailUrl,
-			double price, boolean bidded, String merchantProductId, String merchantName) {
-		this.merchantId = merchantId;
-		this.categoryId = categoryId;
-		this.id = id;
-		this.title = title;
-		this.brandId = brandId;
-		this.brandName = brandName;
-		this.description = description;
-		this.manufacturer = manufacturer;
-		this.url = url;
-		Images = images;
-		this.sku = sku;
-		this.detailUrl = detailUrl;
-		this.price = price;
-		this.bidded = bidded;
-		this.merchantProductId = merchantProductId;
-		this.merchantName = merchantName;
-	}
 
 	public Offer(int merchantId, int categoryId, int id, String title, int brandId, String brandName,
 			String description, String manufacturer, String url, List<String> images, String sku, String detailUrl,

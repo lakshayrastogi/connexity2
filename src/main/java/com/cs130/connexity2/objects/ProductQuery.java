@@ -1,6 +1,9 @@
 package com.cs130.connexity2.objects;
 
 public class ProductQuery {
+	
+	public static final String API_KEY = "f94ab04178d1dea0821d5816dfb8af8d";
+	public static final int PUBLISHER_ID = 608865;
 
 	private String apiKey; //Required
 	private int publisherId; //Required
@@ -39,12 +42,8 @@ public class ProductQuery {
 	private String callback; //Default: callback -> wrap JSONP
 	
 	public ProductQuery(){
-		
-	}
-	
-	public ProductQuery(String apiKey, int publisherId) {
-		this.apiKey = apiKey;
-		this.publisherId = publisherId;
+		this.apiKey = API_KEY;
+		this.publisherId = PUBLISHER_ID;
 	}
 
 	public String getApiKey() {
