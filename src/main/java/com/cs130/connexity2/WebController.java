@@ -7,20 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class HelloWorldController {
-
-    @RequestMapping("/")
+public class WebController 
+{
+	@RequestMapping("/")
     public String index() {
-        return "redirect:/hello";
+        return "redirect:/main";
     }
-    
-    @RequestMapping("/hello")
-    public String hello(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-    	return "hello";
-    }
- 
-    
+	
     @RequestMapping("/main")
     public String main(Model model)
     {
