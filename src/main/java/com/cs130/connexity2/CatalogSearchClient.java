@@ -119,8 +119,19 @@ public class CatalogSearchClient {
 				case PRODUCT:
 					// Type cast to the right query type - Can make a private variable too of ProductQuery and assign the object to that in Controller
 					ProductQuery prodQuery = (ProductQuery) query;	
-					newUrl+="product?";
-					newUrl += "keyword=" + prodQuery.getKeyword() + "&format=" + prodQuery.getFormat() + "&offersOnly=" + prodQuery.isOffersOnly(); 
+					newUrl += "product?";
+					newUrl += "keyword=" + prodQuery.getKeyword() + "&format=" + prodQuery.getFormat() + "&offersOnly=" + prodQuery.isOffersOnly()
+							+ "&placementId=" + prodQuery.getPlacementId() + "&categoryId=" + (prodQuery.getCategoryId()==-1 ? "" : prodQuery.getCategoryId()) + "&productId=" + prodQuery.getProductId()
+							+ "&productIdType=" + prodQuery.getProductIdType() + "&merchantId=" + (prodQuery.getMerchantId()==-1 ? "" : prodQuery.getMerchantId()) 
+							+ "&brandId=" + (prodQuery.getBrandId()==-1 ? "" : prodQuery.getBrandId()) + "&biddedOnly=" + prodQuery.isBiddedOnly() + "&minPrice=" + (prodQuery.getMinPrice()==-1 ? "" : prodQuery.getMinPrice())
+							+ "&maxPrice=" + (prodQuery.getMaxPrice()==-1 ? "" : prodQuery.getMaxPrice()) + "&minMarkdown=" + (prodQuery.getMinMarkdown()==-1 ? "" : prodQuery.getMinMarkdown())
+							+ "&zipCode=" + prodQuery.getZipCode() + "&freeShipping=" + prodQuery.isFreeShipping() + "&start=" + prodQuery.getStart() + "&results=" + prodQuery.getResults()
+							+ "&backFillResults=" + prodQuery.getBackFillResults() + "&startOffers=" + prodQuery.getStartOffers() + "&resultsOffers=" + prodQuery.getResultsOffers()
+							+ "&sort=" + prodQuery.getSort() + "&attFilter=" + prodQuery.getAttFilter() + "&attWeights=" + prodQuery.getAttWeights() + "&attributeId=" + prodQuery.getAttributeId()
+							+ "&resultsAttribute=" + prodQuery.getResultsAttribute() + "&resultsAttributeValues=" + prodQuery.getResultsAttributeValues() + "&showAttributes=" + prodQuery.isShowAttributes()
+							+ "&showProductAttributes=" + prodQuery.isShowProductAttributes() + "&minRelevancyScore=" + prodQuery.getMinRelevancyScore() + "&maxAge=" + (prodQuery.getMaxAge() == -1 ? "" : prodQuery.getMaxAge())
+							+ "&showRawUrl=" + prodQuery.isShowRawUrl() + "&imageOnly=" + prodQuery.isImageOnly() + "&reviews=" + prodQuery.getReviews() + "&retailOnly=" + prodQuery.isRetailOnly()
+							+ "&callback=" + prodQuery.getCallback(); 
 					break;
 				case BRAND:
 					newUrl+="brand?";

@@ -70,7 +70,7 @@ public class ProductQuery extends Query{
 		this.reviews = "none";
 		this.retailOnly = false;
 		this.format = "json";
-		this.setCallback("callback");
+		this.callback = "callback";
 	}
 	
 	public int getPlacementId() {
