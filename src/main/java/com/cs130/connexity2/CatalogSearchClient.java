@@ -12,6 +12,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.neo4j.cypher.internal.compiler.v2_0.executionplan.builders.GlobalStrategy;
 
+import com.cs130.connexity2.objects.ProductQuery;
+import com.cs130.connexity2.objects.Query;
 import com.cs130.connexity2.objects.SearchResult;
 import com.cs130.connexity2.util.Globals;
 
@@ -108,14 +110,17 @@ public class CatalogSearchClient {
 		return res;
 	}
 
-	public List<SearchResult> getSearchResults(String urlString, Globals.SearchType searchType) {
+	public List<SearchResult> getSearchResults(Query query, Globals.SearchType searchType) {
 		try {
 			//publisherId=608865&keyword=shoes&results=20&resultsOffers=10&format=json&offersOnly=true
 			List<SearchResult> searchResults = new ArrayList<>();
 			String newUrl = Globals.BASE_URL;
 			switch(searchType){
 				case PRODUCT:
+					// Type cast to the right query type - Can make a private variable too of ProductQuery and assign the object to that in Controller
+					ProductQuery prodQuery = (ProductQuery) query;	
 					newUrl+="product?";
+					newUrl += "keyword=" + prodQuery.getKeyword(); 
 					break;
 				case BRAND:
 					newUrl+="brand?";
@@ -134,12 +139,12 @@ public class CatalogSearchClient {
 					break;
 				default: break;
 			}
-			newUrl+="apiKey=" + Globals.API_KEY + "&publisherId=" + Globals.PUBLISHER_ID;
+			newUrl+="&apiKey=" + Globals.API_KEY + "&publisherId=" + Globals.PUBLISHER_ID + "&format=json";
 			System.out.println(newUrl);
 			//convert url to json object
-			JSONObject jsonObj = (JSONObject) jsonParser.parse(readUrl(urlString));
+			JSONObject jsonObj = (JSONObject) jsonParser.parse(readUrl(newUrl));
 			//obtain json list of offers
-			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonObj.get("offers")).get("offer");
+			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonObj.get("products")).get("product");
 			for (int i = 0; i < jsonArr.size(); i++) {
 				JSONObject jsonRes = (JSONObject) jsonArr.get(i);
 				/*SearchResult constructor parses JSONObject and 

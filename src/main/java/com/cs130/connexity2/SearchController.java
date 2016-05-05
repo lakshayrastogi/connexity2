@@ -6,6 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+import com.cs130.connexity2.util.Globals;
+
+import com.cs130.connexity2.objects.ProductQuery;
+import com.cs130.connexity2.objects.SearchResult;
+
 @Controller
 public class SearchController {
 	
@@ -23,7 +29,25 @@ public class SearchController {
     @RequestMapping(value="/searchResults",method=RequestMethod.GET)
     public String searchResults(@RequestParam(value="keyword",required=true,defaultValue="") String keyword, Model model){
     	System.out.println(keyword);
+    	ProductQuery prodQuery = new ProductQuery();
+    	prodQuery.setKeyword(keyword);
+		CatalogSearchClient searchClient = new CatalogSearchClient();
+		List<SearchResult> searchResults = searchClient.getSearchResults(prodQuery, Globals.SearchType.PRODUCT);
+		
+		// test
+		for (int i = 0; i < searchResults.size(); i++) {
+			System.out.println("Offer " + (i+1) + '\n' + "---------------------------");
+			SearchResult offer = searchResults.get(i);
+			String res = 
+					"Title: " + offer.getTitle() + '\n' +
+					"Brand: " + offer.getBrandName() + '\n' +
+					"Description: " + offer.getDescription() + '\n' +
+					"Price: $" + offer.getPrice() + '\n' +
+					"Merchant Certified: " + offer.isMerchantCertified() + '\n';
+			System.out.println(res);
+		}
     	return "searchResults";
+    	
     }
 }
 
