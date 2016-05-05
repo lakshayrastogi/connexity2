@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import com.cs130.connexity2.util.Globals;
 
+import com.cs130.connexity2.util.Globals;
 import com.cs130.connexity2.objects.ProductQuery;
 import com.cs130.connexity2.objects.SearchResult;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class SearchController {
@@ -37,8 +39,9 @@ public class SearchController {
     	prodQuery.setKeyword(keyword);
 		CatalogSearchClient searchClient = new CatalogSearchClient();
 		List<SearchResult> searchResults = searchClient.getSearchResults(prodQuery, Globals.SearchType.PRODUCT);
-		
+		model.addAttribute("searchResults", searchResults);
 		// test
+		
 		for (int i = 0; i < searchResults.size(); i++) {
 			System.out.println("Offer " + (i+1) + '\n' + "---------------------------");
 			SearchResult offer = searchResults.get(i);
@@ -50,6 +53,7 @@ public class SearchController {
 					"Merchant Certified: " + offer.isMerchantCertified() + '\n';
 			System.out.println(res);
 		}
+		
     	return "searchResults";
     	
     }

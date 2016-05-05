@@ -87,6 +87,12 @@ public class CatalogSearchClient {
 			res.setOriginalPrice((((Long)((JSONObject) jsonRes.get("originalPrice")).get("integral")).doubleValue())/100.0);
 		} catch (Exception e) {res.setOriginalPrice(-1); e.printStackTrace();}
 		try {
+			res.setPriceStr((String) ((JSONObject) jsonRes.get("price")).get("value"));
+		} catch (Exception e) {res.setPriceStr("N/A"); e.printStackTrace();}
+		try {
+			res.setOriginalPriceStr((String) ((JSONObject) jsonRes.get("originalPrice")).get("value"));
+		} catch (Exception e) {res.setOriginalPriceStr("N/A"); e.printStackTrace();}
+		try {
 			res.setMarkdownPercent((Double) jsonRes.get("markdownPercent"));
 		} catch (Exception e) {res.setMarkdownPercent(-1); e.printStackTrace();}
 		try {

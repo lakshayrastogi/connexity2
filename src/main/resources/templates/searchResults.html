@@ -103,13 +103,13 @@
        				//should be the number of search results
        				var numberOfResults = 16;
        				var imageLink = "https://tctechcrunch2011.files.wordpress.com/2014/06/apple_topic.png?w=220";
-       				for (var i = 0; i < numberOfResults; i++)
-       				{
+              var i = 0;
+              document.write("{{#searchResults}}");
        					if(i%4 == 0)
        					{
        						if(i != 0)
        						{
-								blocks += "</div>\n";       						
+  							blocks += "</div>\n";       						
        						}
        						blocks += "<div class='row'>\n";
        					}
@@ -117,16 +117,17 @@
        						blocks += "<div class='card' style='background-color: #fff; border-style: ridge; border-width: 3px; border-color: #e6e6e6; border-radius: 10px;'>\n";
        							//Link/Card body
        							blocks += "<a href='http://localhost:8080'>\n"
-       							blocks += "<img class='card-img-top img-rounded' src='" + imageLink + "' alt='Card image cap' style='width:100%; height:66%;'>\n";
+       							blocks += "<img class='card-img-top img-rounded' src='{{images.2}}' alt='Card image cap' style='width:100%; height:66%;'>\n";
        							blocks += "</a>"
        							blocks += "<div class='card-block'>\n";
-       								blocks += "<a href='#' class='card-link' style='display:block; text-align:center;'> Product </a>\n";
-       								blocks += "<p class='card-text' style='text-align:center;'> Price </p>\n";
-       								blocks += "<a href='#' class='card-link' style='display:block; text-align:center;'> Seller </a>\n";
+       								blocks += "<a href='#' class='card-link' style='display:block; text-align:center;'> {{title}} </a>\n";
+       								blocks += "<p class='card-text' style='text-align:center;'> {{priceStr}} </p>\n";
+       								blocks += "<a href='#' class='card-link' style='display:block; text-align:center;'> {{merchantName}} </a>\n";
        							blocks += "</div>\n";
        						blocks += "</div>\n";
        					blocks += "</div>\n"
-       				}
+       				  i++;
+              document.write("{{/searchResults}}");
        				blocks += "</div>\n"
        				document.write(blocks);
        			</script>

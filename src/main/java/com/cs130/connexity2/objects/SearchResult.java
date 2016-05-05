@@ -17,6 +17,7 @@ public class SearchResult {
 	private String sku;
 	private String detailUrl;
 	private double price, originalPrice;
+	private String priceStr, originalPriceStr;
 	private double markdownPercent;
 	private boolean bidded;
 	private String merchantName;
@@ -28,9 +29,9 @@ public class SearchResult {
 	public SearchResult() {
 	}
 	public SearchResult(int merchantId, int categoryId, int id, String title, String brandName, String description,
-			String url, List<String> images, String sku, String detailUrl, double price, double originalPrice,
-			double markdownPercent, boolean bidded, String merchantName, boolean merchantCertified,
-			String merchantLogoUrl, String condition, double relevancy) {
+			String url, List<String> images, String sku, String detailUrl, double price, double originalPrice, 
+			String priceStr, String originalPriceStr, double markdownPercent, boolean bidded, String merchantName, 
+			boolean merchantCertified, String merchantLogoUrl, String condition, double relevancy) {
 		this.merchantId = merchantId;
 		this.categoryId = categoryId;
 		this.id = id;
@@ -43,6 +44,8 @@ public class SearchResult {
 		this.detailUrl = detailUrl;
 		this.price = price;
 		this.originalPrice = originalPrice;
+		this.priceStr = priceStr;
+		this.originalPriceStr = originalPriceStr;
 		this.markdownPercent = markdownPercent;
 		this.bidded = bidded;
 		this.merchantName = merchantName;
@@ -143,11 +146,27 @@ public class SearchResult {
 	public double getOriginalPrice() {
 		return originalPrice;
 	}
-
+	
 	public void setOriginalPrice(double originalPrice) {
 		this.originalPrice = originalPrice;
 	}
-
+	
+	public String getPriceStr() {
+		return priceStr;
+	}
+	
+	public void setPriceStr(String priceStr) {
+		this.priceStr = priceStr;
+	}
+	
+	public String getOriginalPriceStr() {
+		return originalPriceStr;
+	}
+	
+	public void setOriginalPriceStr(String originalPriceStr) {
+		this.originalPriceStr = originalPriceStr;
+	}
+	
 	public double getMarkdownPercent() {
 		return markdownPercent;
 	}
