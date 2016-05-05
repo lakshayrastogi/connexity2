@@ -34,10 +34,43 @@ public class ProductQuery extends Query{
 	private String reviews; //One of: aggregate, none(default)
 	private boolean retailOnly; //Default: false
 	private String format; //Default: xml; One of xml, json, js
+	private String callback; //Default: callback
 	
 	public ProductQuery(){
+		this.placementId = 1;
+		this.categoryId = -1;	// unsigned in API call
+		this.productId = "";
+		this.productIdType = "";
 		this.offersOnly = true;
+		this.merchantId = -1;	// unsigned in API call
+		this.brandId = -1;
+		this.biddedOnly = true;
+		this.minPrice = -1;	// unsigned in API call
+		this.maxPrice = -1;	// unsigned in API call
+		this.minMarkdown = -1; // unsigned in API call
+		this.zipCode = "";
+		this.freeShipping = false;
+		this.start = 0;
+		this.results = 10;
+		this.backFillResults = 0;
+		this.startOffers = 0;
+		this.resultsOffers = 0;
+		this.sort = "relevancy_desc";
+		this.attFilter = "";
+		this.attWeights = "";
+		this.attributeId = "";
+		this.resultsAttribute = 10;
+		this.resultsAttributeValues = 10;
+		this.showAttributes = false;
+		this.showProductAttributes = false;
+		this.minRelevancyScore = 100;
+		this.maxAge = -1;	// one of 1,2,3,7,30 in API call
+		this.showRawUrl = false;
+		this.imageOnly = false;
+		this.reviews = "none";
+		this.retailOnly = false;
 		this.format = "json";
+		this.setCallback("callback");
 	}
 	
 	public int getPlacementId() {
@@ -310,6 +343,14 @@ public class ProductQuery extends Query{
 
 	public void setFormat(String format) {
 		this.format = format;
+	}
+
+	public String getCallback() {
+		return callback;
+	}
+
+	public void setCallback(String callback) {
+		this.callback = callback;
 	}
 
 }

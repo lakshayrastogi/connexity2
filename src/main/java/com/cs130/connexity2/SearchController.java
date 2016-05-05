@@ -34,6 +34,7 @@ public class SearchController {
     	}
     	// TODO: Add more checks for valid input
     	ProductQuery prodQuery = new ProductQuery();
+    	System.out.println(prodQuery.getCategoryId() + " whatever");
     	prodQuery.setKeyword(keyword);
 		CatalogSearchClient searchClient = new CatalogSearchClient();
 		List<SearchResult> searchResults = searchClient.getSearchResults(prodQuery, Globals.SearchType.PRODUCT);
