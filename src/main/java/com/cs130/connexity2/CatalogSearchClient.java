@@ -28,7 +28,8 @@ public class CatalogSearchClient {
 	private static String readUrl(String urlString) throws Exception {
 	    BufferedReader reader = null;
 	    try {
-	        URL url = new URL(urlString);
+	    	String formattedUrl = urlString.replaceAll(" ", "%20");
+	        URL url = new URL(formattedUrl);
 	        reader = new BufferedReader(new InputStreamReader(url.openStream()));
 	        StringBuffer buffer = new StringBuffer();
 	        int read;
