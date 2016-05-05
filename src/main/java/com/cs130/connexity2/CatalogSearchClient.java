@@ -120,7 +120,7 @@ public class CatalogSearchClient {
 					// Type cast to the right query type - Can make a private variable too of ProductQuery and assign the object to that in Controller
 					ProductQuery prodQuery = (ProductQuery) query;	
 					newUrl+="product?";
-					newUrl += "keyword=" + prodQuery.getKeyword(); 
+					newUrl += "keyword=" + prodQuery.getKeyword() + "&format=" + prodQuery.getFormat() + "&offersOnly=" + prodQuery.isOffersOnly(); 
 					break;
 				case BRAND:
 					newUrl+="brand?";
@@ -139,12 +139,12 @@ public class CatalogSearchClient {
 					break;
 				default: break;
 			}
-			newUrl+="&apiKey=" + Globals.API_KEY + "&publisherId=" + Globals.PUBLISHER_ID + "&format=json";
+			newUrl+="&apiKey=" + Globals.API_KEY + "&publisherId=" + Globals.PUBLISHER_ID;
 			System.out.println(newUrl);
 			//convert url to json object
 			JSONObject jsonObj = (JSONObject) jsonParser.parse(readUrl(newUrl));
 			//obtain json list of offers
-			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonObj.get("products")).get("product");
+			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonObj.get("offers")).get("offer");
 			for (int i = 0; i < jsonArr.size(); i++) {
 				JSONObject jsonRes = (JSONObject) jsonArr.get(i);
 				/*SearchResult constructor parses JSONObject and 

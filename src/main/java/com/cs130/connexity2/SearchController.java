@@ -27,8 +27,12 @@ public class SearchController {
     } 
     
     @RequestMapping(value="/searchResults",method=RequestMethod.GET)
-    public String searchResults(@RequestParam(value="keyword",required=true,defaultValue="") String keyword, Model model){
+    public String searchResults(@RequestParam(value="keyword",required=true) String keyword, Model model){
     	System.out.println(keyword);
+    	if (keyword.isEmpty()) {
+    		return "redirect:/main";
+    	}
+    	// TODO: Add more checks for valid input
     	ProductQuery prodQuery = new ProductQuery();
     	prodQuery.setKeyword(keyword);
 		CatalogSearchClient searchClient = new CatalogSearchClient();
