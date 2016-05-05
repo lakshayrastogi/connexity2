@@ -1,12 +1,7 @@
 package com.cs130.connexity2.objects;
 
-public class ProductQuery {
-	
-	public static final String API_KEY = "f94ab04178d1dea0821d5816dfb8af8d";
-	public static final int PUBLISHER_ID = 608865;
+public class ProductQuery extends Query{
 
-	private String apiKey; //Required
-	private int publisherId; //Required
 	private int placementId; //Default 1
 	private int categoryId;
 	private String keyword;
@@ -39,29 +34,12 @@ public class ProductQuery {
 	private String reviews; //One of: aggregate, none(default)
 	private boolean retailOnly; //Default: false
 	private String format; //Default: xml; One of xml, json, js
-	private String callback; //Default: callback -> wrap JSONP
 	
 	public ProductQuery(){
-		this.apiKey = API_KEY;
-		this.publisherId = PUBLISHER_ID;
+		this.offersOnly = true;
+		this.format = "json";
 	}
-
-	public String getApiKey() {
-		return apiKey;
-	}
-
-	public void setApiKey(String apiKey) {
-		this.apiKey = apiKey;
-	}
-
-	public int getPublisherId() {
-		return publisherId;
-	}
-
-	public void setPublisherId(int publisherId) {
-		this.publisherId = publisherId;
-	}
-
+	
 	public int getPlacementId() {
 		return placementId;
 	}
@@ -334,11 +312,4 @@ public class ProductQuery {
 		this.format = format;
 	}
 
-	public String getCallback() {
-		return callback;
-	}
-
-	public void setCallback(String callback) {
-		this.callback = callback;
-	}	
 }

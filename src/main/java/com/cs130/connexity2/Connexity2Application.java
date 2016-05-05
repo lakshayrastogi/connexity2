@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.cs130.connexity2.objects.SearchResult;
+import com.cs130.connexity2.util.Globals;
 
 @SpringBootApplication
 public class Connexity2Application {
@@ -20,7 +21,7 @@ public class Connexity2Application {
 	public static void testCatalogSearchClient() {
 		CatalogSearchClient searchClient = new CatalogSearchClient();
 		String urlString = "http://catalog.bizrate.com/services/catalog/v1/us/product?apiKey=f94ab04178d1dea0821d5816dfb8af8d&publisherId=608865&keyword=shoes&results=20&resultsOffers=10&format=json&offersOnly=true";
-		List<SearchResult> searchResults = searchClient.getSearchResults(urlString);
+		List<SearchResult> searchResults = searchClient.getSearchResults(urlString,Globals.SearchType.PRODUCT);
 		System.out.println("\n\nTesting CatalogSearchClient JSON Parser\n\n");
 		for (int i = 0; i < searchResults.size(); i++) {
 			System.out.println("Offer " + (i+1) + '\n' + "---------------------------");

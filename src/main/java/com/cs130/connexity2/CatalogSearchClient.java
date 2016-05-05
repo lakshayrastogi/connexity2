@@ -10,12 +10,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.neo4j.cypher.internal.compiler.v2_0.executionplan.builders.GlobalStrategy;
 
 import com.cs130.connexity2.objects.SearchResult;
+import com.cs130.connexity2.util.Globals;
 
 public class CatalogSearchClient {
 	
-	public static final String BASE_URL = "http://catalog.bizrate.com/services/catalog/v1/us/";
 	public CatalogSearchClient() {}
 	
 	static private JSONParser jsonParser = new JSONParser();
@@ -40,7 +41,7 @@ public class CatalogSearchClient {
 	}
 	
 	private SearchResult convertToSearchResult(JSONObject jsonRes) throws NullPointerException {
-		SearchResult  res = new SearchResult();
+		SearchResult res = new SearchResult();
 		try {
 			res.setMerchantId(((Long) jsonRes.get("merchantId")).intValue());
 		} catch (Exception e) {res.setMerchantId(-1); e.printStackTrace();}
@@ -107,9 +108,34 @@ public class CatalogSearchClient {
 		return res;
 	}
 
-	public List<SearchResult> getSearchResults(String urlString) {
+	public List<SearchResult> getSearchResults(String urlString, Globals.SearchType searchType) {
 		try {
+			//publisherId=608865&keyword=shoes&results=20&resultsOffers=10&format=json&offersOnly=true
 			List<SearchResult> searchResults = new ArrayList<>();
+			String newUrl = Globals.BASE_URL;
+			switch(searchType){
+				case PRODUCT:
+					newUrl+="product?";
+					break;
+				case BRAND:
+					newUrl+="brand?";
+					break;
+				case ATTRIBUTES:
+					newUrl+="attributes?";
+					break;
+				case TAXONOMY:
+					newUrl+="taxonomy?";
+					break;
+				case MERCHANT_INFO:
+					newUrl+="merchantinfo?";
+					break;
+				case PRODUCT_REVIEW:
+					newUrl+="productReviews?";
+					break;
+				default: break;
+			}
+			newUrl+="apiKey=" + Globals.API_KEY + "&publisherId=" + Globals.PUBLISHER_ID;
+			System.out.println(newUrl);
 			//convert url to json object
 			JSONObject jsonObj = (JSONObject) jsonParser.parse(readUrl(urlString));
 			//obtain json list of offers
