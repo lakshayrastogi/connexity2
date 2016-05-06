@@ -141,9 +141,6 @@
 	           </form>
        			<script>
        				var blocks = "";
-       				//This should not be static but will be for now...
-       				//should be the number of search results
-       				var numberOfResults = 16;
        				var imageLink = "https://tctechcrunch2011.files.wordpress.com/2014/06/apple_topic.png?w=220";
              		var i = 0;
               		document.write("{{#searchResults}}");
@@ -162,8 +159,8 @@
        							blocks += "<img class='card-img-top img-rounded' src='{{images.2}}' alt='Card image cap' style='width:100%; height:66%;'>\n";
        							blocks += "</a>"
        							blocks += "<div class='card-block'>\n";
-       								blocks += "<a href='#' class='card-link' style='display:block; text-align:center;'> {{title}} </a>\n";
-       								blocks += "<p class='card-text' style='text-align:center;'> {{priceStr}} </p>\n";
+       								blocks += "<a href='#' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>\n";
+       								blocks += "<p class='card-text' style='text-align:center; color:black;'> {{priceStr}} </p>\n";
        								blocks += "<a href='#' class='card-link' style='display:block; text-align:center;'> {{merchantName}} </a>\n";
        							blocks += "</div>\n";
        						blocks += "</div>\n";
