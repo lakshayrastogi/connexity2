@@ -10,7 +10,7 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Connexity 2</title>
+    <title>Corradr</title>
     
     <style>
         a {
@@ -87,13 +87,13 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="AddInfo.php" style="color:white">Advanced Search</a>
+                        <a href="advanced" style="color:white">Advanced Search</a>
                     </li>
                     <li>
-                        <a href="AddRelation.php" style="color:white">Categories</a>
+                        <a href="categories" style="color:white">Categories</a>
                     </li>
                     <li>
-                        <a href="ShowActorMovie.php" style="color:white">Trending</a>
+                        <a href="trending" style="color:white">Trending</a>
                     </li>
                 </ul>
             </div>
@@ -111,14 +111,24 @@
 			        		Refine your search:
 			        	</b>
 			        	<br>
+			        	<br>
+			        	<b>
+			        	Sort by:
+			        	</b>
 			        	<div class="checkbox">
-			        		<label><input type="checkbox" value="">Option 1</label>
+			        		<label><input type="checkbox" value="">Name</label>
 		        		</div>
 		        		<div class="checkbox">
-			        		<label><input type="checkbox" value="">Option 2</label>
+			        		<label><input type="checkbox" value="">Seller</label>
 		        		</div>
 		        		<div class="checkbox">
-			        		<label><input type="checkbox" value="">Option 3</label>
+			        		<label><input type="checkbox" value="">Rating</label>
+			        	</div>
+			        	<div class="checkbox">
+			        		<label><input type="checkbox" value="">Price (Low to High)</label>
+			        	</div>
+			        	<div class="checkbox">
+			        		<label><input type="checkbox" value="">Price (High to Low)</label>
 			        	</div>
 			        	<br>
 			        	<!--<div class="sort-container">
@@ -159,7 +169,7 @@
        							blocks += "<img class='card-img-top img-rounded' src='{{images.2}}' alt='Card image cap' style='width:100%; height:66%;'>\n";
        							blocks += "</a>"
        							blocks += "<div class='card-block'>\n";
-       								blocks += "<a href='#' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>\n";
+       								blocks += "<a href='#' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>\n";
        								blocks += "<p class='card-text' style='text-align:center; color:black;'> {{priceStr}} </p>\n";
        								blocks += "<a href='#' class='card-link' style='display:block; text-align:center;'> {{merchantName}} </a>\n";
        							blocks += "</div>\n";
