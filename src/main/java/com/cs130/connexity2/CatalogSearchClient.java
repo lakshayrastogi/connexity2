@@ -12,6 +12,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.neo4j.cypher.internal.compiler.v2_0.executionplan.builders.GlobalStrategy;
 
+import com.cs130.connexity2.objects.Offer;
 import com.cs130.connexity2.objects.ProductQuery;
 import com.cs130.connexity2.objects.Query;
 import com.cs130.connexity2.objects.SearchResult;
@@ -116,13 +117,102 @@ public class CatalogSearchClient {
 		} catch (Exception e) {res.setRelevancy(-1); e.printStackTrace();}
 		return res;
 	}
+	
+	private Offer convertToOffer(JSONObject jsonRes) throws NullPointerException {
+		Offer offer = new Offer();
+		try {
+			offer.setMerchantId(((Long) jsonRes.get("merchantId")).intValue());
+		} catch (Exception e) {offer.setMerchantId(-1); e.printStackTrace();}
+		try {
+			offer.setCategoryId(((Long) jsonRes.get("categoryId")).intValue());
+		} catch (Exception e) {offer.setCategoryId(-1); e.printStackTrace();}
+		try {
+			offer.setId(((Long) jsonRes.get("id")).intValue());
+		} catch (Exception e) {offer.setId(-1); e.printStackTrace();}
+		try {
+			offer.setTitle((String) jsonRes.get("title"));
+		} catch (Exception e) {offer.setTitle(null); e.printStackTrace();}
+		try {
+			offer.setBrandName((String) ((JSONObject) jsonRes.get("brand")).get("name"));
+		} catch (Exception e) {offer.setBrandName(null); e.printStackTrace();}
+		try {
+			offer.setDescription((String) jsonRes.get("description"));
+		} catch (Exception e) {offer.setDescription(null); e.printStackTrace();}
+		try {
+			offer.setManufacturer((String) jsonRes.get("manufacturer"));
+		} catch (Exception e) {offer.setManufacturer(null); e.printStackTrace();}
+		try {
+			offer.setUrl((String) ((JSONObject) jsonRes.get("url")).get("value"));
+		} catch (Exception e) {offer.setUrl(null); e.printStackTrace();}
+		try {
+			List<String> images = new ArrayList<>();
+			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonRes.get("images")).get("image");
+			for (int i = 0; i < jsonArr.size(); i++) {
+				String imageUrl = (String) ((JSONObject) jsonArr.get(i)).get("value");
+				images.add(imageUrl);
+			}
+			offer.setImages(images);
+		} catch (Exception e) {offer.setImages(null); e.printStackTrace();}
+		try {
+			offer.setSku((String) jsonRes.get("sku"));
+		} catch (Exception e) {offer.setSku(null); e.printStackTrace();}
+		try {
+			offer.setDetailUrl((String) ((JSONObject) jsonRes.get("detailUrl")).get("value"));
+		} catch (Exception e) {offer.setDetailUrl(null); e.printStackTrace();}
+		try {
+			offer.setPrice((((Long)((JSONObject) jsonRes.get("price")).get("integral")).doubleValue()/100.0));
+		} catch (Exception e) {offer.setPrice(-1); e.printStackTrace();}
+		try {
+			offer.setOriginalPrice((((Long)((JSONObject) jsonRes.get("originalPrice")).get("integral")).doubleValue())/100.0);
+		} catch (Exception e) {offer.setOriginalPrice(-1); e.printStackTrace();}
+		try {
+			offer.setMarkdownPercent((Double) jsonRes.get("markdownPercent"));
+		} catch (Exception e) {offer.setMarkdownPercent(-1); e.printStackTrace();}
+		try {
+			offer.setBidded ((boolean) jsonRes.get("bidded"));
+		} catch (Exception e) {offer.setBidded(false); e.printStackTrace();}
+		try {
+			offer.setMerchantProductId((String) jsonRes.get("merchantProductId"));
+		} catch (Exception e) {offer.setMerchantProductId(null); e.printStackTrace();}
+		try {
+			offer.setMerchantName((String) jsonRes.get("merchantName"));
+		} catch (Exception e) {offer.setMerchantName(null); e.printStackTrace();}
+		try {
+			offer.setMerchantCertified((boolean) (((JSONObject) jsonRes.get("merchantCertification")).get("certified")));
+		} catch (Exception e) {offer.setMerchantCertified(false); e.printStackTrace();}
+		try {
+			offer.setMerchantCertificationLevel((String) (((JSONObject) jsonRes.get("merchantCertification")).get("level")));
+		} catch (Exception e) {offer.setMerchantCertificationLevel(null); e.printStackTrace();}
+		try {
+			offer.setMerchantLogoUrl((String) jsonRes.get("merchantLogoUrl"));
+		} catch (Exception e) {offer.setMerchantLogoUrl(null); e.printStackTrace();}
+		try {
+			offer.setStock((String) jsonRes.get("stock"));
+		} catch (Exception e) {offer.setStock(null); e.printStackTrace();}
+		try {
+			offer.setCondition((String) jsonRes.get("condition"));
+		} catch (Exception e) {offer.setCondition(null); e.printStackTrace();}
+		try {
+			offer.setShipAmount((((Long)((JSONObject) jsonRes.get("shipAmount")).get("integral")).doubleValue())/100.0);
+		} catch (Exception e) {offer.setShipAmount(-1); e.printStackTrace();}
+		try {
+			offer.setShipType((String) jsonRes.get("shipType"));
+		} catch (Exception e) {offer.setShipType(null); e.printStackTrace();}
+		try {
+			offer.setShipWeight((Double) jsonRes.get("shipWeight"));
+		} catch (Exception e) {offer.setShipWeight(-1); e.printStackTrace();}
+		try {
+			offer.setRelevancy((Double) jsonRes.get("relevancy"));
+		} catch (Exception e) {offer.setRelevancy(-1); e.printStackTrace();}
+		return offer;
+	}
 
-	public List<SearchResult> getSearchResults(Query query, Globals.SearchType searchType) {
+	public List<SearchResult> getSearchResults(Query query) {
 		try {
 			//publisherId=608865&keyword=shoes&results=20&resultsOffers=10&format=json&offersOnly=true
 			List<SearchResult> searchResults = new ArrayList<>();
 			String newUrl = Globals.BASE_URL;
-			switch(searchType){
+			switch(query.getQueryType()){
 				case PRODUCT:
 					// Type cast to the right query type - Can make a private variable too of ProductQuery and assign the object to that in Controller
 					ProductQuery prodQuery = (ProductQuery) query;	
@@ -175,6 +265,45 @@ public class CatalogSearchClient {
 			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Offer getItemInfo(Query query) {
+		try {
+			Offer currentOffer = new Offer();
+			String newUrl = Globals.BASE_URL;
+			ProductQuery prodQuery = (ProductQuery) query;	
+			newUrl += "product?";
+			newUrl += "&format=" + prodQuery.getFormat() 
+						+ "&offersOnly=" + prodQuery.isOffersOnly()
+						+ "&placementId=" + prodQuery.getPlacementId() 
+						+ "&productId=" + prodQuery.getProductId()
+						+ "&productIdType=" + prodQuery.getProductIdType() 
+						+ "&merchantId=" + (prodQuery.getMerchantId()==-1 ? "" : prodQuery.getMerchantId()) 
+						+ "&brandId=" + (prodQuery.getBrandId()==-1 ? "" : prodQuery.getBrandId()) 
+						+ "&maxPrice=" + (prodQuery.getMaxPrice()==-1 ? "" : prodQuery.getMaxPrice()) 
+						+ "&minMarkdown=" + (prodQuery.getMinMarkdown()==-1 ? "" : prodQuery.getMinMarkdown())
+						+ "&results=" + prodQuery.getResults()
+						+ "&resultsOffers=" + prodQuery.getResultsOffers()
+						+ "&sort=" + prodQuery.getSort()
+						+ "&showAttributes=" + prodQuery.isShowAttributes()
+						+ "&reviews=" + prodQuery.getReviews()
+						+ "&callback=" + prodQuery.getCallback();
+			newUrl+="&apiKey=" + Globals.API_KEY + "&publisherId=" + Globals.PUBLISHER_ID;
+			System.out.println(newUrl);
+			//convert url to json object
+			JSONObject jsonObj = (JSONObject) jsonParser.parse(readUrl(newUrl));
+			//obtain json offer
+			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonObj.get("offer")).get("offer");
+			JSONObject jsonRes = (JSONObject) jsonArr.get(0);
+			//Convert the Json to an offer object
+			currentOffer = convertToOffer(jsonRes);
+			return currentOffer;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Montez' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
-     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Corradr</title>
-
-    <style>
+		<style>
         a {
             color: #000;
         }
@@ -131,14 +130,6 @@
 			        		<label><input type="checkbox" value="">Price (High to Low)</label>
 			        	</div>
 			        	<br>
-			        	<!--<div class="sort-container">
-			        		<h5>Refine your search</h5>
-			        		<div class="sort-criteria-container">
-			        			<div class="sort-criteria">
-			        				<h5>Price($)</h5>
-			        			</div>
-			        		</div>
-		        		</div>-->
 	        		</div>
 	        	</div>
 	        </div>
@@ -149,37 +140,37 @@
 	                 <span id="shop-button"><button type="submit" value="Search" class="btn btn-default" >Shop</button></span>
 	               </div>
 	           </form>
-       			<script>
-       				var blocks = "";
-       				var imageLink = "https://tctechcrunch2011.files.wordpress.com/2014/06/apple_topic.png?w=220";
-             		var i = 0;
-              		document.write("{{#searchResults}}");
-       					if(i%4 == 0)
-       					{
-       						if(i != 0)
-       						{
-  							blocks += "</div>\n";
-       						}
-       						blocks += "<div class='row'>\n";
-       					}
-       					blocks += "<div class='col-md-3'>\n";
-       						blocks += "<div class='card' style='background-color: #fff; border-style: ridge; border-width: 3px; border-color: #e6e6e6; border-radius: 5px;'>\n";
-       							//Link/Card body
-       							blocks += "<a href='http://localhost:8080/item?productId={{merchantId}}'>\n"
-       							blocks += "<img class='card-img-top img-rounded' src='{{images.3}}' alt='Card image cap' style='width:100%; height:66%;'>\n";
-       							blocks += "</a>"
-       							blocks += "<div class='card-block'>\n";
-       								blocks += "<a href='http://localhost:8080/item?productId={{merchantId}}' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>\n";
-       								blocks += "<p class='card-text' style='text-align:center; color:black;'> {{priceStr}} </p>\n";
-       								blocks += "<a href='http://localhost:8080/item?productId={{merchantId}}' class='card-link' style='display:block; text-align:center;'> {{merchantName}} </a>\n";
-       							blocks += "</div>\n";
-       						blocks += "</div>\n";
-       					blocks += "</div>\n"
-       				  i++;
-              		document.write("{{/searchResults}}");
-       				blocks += "</div>\n"
-       				document.write(blocks);
-       			</script>
+						 <script>
+        				var blocks = "";
+        				var imageLink = "https://tctechcrunch2011.files.wordpress.com/2014/06/apple_topic.png?w=220";
+              		var i = 0;
+               		document.write("{{#offerResult}}");
+        					if(i%4 == 0)
+        					{
+        						if(i != 0)
+        						{
+   							blocks += "</div>\n";
+        						}
+        						blocks += "<div class='row'>\n";
+        					}
+        					blocks += "<div class='col-md-3'>\n";
+        						blocks += "<div class='card' style='background-color: #fff; border-style: ridge; border-width: 3px; border-color: #e6e6e6; border-radius: 5px;'>\n";
+        							//Link/Card body
+        							blocks += "<a href='http://localhost:8080'>\n"
+        							blocks += "<img class='card-img-top img-rounded' src='{{images.3}}' alt='Card image cap' style='width:100%; height:66%;'>\n";
+        							blocks += "</a>"
+        							blocks += "<div class='card-block'>\n";
+        								blocks += "<a href='#' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>\n";
+        								blocks += "<p class='card-text' style='text-align:center; color:black;'> {{priceStr}} </p>\n";
+        								blocks += "<a href='#' class='card-link' style='display:block; text-align:center;'> {{merchantName}} </a>\n";
+        							blocks += "</div>\n";
+        						blocks += "</div>\n";
+        					blocks += "</div>\n"
+        				  i++;
+               		document.write("{{/offerResult}}");
+        				blocks += "</div>\n"
+        				document.write(blocks);
+        			</script>
 	           </div>
 	       	</div>
        	</div>

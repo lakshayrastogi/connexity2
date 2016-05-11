@@ -1,5 +1,6 @@
 package com.cs130.connexity2;
 
+import org.neo4j.cypher.internal.compiler.v2_1.executionplan.builders.GlobalStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import com.cs130.connexity2.util.Globals;
 import com.cs130.connexity2.objects.ProductQuery;
+import com.cs130.connexity2.objects.Query;
 import com.cs130.connexity2.objects.SearchResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,10 +37,11 @@ public class SearchController {
     		return "redirect:/main";
     	}
     	// TODO: Add more checks for valid input
-    	ProductQuery prodQuery = new ProductQuery();
-    	prodQuery.setKeyword(keyword);
+    	ProductQuery newQuery = new ProductQuery();
+    	newQuery.setQueryType(Globals.SearchType.PRODUCT);
+    	newQuery.setKeyword(keyword);
 		CatalogSearchClient searchClient = new CatalogSearchClient();
-		List<SearchResult> searchResults = searchClient.getSearchResults(prodQuery, Globals.SearchType.PRODUCT);
+		List<SearchResult> searchResults = searchClient.getSearchResults(newQuery);
 		model.addAttribute("searchResults", searchResults);
 		// test
 		
