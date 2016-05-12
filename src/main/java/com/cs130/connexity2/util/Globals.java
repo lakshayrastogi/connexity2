@@ -16,5 +16,6 @@ public class Globals {
 	public static final int PUBLISHER_ID = 608865;
 	//Twitter API
 	public static final String TWTR_API_KEY = "u6DPycDM6EgulZDl9665MvMWe";
-	public static final String TWTR_API_SECRET = "LX86Q9ERBfeLTfyEJcvUti5kEWEYeB4rpbbZXw7tzltsSHJ9nO"; 
+	public static final String TWTR_API_SECRET = "LX86Q9ERBfeLTfyEJcvUti5kEWEYeB4rpbbZXw7tzltsSHJ9nO";
+	public static final String TWTR_BASE_URL = "https://api.twitter.com/1.1/search/";
 }
