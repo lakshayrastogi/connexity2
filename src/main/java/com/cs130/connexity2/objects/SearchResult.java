@@ -8,7 +8,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class SearchResult {
-	private int merchantId, categoryId, id;
+	private long merchantId, categoryId, id;
 	private String title;
 	private String brandName;
 	private String description;
@@ -55,27 +55,27 @@ public class SearchResult {
 		this.relevancy = relevancy;
 	}
 
-	public int getMerchantId() {
+	public long getMerchantId() {
 		return merchantId;
 	}
 
-	public void setMerchantId(int merchantId) {
+	public void setMerchantId(long merchantId) {
 		this.merchantId = merchantId;
 	}
 
-	public int getCategoryId() {
+	public long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

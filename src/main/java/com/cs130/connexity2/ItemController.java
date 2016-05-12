@@ -24,7 +24,7 @@ public class ItemController {
 		ProductQuery newQuery = new ProductQuery();
     	newQuery.setQueryType(Globals.SearchType.PRODUCT);
     	newQuery.setProductId(productId);
-    	newQuery.setProductIdType("MPID");
+    	newQuery.setProductIdType("SZOID");
 		CatalogSearchClient searchClient = new CatalogSearchClient();
 		Offer offerResult = searchClient.getItemInfo(newQuery);
 		model.addAttribute("offerResult", offerResult);
@@ -35,7 +35,10 @@ public class ItemController {
 				"Brand: " + offerResult.getBrandName() + '\n' +
 				"Description: " + offerResult.getDescription() + '\n' +
 				"Price: $" + offerResult.getPrice() + '\n' +
-				"Merchant Certified: " + offerResult.isMerchantCertified() + '\n';
+				"Merchant Certified: " + offerResult.isMerchantCertified() + '\n' +
+				"merchantId: " + offerResult.getMerchantId() + '\n' +
+				"merchantProductId: " + offerResult.getMerchantProductId() + '\n' +
+				"id: " + offerResult.getId() + '\n';
 		System.out.println(res);
 		
 		return "item";

@@ -47,13 +47,13 @@ public class CatalogSearchClient {
 	private SearchResult convertToSearchResult(JSONObject jsonRes) throws NullPointerException {
 		SearchResult res = new SearchResult();
 		try {
-			res.setMerchantId(((Long) jsonRes.get("merchantId")).intValue());
+			res.setMerchantId((long) jsonRes.get("merchantId"));
 		} catch (Exception e) {res.setMerchantId(-1); e.printStackTrace();}
 		try {
-			res.setCategoryId(((Long) jsonRes.get("categoryId")).intValue());
+			res.setCategoryId((long) jsonRes.get("categoryId"));
 		} catch (Exception e) {res.setCategoryId(-1); e.printStackTrace();}
 		try {
-			res.setId(((Long) jsonRes.get("id")).intValue());
+			res.setId(((long) jsonRes.get("id")));
 		} catch (Exception e) {res.setId(-1); e.printStackTrace();}
 		try {
 			res.setTitle((String) jsonRes.get("title"));
@@ -121,13 +121,13 @@ public class CatalogSearchClient {
 	private Offer convertToOffer(JSONObject jsonRes) throws NullPointerException {
 		Offer offer = new Offer();
 		try {
-			offer.setMerchantId(((Long) jsonRes.get("merchantId")).intValue());
+			offer.setMerchantId((long) jsonRes.get("merchantId"));
 		} catch (Exception e) {offer.setMerchantId(-1); e.printStackTrace();}
 		try {
-			offer.setCategoryId(((Long) jsonRes.get("categoryId")).intValue());
+			offer.setCategoryId((long) jsonRes.get("categoryId"));
 		} catch (Exception e) {offer.setCategoryId(-1); e.printStackTrace();}
 		try {
-			offer.setId(((Long) jsonRes.get("id")).intValue());
+			offer.setId((long) jsonRes.get("id"));
 		} catch (Exception e) {offer.setId(-1); e.printStackTrace();}
 		try {
 			offer.setTitle((String) jsonRes.get("title"));
@@ -296,7 +296,7 @@ public class CatalogSearchClient {
 			//convert url to json object
 			JSONObject jsonObj = (JSONObject) jsonParser.parse(readUrl(newUrl));
 			//obtain json offer
-			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonObj.get("offer")).get("offer");
+			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonObj.get("offers")).get("offer");
 			JSONObject jsonRes = (JSONObject) jsonArr.get(0);
 			//Convert the Json to an offer object
 			currentOffer = convertToOffer(jsonRes);

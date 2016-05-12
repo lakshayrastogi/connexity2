@@ -4,9 +4,8 @@ import java.util.List;
 
 public class Offer {
 
-	private int merchantId, categoryId, id;
+	private long merchantId, categoryId, id, brandId;
 	private String title;
-	private int brandId;
 	private String brandName;
 	private String description;
 	private String manufacturer;
@@ -67,27 +66,27 @@ public class Offer {
 		this.relevancy = relevancy;
 	}
 
-	public int getMerchantId() {
+	public long getMerchantId() {
 		return merchantId;
 	}
 
-	public void setMerchantId(int merchantId) {
+	public void setMerchantId(long merchantId) {
 		this.merchantId = merchantId;
 	}
 
-	public int getCategoryId() {
+	public long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -99,11 +98,11 @@ public class Offer {
 		this.title = title;
 	}
 
-	public int getBrandId() {
+	public long getBrandId() {
 		return brandId;
 	}
 
-	public void setBrandId(int brandId) {
+	public void setBrandId(long brandId) {
 		this.brandId = brandId;
 	}
 

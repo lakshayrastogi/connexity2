@@ -47,13 +47,15 @@ public class SearchController {
 		
 		for (int i = 0; i < searchResults.size(); i++) {
 			System.out.println("Offer " + (i+1) + '\n' + "---------------------------");
-			SearchResult offer = searchResults.get(i);
+			SearchResult searchRes = searchResults.get(i);
 			String res = 
-					"Title: " + offer.getTitle() + '\n' +
-					"Brand: " + offer.getBrandName() + '\n' +
-					"Description: " + offer.getDescription() + '\n' +
-					"Price: $" + offer.getPrice() + '\n' +
-					"Merchant Certified: " + offer.isMerchantCertified() + '\n';
+					"Title: " + searchRes.getTitle() + '\n' +
+					"Brand: " + searchRes.getBrandName() + '\n' +
+					"Description: " + searchRes.getDescription() + '\n' +
+					"Price: $" + searchRes.getPrice() + '\n' +
+					"Merchant Certified: " + searchRes.isMerchantCertified() + '\n' +
+					"merchantId: " + searchRes.getMerchantId() + '\n' +
+					"id: " + searchRes.getId() + '\n';
 			System.out.println(res);
 		}
 		
