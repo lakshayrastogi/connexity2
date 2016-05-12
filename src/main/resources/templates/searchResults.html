@@ -28,9 +28,6 @@
         #shop-button {
         	margin-left: 10px;
         }
-        .row {
-        	margin-top: 6%;
-        }
         .sort-container {
         	padding-left: 18px;
         }
@@ -61,11 +58,32 @@
 			border-radius: 5px;
 			border-color: #e6e6e6;
 			border-width: 3px;
+			left: 5%;
+		}
+		@media (max-width: 768px) 
+		{
+		    #refineCol
+		    {
+		        display: none;
+		    }
 		}
 		#textRefineCol
 		{
 			margin-left: 8px;
 			margin-right: 8px;
+		}
+		body
+		{
+			margin-top: 70px;
+		}
+		.card
+		{
+			background-color: #fff;
+			border-style: ridge;
+			border-width: 3px; 
+			border-color: #e6e6e6; 
+			border-radius: 5px;
+			margin-bottom: 30px;
 		}
     </style>
 </head>
@@ -103,8 +121,8 @@
     </nav>
 
     <div class="row">
-    	<div class="col-md-12" id="refineAndResults">
-	        <div class="col-md-2">
+    	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="refineAndResults">
+	        <div class="col-xs-0 col-sm-4  col-md-3 col-lg-2">
 	        	<div id="refineCol">
 	        		<div id="textRefineCol">
 		        		<b style="font-size: 16px;">
@@ -131,55 +149,31 @@
 			        		<label><input type="checkbox" value="">Price (High to Low)</label>
 			        	</div>
 			        	<br>
-			        	<!--<div class="sort-container">
-			        		<h5>Refine your search</h5>
-			        		<div class="sort-criteria-container">
-			        			<div class="sort-criteria">
-			        				<h5>Price($)</h5>
-			        			</div>
-			        		</div>
-		        		</div>-->
 	        		</div>
 	        	</div>
 	        </div>
-	        <div class="col-md-10">
+	        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
 		       <form role="form" action="/searchResults" method="GET">
 	               <div class="form-group">
 	                 <input type="text" name="keyword" class="form-control">
 	                 <span id="shop-button"><button type="submit" value="Search" class="btn btn-default" >Shop</button></span>
 	               </div>
 	           </form>
-       			<script>
-       				var blocks = "";
-       				var imageLink = "https://tctechcrunch2011.files.wordpress.com/2014/06/apple_topic.png?w=220";
-             		var i = 0;
-              		document.write("{{#searchResults}}");
-       					if(i%4 == 0)
-       					{
-       						if(i != 0)
-       						{
-  							blocks += "</div>\n";
-       						}
-       						blocks += "<div class='row'>\n";
-       					}
-       					blocks += "<div class='col-md-3'>\n";
-       						blocks += "<div class='card' style='background-color: #fff; border-style: ridge; border-width: 3px; border-color: #e6e6e6; border-radius: 5px;'>\n";
-       							//Link/Card body
-       							blocks += "<a href='http://localhost:8080/item?productId={{merchantId}}'>\n"
-       							blocks += "<img class='card-img-top img-rounded' src='{{images.3}}' alt='Card image cap' style='width:100%; height:66%;'>\n";
-       							blocks += "</a>"
-       							blocks += "<div class='card-block'>\n";
-       								blocks += "<a href='http://localhost:8080/item?productId={{merchantId}}' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>\n";
-       								blocks += "<p class='card-text' style='text-align:center; color:black;'> {{priceStr}} </p>\n";
-       								blocks += "<a href='http://localhost:8080/item?productId={{merchantId}}' class='card-link' style='display:block; text-align:center;'> {{merchantName}} </a>\n";
-       							blocks += "</div>\n";
-       						blocks += "</div>\n";
-       					blocks += "</div>\n"
-       				  i++;
-              		document.write("{{/searchResults}}");
-       				blocks += "</div>\n"
-       				document.write(blocks);
-       			</script>
+              		{{#searchResults}}
+       					<div class='col-xs-12 col-sm-6 col-md-3'>
+       						<div class='card'>
+       							<!-- Link/Card Body -->
+       							<a href='http://localhost:8080/item?productId={{merchantId}}'>
+       								<img class='card-img-top img-rounded' src='{{images.3}}' alt='Card image cap' style='width:100%; height:66%;'>
+       							</a>
+       							<div class='card-block'>
+       								<a href='http://localhost:8080/item?productId={{merchantId}}' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>
+       								<p class='card-text' style='text-align:center; color:black;'> {{priceStr}} </p>
+       								<a href='http://localhost:8080/item?productId={{merchantId}}' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{merchantName}} </a>
+       							</div>
+       						</div>
+       					</div>
+              		{{/searchResults}}
 	           </div>
 	       	</div>
        	</div>

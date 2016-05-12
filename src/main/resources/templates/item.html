@@ -39,36 +39,15 @@
         .searchResults {
     		background-color: #2c3e50;
 		}
-		#refineAndResults {
-			padding-left: 60px;
-			padding-right: 60px;
-			color: white;
-		}
 		#titleIcon
 		{
 			font-family: 'Satisfy', cursive;
 			font-size: 35px;
 			color:white;
 		}
-		#refineCol
-		{
-			position: fixed;
-			border-style: solid;
-			border-color: black;
-			background-color: white;
-			color: black;
-			border-radius: 5px;
-			border-color: #e6e6e6;
-			border-width: 3px;
-		}
-		#textRefineCol
-		{
-			margin-left: 8px;
-			margin-right: 8px;
-		}
     </style>
 </head>
-<body class="searchResults">
+<body>
 	<!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -102,77 +81,7 @@
     </nav>
 
     <div class="row">
-    	<div class="col-md-12" id="refineAndResults">
-	        <div class="col-md-2">
-	        	<div id="refineCol">
-	        		<div id="textRefineCol">
-		        		<b style="font-size: 16px;">
-			        		Refine your search:
-			        	</b>
-			        	<br>
-			        	<br>
-			        	<b>
-			        	Sort by:
-			        	</b>
-			        	<div class="checkbox">
-			        		<label><input type="checkbox" value="">Name</label>
-		        		</div>
-		        		<div class="checkbox">
-			        		<label><input type="checkbox" value="">Seller</label>
-		        		</div>
-		        		<div class="checkbox">
-			        		<label><input type="checkbox" value="">Rating</label>
-			        	</div>
-			        	<div class="checkbox">
-			        		<label><input type="checkbox" value="">Price (Low to High)</label>
-			        	</div>
-			        	<div class="checkbox">
-			        		<label><input type="checkbox" value="">Price (High to Low)</label>
-			        	</div>
-			        	<br>
-	        		</div>
-	        	</div>
-	        </div>
-	        <div class="col-md-10">
-		       <form role="form" action="/searchResults" method="GET">
-	               <div class="form-group">
-	                 <input type="text" name="keyword" class="form-control">
-	                 <span id="shop-button"><button type="submit" value="Search" class="btn btn-default" >Shop</button></span>
-	               </div>
-	           </form>
-						 <script>
-        				var blocks = "";
-        				var imageLink = "https://tctechcrunch2011.files.wordpress.com/2014/06/apple_topic.png?w=220";
-              		var i = 0;
-               		document.write("{{#offerResult}}");
-        					if(i%4 == 0)
-        					{
-        						if(i != 0)
-        						{
-   							blocks += "</div>\n";
-        						}
-        						blocks += "<div class='row'>\n";
-        					}
-        					blocks += "<div class='col-md-3'>\n";
-        						blocks += "<div class='card' style='background-color: #fff; border-style: ridge; border-width: 3px; border-color: #e6e6e6; border-radius: 5px;'>\n";
-        							//Link/Card body
-        							blocks += "<a href='http://localhost:8080'>\n"
-        							blocks += "<img class='card-img-top img-rounded' src='{{images.3}}' alt='Card image cap' style='width:100%; height:66%;'>\n";
-        							blocks += "</a>"
-        							blocks += "<div class='card-block'>\n";
-        								blocks += "<a href='#' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>\n";
-        								blocks += "<p class='card-text' style='text-align:center; color:black;'> {{priceStr}} </p>\n";
-        								blocks += "<a href='#' class='card-link' style='display:block; text-align:center;'> {{merchantName}} </a>\n";
-        							blocks += "</div>\n";
-        						blocks += "</div>\n";
-        					blocks += "</div>\n"
-        				  i++;
-               		document.write("{{/offerResult}}");
-        				blocks += "</div>\n"
-        				document.write(blocks);
-        			</script>
-	           </div>
-	       	</div>
-       	</div>
+    	
+    </div>
 </body>
 </html>
