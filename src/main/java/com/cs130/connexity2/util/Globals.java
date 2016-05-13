@@ -17,5 +17,6 @@ public class Globals {
 	//Twitter API
 	public static final String TWTR_API_KEY = "u6DPycDM6EgulZDl9665MvMWe";
 	public static final String TWTR_API_SECRET = "LX86Q9ERBfeLTfyEJcvUti5kEWEYeB4rpbbZXw7tzltsSHJ9nO";
-	public static final String TWTR_BASE_URL = "https://api.twitter.com/1.1/search/";
+	public static final String TWTR_SEARCH_URL = "https://api.twitter.com/1.1/search/tweets.json";
+	public static final String TWTR_EMBED_URL = "https://publish.twitter.com/oembed";
 }

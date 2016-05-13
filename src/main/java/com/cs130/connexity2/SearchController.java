@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.cs130.connexity2.twitter.TwitterSearchClient;
 import com.cs130.connexity2.util.Globals;
 import com.cs130.connexity2.objects.ProductQuery;
 import com.cs130.connexity2.objects.Query;
@@ -43,8 +45,18 @@ public class SearchController {
 		CatalogSearchClient searchClient = new CatalogSearchClient();
 		List<SearchResult> searchResults = searchClient.getSearchResults(newQuery);
 		model.addAttribute("searchResults", searchResults);
-		// test
+		//Twitter
+		TwitterSearchClient twitterSearchClient = new TwitterSearchClient();
+		List<String> tweetHtmlSnippets = null;
+		try {
+			tweetHtmlSnippets = twitterSearchClient.getHtmlSnippets(keyword);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		model.addAttribute("tweetHtmlSnippets", tweetHtmlSnippets);
 		
+		// test output
 		for (int i = 0; i < searchResults.size(); i++) {
 			System.out.println("Offer " + (i+1) + '\n' + "---------------------------");
 			SearchResult searchRes = searchResults.get(i);
@@ -58,7 +70,12 @@ public class SearchController {
 					"id: " + searchRes.getId() + '\n';
 			System.out.println(res);
 		}
-		
+		if (tweetHtmlSnippets != null) {
+			System.out.println("Twitter Search Result Html Snippets, " + tweetHtmlSnippets.size() + " results");
+			for (int i = 0; i < tweetHtmlSnippets.size(); i++) {
+				System.out.println(tweetHtmlSnippets.get(i));
+			}
+		}
     	return "searchResults";
     	
     }
