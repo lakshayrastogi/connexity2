@@ -67,6 +67,13 @@
 		        display: none;
 		    }
 		}
+		@media (min-width: 768px) 
+		{
+		    #searchBar
+		    {
+		        display: none;
+		    }
+		}
 		#textRefineCol
 		{
 			margin-left: 8px;
@@ -82,27 +89,38 @@
 			border-style: ridge;
 			border-width: 3px; 
 			border-color: #e6e6e6; 
-			border-radius: 5px;
+			border-radius: 3px;
 			margin-bottom: 30px;
 		}
+		.navbar
     </style>
 </head>
 <body class="searchResults">
 	<!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
+        <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
                 </button>
-                 <a class="navbar-brand" href="main.html" id="titleIcon">Corradr</a>
+                <a class="navbar-brand navbar-brand-centered" style="margin-left: 10px;" href="main.html" data-toggle = "collapse" id="titleIcon" data-target = "#nav-header-logo-collapse">Corradr</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class = "nav navbar-nav collapse navbar-collapse" id="nav-header-search-collapse">
+                <form class="nav navbar-form" role="search">
+                    <div class="input-group" >
+                    		<span style="width: 12%;" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                        	<input type="text" class="form-control" placeholder="Search" name="keyword">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                     </div>
+                 </form>
+            </div>
+            <div class="collapse navbar-collapse nav navbar-nav navbar-right" id="bs-example-navbar-collapse-1" style="margin-right: 10px;">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="advanced" style="color:white">Advanced Search</a>
@@ -110,72 +128,70 @@
                     <li>
                         <a href="categories" style="color:white">Categories</a>
                     </li>
-                    <li>
-                        <a href="trending" style="color:white">Trending</a>
-                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
+           </div>
+    	<!-- /.container -->
     </nav>
-
-    <div class="row">
-    	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="refineAndResults">
-	        <div class="col-xs-0 col-sm-4  col-md-3 col-lg-2">
-	        	<div id="refineCol">
-	        		<div id="textRefineCol">
-		        		<b style="font-size: 16px;">
-			        		Refine your search:
-			        	</b>
-			        	<br>
-			        	<br>
-			        	<b>
-			        	Sort by:
-			        	</b>
-			        	<div class="checkbox">
-			        		<label><input type="checkbox" value="">Name</label>
-		        		</div>
-		        		<div class="checkbox">
-			        		<label><input type="checkbox" value="">Seller</label>
-		        		</div>
-		        		<div class="checkbox">
-			        		<label><input type="checkbox" value="">Rating</label>
-			        	</div>
-			        	<div class="checkbox">
-			        		<label><input type="checkbox" value="">Price (Low to High)</label>
-			        	</div>
-			        	<div class="checkbox">
-			        		<label><input type="checkbox" value="">Price (High to Low)</label>
-			        	</div>
-			        	<br>
+    <div class="container-fluid">
+    	<div class="row">
+    		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="refineAndResults">
+	    	    <div class="col-xs-0 col-sm-4  col-md-3 col-lg-2">
+	        		<div id="refineCol">
+	        			<div id="textRefineCol">
+		        			<b style="font-size: 16px;">
+			        			Refine your search:
+					        	</b>
+					        	<br>
+					        	<br>
+					        	<b>
+					        	Sort by:
+					        	</b>
+					        	<div class="checkbox">
+					        		<label><input type="checkbox" value="">Name</label>
+				        		</div>
+				        		<div class="checkbox">
+					        		<label><input type="checkbox" value="">Seller</label>
+				        		</div>
+				        		<div class="checkbox">
+					        		<label><input type="checkbox" value="">Rating</label>
+					        	</div>
+					        	<div class="checkbox">
+					        		<label><input type="checkbox" value="">Price (Low to High)</label>
+					        	</div>
+					        	<div class="checkbox">
+					        		<label><input type="checkbox" value="">Price (High to Low)</label>
+					        	</div>
+					        	<br>
+	        			</div>
 	        		</div>
-	        	</div>
-	        </div>
-	        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
-		       <form role="form" action="/searchResults" method="GET">
-	               <div class="form-group">
-	                 <input type="text" name="keyword" class="form-control">
-	                 <span id="shop-button"><button type="submit" value="Search" class="btn btn-default" >Shop</button></span>
-	               </div>
-	           </form>
-              		{{#searchResults}}
-       					<div class='col-xs-12 col-sm-6 col-md-3'>
-       						<div class='card'>
-       							<!-- Link/Card Body -->
-       							<a href='http://localhost:8080/item?productId={{id}}'>
-       								<img class='card-img-top img-rounded' src='{{images.3}}' alt='Card image cap' style='width:100%; height:66%;'>
-       							</a>
-       							<div class='card-block'>
-       								<a href='http://localhost:8080/item?productId={{id}}' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>
-       								<p class='card-text' style='text-align:center; color:black;'> {{priceStr}} </p>
-       								<a href='http://localhost:8080/item?productId={{id}}' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{merchantName}} </a>
-       							</div>
-       						</div>
-       					</div>
-              		{{/searchResults}}
-	           </div>
+		        </div>
+		        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+			       <form  id="searchBar" role="form" action="/searchResults" method="GET">
+		               <div class="form-group">
+		                 <input type="text" name="keyword" class="form-control">
+		                 <span id="shop-button"><button type="submit" value="Search" class="btn btn-default" >Shop</button></span>
+		               </div>
+		           </form>
+	              		{{#searchResults}}
+	       					<div class='col-xs-12 col-sm-6 col-md-3 col-lg-3'>
+	       						<div class='card'>
+	       							<!-- Link/Card Body -->
+	       							<a href='http://localhost:8080/item?productId={{id}}'>
+	       								<img class='card-img-top img-rounded' src='{{images.3}}' alt='Card image cap' style='width:100%; height:66%;'>
+	       							</a>
+	       							<div class='card-block'>
+	       								<a href='http://localhost:8080/item?productId={{id}}' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>
+	       								<p class='card-text' style='text-align:center; color:black;'> {{priceStr}} </p>
+	       								<a href='http://localhost:8080/item?productId={{id}}' class='card-link' style='display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{merchantName}} </a>
+	       							</div>
+	       						</div>
+	       					</div>
+	              		{{/searchResults}}
+		           </div>
 	       	</div>
        	</div>
-</body>
+      </div>
+	</body>
 </html>
