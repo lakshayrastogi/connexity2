@@ -45,12 +45,25 @@
 			font-size: 35px;
 			color:white;
 		}
+		body
+		{
+			background-color: #2c3e50;
+			margin-top:70px;
+		}
+		.content-wrapper
+		{
+			color: black;
+		}
+		.seller-wrapper
+		{
+			color: black;
+		}
     </style>
 </head>
 <body>
 	<!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
+        <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -86,9 +99,40 @@
            </div>
     	<!-- /.container -->
    	</nav>
-
-    <div class="row">
-    	
+	<div class="container" style="background-color: white;">
+  		{{#offerResult}}
+	    <div class="row">
+	    	<div class="seller-wrapper">
+	    		<div class="col-md-12">
+	    			<div class="merchantHead">
+	    				<img src="{{merchantLogoUrl}}" alt="Logo" height="75" width="75">
+		    			<a href="{{url}}" style="color:black;">
+		    				<h2>{{merchantName}}</h2>
+	    				</a>
+    				</div>
+    			</div>
+	    	</div>
+	    	<div class="content-wrapper">
+	    		<div class="col-md-5">
+		    		<h3>{{title}}</h3>
+		    		<p>
+		    			{{description}}
+		    			<a href="{{url}}" style="color:black;">
+		    				more
+		    			</a>
+		    		</p>
+		    		<form action="{{url}}">
+		    			<button class="btn btn-default" type="submit">Buy Now!</button>
+	    			</form>
+	    		</div>
+	    		<div class="col-md-7">
+	    			<div class='thumbnail'>
+	    				<img src="{{images.3}}" alt="Logo" height="364" width="100%">
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+   		{{/offerResult}}
     </div>
 </body>
 </html>
