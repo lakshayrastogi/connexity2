@@ -33,8 +33,14 @@ public class SearchController {
     } 
     
     @RequestMapping(value="/searchResults",method=RequestMethod.GET)
-    public String searchResults(@RequestParam(value="keyword",required=true) String keyword, Model model){
-    	System.out.println(keyword);
+    public String searchResults(@RequestParam(value="keyword",required=true) String keyword, 
+    							@RequestParam(value="name", required=false, defaultValue="false") boolean name,
+    							@RequestParam(value="seller", required=false, defaultValue="false") boolean seller,
+    							@RequestParam(value="rating", required=false, defaultValue="false") boolean rating,
+    							@RequestParam(value="priceLH", required=false, defaultValue="false") boolean priceLH,
+    							@RequestParam(value="priceHL", required=false, defaultValue="false") boolean priceHL,
+    							Model model){
+    	System.out.println(name);
     	if (keyword.isEmpty()) {
     		return "redirect:/main";
     	}
@@ -44,7 +50,14 @@ public class SearchController {
     	newQuery.setKeyword(keyword);
 		CatalogSearchClient searchClient = new CatalogSearchClient();
 		List<SearchResult> searchResults = searchClient.getSearchResults(newQuery);
+		
 		model.addAttribute("searchResults", searchResults);
+		model.addAttribute("name", name);
+		model.addAttribute("seller", seller);
+		model.addAttribute("rating", rating);
+		model.addAttribute("priceLH", priceLH);
+		model.addAttribute("priceHL", priceHL);
+
 		//Twitter
 		TwitterSearchClient twitterSearchClient = new TwitterSearchClient();
 		List<String> tweetHtmlSnippets = null;
