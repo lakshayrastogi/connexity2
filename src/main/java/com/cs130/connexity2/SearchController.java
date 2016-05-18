@@ -59,7 +59,7 @@ public class SearchController {
 		model.addAttribute("priceHL", priceHL);
 
 		//Twitter
-		TwitterSearchClient twitterSearchClient = new TwitterSearchClient();
+		TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.SEARCH_RESULTS);
 		List<String> tweetHtmlSnippets = null;
 		try {
 			tweetHtmlSnippets = twitterSearchClient.getHtmlSnippets(keyword);

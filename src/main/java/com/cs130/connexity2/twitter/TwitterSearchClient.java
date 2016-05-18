@@ -18,8 +18,21 @@ import com.cs130.connexity2.util.Globals;
 
 public class TwitterSearchClient {
 	private String bearerToken;
+	private Globals.TwitterSearchType searchType;
+	private String[] andWords;
+	private String[] orWords;
 	private TwitterAuthenticator twitterAuth = TwitterAuthenticator.getInstance();
-	public TwitterSearchClient() {
+	public TwitterSearchClient(Globals.TwitterSearchType searchType) {
+		this.searchType = searchType;
+		if (searchType == Globals.TwitterSearchType.SEARCH_RESULTS) {
+			andWords = new String[]
+					{"review"};
+			orWords = new String[]
+					{"buy", "bought", "purchase", "purchased", "shopping", "shop", "new", "best"};
+		}
+		else if (searchType == Globals.TwitterSearchType.ITEM) {
+			//TODO: set andWords and orWords, need to process item's merchant
+		}
 		try {
 			bearerToken = twitterAuth.requestBearerToken();
 		} catch (IOException e) {
@@ -27,25 +40,31 @@ public class TwitterSearchClient {
 			e.printStackTrace();
 		}
 	}
-	private String formatSearchQuery(String query) {
-		StringBuilder q = new StringBuilder();
-		q.append("?q=");
+	private String formatSearchQuery(String keyword) {
+		StringBuilder query = new StringBuilder();
+		query.append('\"' + keyword + '\"' + ' ');
+		for (String word : andWords) {
+			query.append(word + ' ');
+		}
+		for (String word : orWords) {
+			query.append(word + " OR ");
+		}
 		String formattedQuery;
 		try {
-			formattedQuery = URLEncoder.encode(query, "UTF-8");
+			formattedQuery = URLEncoder.encode(query.toString(), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			formattedQuery = query;
+			formattedQuery = query.toString();
 			e.printStackTrace();
 		}
-		q.append(formattedQuery);
-		return q.toString();
+		String q = "?q=" + formattedQuery + "&lang=en";
+		return q;
 	}
 	//Returns list of encoded tweet urls
-	private List<String> getSearchResultUrls(String searchQuery) throws IOException {
+	private List<String> getSearchResultUrls(String keyword) throws IOException {
 		HttpsURLConnection connection = null;
 		
 		try {
-			String requestUrl = Globals.TWTR_SEARCH_URL + formatSearchQuery(searchQuery);
+			String requestUrl = Globals.TWTR_SEARCH_URL + formatSearchQuery(keyword);
 			URL url = new URL(requestUrl); 
 			connection = (HttpsURLConnection) url.openConnection();           
 			connection.setDoOutput(true);
