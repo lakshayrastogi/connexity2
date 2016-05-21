@@ -17,6 +17,7 @@ import com.cs130.connexity2.objects.Query;
 import com.cs130.connexity2.objects.SearchResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.cs130.connexity2.objects.SearchResultJDBCTemplate;
 
 @Controller
 public class SearchController {
@@ -51,7 +52,17 @@ public class SearchController {
 		CatalogSearchClient searchClient = new CatalogSearchClient();
 		List<SearchResult> searchResults = searchClient.getSearchResults(newQuery);
 		
-		model.addAttribute("searchResults", searchResults);
+		SearchResultJDBCTemplate searchJT = new SearchResultJDBCTemplate();
+		if (!searchResults.isEmpty()) {
+			searchJT.deleteAllRows();
+			for (SearchResult searchResult : searchResults) {
+				searchJT.insertRecord(searchResult);
+			}
+		}
+		
+		List<SearchResult> sr = searchJT.getSearchResults("");
+
+		model.addAttribute("searchResults", sr);
 		model.addAttribute("name", name);
 		model.addAttribute("seller", seller);
 		model.addAttribute("rating", rating);
