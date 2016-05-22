@@ -12,6 +12,7 @@ public class SearchResultsMapper implements RowMapper<SearchResult> {
 	public SearchResult mapRow(ResultSet rs, int rowNum) throws SQLException {
 	      SearchResult searchResult = new SearchResult();
 	      searchResult.setMerchantId(rs.getLong("merchantId"));
+	      searchResult.setId(rs.getLong("id"));
 	      searchResult.setTitle(rs.getString("title"));
 	      searchResult.setBrandName(rs.getString("brandName"));
 	      searchResult.setDescription(rs.getString("description"));
