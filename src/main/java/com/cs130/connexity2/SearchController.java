@@ -45,6 +45,7 @@ public class SearchController {
     	if (keyword.isEmpty()) {
     		return "redirect:/main";
     	}
+    	model.addAttribute("keyword", keyword);
     	// TODO: Add more checks for valid input
     	ProductQuery newQuery = new ProductQuery();
     	newQuery.setQueryType(Globals.SearchType.PRODUCT);
@@ -68,17 +69,6 @@ public class SearchController {
 		model.addAttribute("rating", rating);
 		model.addAttribute("priceLH", priceLH);
 		model.addAttribute("priceHL", priceHL);
-
-		//Twitter
-		TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.SEARCH_RESULTS);
-		List<String> tweetHtmlSnippets = null;
-		try {
-			tweetHtmlSnippets = twitterSearchClient.getHtmlSnippets(keyword);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		model.addAttribute("tweetHtmlSnippets", tweetHtmlSnippets);
 		
 		// test output
 		for (int i = 0; i < searchResults.size(); i++) {
@@ -94,12 +84,26 @@ public class SearchController {
 					"id: " + searchRes.getId() + '\n';
 			System.out.println(res);
 		}
-		if (tweetHtmlSnippets != null) {
-			System.out.println("Twitter Search Result Html Snippets, " + tweetHtmlSnippets.size() + " results");
-			for (int i = 0; i < tweetHtmlSnippets.size(); i++) {
-				System.out.println(tweetHtmlSnippets.get(i));
+		
+		//Twitter
+		if (Globals.USE_TWITTER) {
+			TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.SEARCH_RESULTS, null);
+			List<String> tweetHtmlSnippets = null;
+			try {
+				tweetHtmlSnippets = twitterSearchClient.getHtmlSnippets(keyword);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			model.addAttribute("tweetHtmlSnippets", tweetHtmlSnippets);
+			if (tweetHtmlSnippets != null) {
+				System.out.println("Twitter Search Result Html Snippets, " + tweetHtmlSnippets.size() + " results");
+				for (int i = 0; i < tweetHtmlSnippets.size(); i++) {
+					System.out.println(tweetHtmlSnippets.get(i));
+				}
 			}
 		}
+		
     	return "searchResults";
     	
     }

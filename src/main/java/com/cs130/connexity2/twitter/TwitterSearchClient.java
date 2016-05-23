@@ -22,16 +22,15 @@ public class TwitterSearchClient {
 	private String[] andWords;
 	private String[] orWords;
 	private TwitterAuthenticator twitterAuth = TwitterAuthenticator.getInstance();
-	public TwitterSearchClient(Globals.TwitterSearchType searchType) {
+	public TwitterSearchClient(Globals.TwitterSearchType searchType, String merchantName) {
 		this.searchType = searchType;
+		orWords = new String[]
+				{"buy", "bought", "purchase", "purchased", "shopping", "shop", "new", "best"};
 		if (searchType == Globals.TwitterSearchType.SEARCH_RESULTS) {
-			andWords = new String[]
-					{"review"};
-			orWords = new String[]
-					{"buy", "bought", "purchase", "purchased", "shopping", "shop", "new", "best"};
+			andWords = new String[] {"review"};
 		}
 		else if (searchType == Globals.TwitterSearchType.ITEM) {
-			//TODO: set andWords and orWords, need to process item's merchant
+			andWords = new String[] {merchantName};
 		}
 		try {
 			bearerToken = twitterAuth.requestBearerToken();
@@ -56,7 +55,7 @@ public class TwitterSearchClient {
 			formattedQuery = query.toString();
 			e.printStackTrace();
 		}
-		String q = "?q=" + formattedQuery + "&lang=en";
+		String q = "?q=" + formattedQuery + "&lang=en&include_entities=false";
 		return q;
 	}
 	//Returns list of encoded tweet urls
@@ -74,7 +73,6 @@ public class TwitterSearchClient {
 			connection.setRequestProperty("User-Agent", "Corradr");
 			connection.setRequestProperty("Authorization", "Bearer " + bearerToken);
 			connection.setUseCaches(false);
-			//System.out.println("Bearer Token: " + bearerToken);
 			// Parse the JSON response into a JSON mapped object to fetch fields from.
 			JSONObject jsonRes = (JSONObject)JSONValue.parse(twitterAuth.readResponse(connection));
 			//Extract screen_name and id for each tweet to form tweet urls
@@ -122,7 +120,6 @@ public class TwitterSearchClient {
 				connection.setRequestProperty("Host", "publish.twitter.com");
 				connection.setRequestProperty("User-Agent", "Corradr");
 				connection.setUseCaches(false);
-				//System.out.println("Bearer Token: " + bearerToken);
 				// Parse the JSON response into a JSON mapped object to fetch fields from.
 				JSONObject jsonRes = (JSONObject)JSONValue.parse(twitterAuth.readResponse(connection));
 				String htmlSnippet = (String) jsonRes.get("html");
