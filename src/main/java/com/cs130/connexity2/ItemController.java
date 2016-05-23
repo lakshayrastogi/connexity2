@@ -50,12 +50,7 @@ public class ItemController {
 			TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.ITEM, 
 																			  offerResult.getMerchantName());
 			List<String> tweetHtmlSnippets = null;
-			try {
-				tweetHtmlSnippets = twitterSearchClient.getHtmlSnippets(keyword);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			tweetHtmlSnippets = twitterSearchClient.getHtmlSnippets(keyword);
 			model.addAttribute("tweetHtmlSnippets", tweetHtmlSnippets);
 			//test output
 			if (tweetHtmlSnippets != null) {

@@ -15,6 +15,8 @@ import javax.net.ssl.HttpsURLConnection;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.springframework.social.twitter.api.Twitter;
+import org.springframework.social.twitter.api.impl.TwitterTemplate;
 
 import com.cs130.connexity2.util.Globals;
 //referenced http://www.coderslexicon.com/demo-of-twitter-application-only-oauth-authentication-using-java/
@@ -22,6 +24,7 @@ import com.cs130.connexity2.util.Globals;
 public class TwitterAuthenticator {
 	public static TwitterAuthenticator instance = new TwitterAuthenticator();
 	public static TwitterAuthenticator getInstance() { return instance; }
+	private Twitter twitter = new TwitterTemplate(requestBearerToken());
 	// Encodes the consumer key and secret to create the basic authorization key
 	private String encodeKeys(String consumerKey, String consumerSecret) {
 		try {
@@ -36,8 +39,11 @@ public class TwitterAuthenticator {
 			return new String();
 		}
 	}
+	public Twitter getTwitter() {
+		return this.twitter;
+	}
 	// Constructs the request for requesting a bearer token and returns that token as a string
-	public String requestBearerToken() throws IOException {
+	private String requestBearerToken()  {
 		HttpsURLConnection connection = null;
 		String encodedCredentials = encodeKeys(Globals.TWTR_API_KEY,Globals.TWTR_API_SECRET);
 			
@@ -67,8 +73,9 @@ public class TwitterAuthenticator {
 			}
 			return new String();
 		}
-		catch (MalformedURLException e) {
-			throw new IOException("Invalid endpoint URL specified.", e);
+		catch (IOException e) {
+			e.printStackTrace();
+			return null;
 		}
 		finally {
 			if (connection != null) {
@@ -91,7 +98,7 @@ public class TwitterAuthenticator {
 		
 		
 	// Reads a response for a given connection and returns it as a string.
-	public String readResponse(HttpsURLConnection connection) {
+	private String readResponse(HttpsURLConnection connection) {
 		try {
 			StringBuilder str = new StringBuilder();
 				

@@ -89,12 +89,7 @@ public class SearchController {
 		if (Globals.USE_TWITTER) {
 			TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.SEARCH_RESULTS, null);
 			List<String> tweetHtmlSnippets = null;
-			try {
-				tweetHtmlSnippets = twitterSearchClient.getHtmlSnippets(keyword);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			tweetHtmlSnippets = twitterSearchClient.getHtmlSnippets(keyword);
 			model.addAttribute("tweetHtmlSnippets", tweetHtmlSnippets);
 			if (tweetHtmlSnippets != null) {
 				System.out.println("Twitter Search Result Html Snippets, " + tweetHtmlSnippets.size() + " results");
