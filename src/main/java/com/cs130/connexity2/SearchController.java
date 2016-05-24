@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 import com.cs130.connexity2.twitter.TwitterSearchClient;
 import com.cs130.connexity2.util.Globals;
@@ -51,8 +56,50 @@ public class SearchController {
     	newQuery.setQueryType(Globals.SearchType.PRODUCT);
     	newQuery.setKeyword(keyword);
 		CatalogSearchClient searchClient = new CatalogSearchClient();
-		List<SearchResult> searchResults = searchClient.getSearchResults(newQuery);
+		//List<SearchResult> searchResults = searchClient.getSearchResults(newQuery);
 		
+		
+		FutureTask<List<SearchResult>> catalogSearchTask = new FutureTask<List<SearchResult>>(new Callable<List<SearchResult>>() {
+			@Override
+			public List<SearchResult> call() throws Exception {
+				return searchClient.getSearchResults(newQuery);
+			}
+		});
+		
+		FutureTask<List<String>> twitterSearchTask = new FutureTask<List<String>>(new Callable<List<String>>() {
+			@Override
+			public List<String> call() throws Exception {
+				TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.SEARCH_RESULTS, null);
+				return twitterSearchClient.getHtmlSnippets(keyword);
+			}
+		});
+		ExecutorService executor = Executors.newFixedThreadPool(2);
+        executor.execute(catalogSearchTask);
+        executor.execute(twitterSearchTask);
+        
+        List<SearchResult> searchResults = null;
+        List<String> tweetHtmlSnippets = null;
+        while (true) {
+        	if(catalogSearchTask.isDone() && twitterSearchTask.isDone()){
+                System.out.println("Both tasks completed");
+                //shut down executor service
+                executor.shutdown();
+                break;
+            }
+            try {
+				searchResults = catalogSearchTask.get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+            System.out.println("catalogSearchTask finished");
+            try {
+				tweetHtmlSnippets = twitterSearchTask.get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+            System.out.println("twitterSearchTask finished");
+        }
+        
 		SearchResultJDBCTemplate searchJT = new SearchResultJDBCTemplate();
 		if (!searchResults.isEmpty()) {
 			searchJT.deleteAllRows();
@@ -60,10 +107,10 @@ public class SearchController {
 				searchJT.insertRecord(searchResult);
 			}
 		}
-		
 		List<SearchResult> sr = searchJT.getSearchResults("");
-
+		
 		model.addAttribute("searchResults", sr);
+		//model.addAttribute("searchResults", searchResults);
 		model.addAttribute("name", name);
 		model.addAttribute("seller", seller);
 		model.addAttribute("rating", rating);
@@ -87,19 +134,13 @@ public class SearchController {
 		}
 		
 		//Twitter
-		if (Globals.USE_TWITTER) {
-			TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.SEARCH_RESULTS, null);
-			List<String> tweetHtmlSnippets = null;
-			tweetHtmlSnippets = twitterSearchClient.getHtmlSnippets(keyword);
-			model.addAttribute("tweetHtmlSnippets", tweetHtmlSnippets);
-			if (tweetHtmlSnippets != null) {
-				System.out.println("Twitter Search Result Html Snippets, " + tweetHtmlSnippets.size() + " results");
-				for (int i = 0; i < tweetHtmlSnippets.size(); i++) {
-					System.out.println(tweetHtmlSnippets.get(i));
-				}
+		model.addAttribute("tweetHtmlSnippets", tweetHtmlSnippets);
+		if (tweetHtmlSnippets != null) {
+			System.out.println("Twitter Search Result Html Snippets, " + tweetHtmlSnippets.size() + " results");
+			for (int i = 0; i < tweetHtmlSnippets.size(); i++) {
+				System.out.println(tweetHtmlSnippets.get(i));
 			}
 		}
-		
     	return "searchResults";
     	
     }
