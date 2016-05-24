@@ -1,14 +1,16 @@
 package com.cs130.connexity2.objects;
 
+import com.cs130.connexity2.util.Globals;
+
 public class ProductQuery extends Query{
 
-	private int placementId; //Default 1
-	private int categoryId;
+	private long placementId; //Default 1
+	private long categoryId;
 	private String keyword;
 	private String productId, productIdType; //One of:SZPID,UPC,SKU, MPID, SZOID
 	private boolean offersOnly;
-	private int merchantId;
-	private int brandId;
+	private long merchantId;
+	private long brandId;
 	private boolean biddedOnly;
 	private int minPrice, maxPrice;
 	private int minMarkdown;
@@ -37,6 +39,7 @@ public class ProductQuery extends Query{
 	private String callback; //Default: callback
 	
 	public ProductQuery(){
+		this.keyword = "";
 		this.placementId = 1;
 		this.categoryId = -1;	// unsigned in API call
 		this.productId = "";
@@ -51,7 +54,7 @@ public class ProductQuery extends Query{
 		this.zipCode = "";
 		this.freeShipping = false;
 		this.start = 0;
-		this.results = 10;
+		this.results = Globals.MAX_QUERY_RESULTS;
 		this.backFillResults = 0;
 		this.startOffers = 0;
 		this.resultsOffers = 0;
@@ -73,19 +76,19 @@ public class ProductQuery extends Query{
 		this.callback = "callback";
 	}
 	
-	public int getPlacementId() {
+	public long getPlacementId() {
 		return placementId;
 	}
 
-	public void setPlacementId(int placementId) {
+	public void setPlacementId(long placementId) {
 		this.placementId = placementId;
 	}
 
-	public int getCategoryId() {
+	public long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -121,19 +124,19 @@ public class ProductQuery extends Query{
 		this.offersOnly = offersOnly;
 	}
 
-	public int getMerchantId() {
+	public long getMerchantId() {
 		return merchantId;
 	}
 
-	public void setMerchantId(int merchantId) {
+	public void setMerchantId(long merchantId) {
 		this.merchantId = merchantId;
 	}
 
-	public int getBrandId() {
+	public long getBrandId() {
 		return brandId;
 	}
 
-	public void setBrandId(int brandId) {
+	public void setBrandId(long brandId) {
 		this.brandId = brandId;
 	}
 

@@ -90,7 +90,6 @@ public class TwitterAuthenticator {
 			wr.write(textBody);
 			wr.flush();
 			wr.close();
-				
 			return true;
 		}
 		catch (IOException e) { return false; }

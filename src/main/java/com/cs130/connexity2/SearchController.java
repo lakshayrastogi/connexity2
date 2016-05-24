@@ -79,8 +79,9 @@ public class SearchController {
 					"Brand: " + searchRes.getBrandName() + '\n' +
 					"Description: " + searchRes.getDescription() + '\n' +
 					"Price: $" + searchRes.getPrice() + '\n' +
-					"Merchant Certified: " + searchRes.isMerchantCertified() + '\n' +
+					"Relevancy: " + searchRes.getRelevancy() + '\n' +
 					"merchantId: " + searchRes.getMerchantId() + '\n' +
+					"categoryId: " + searchRes.getCategoryId() + '\n' +
 					"id: " + searchRes.getId() + '\n';
 			System.out.println(res);
 		}

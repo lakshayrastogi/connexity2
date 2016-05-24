@@ -31,7 +31,7 @@ public class Offer {
 		
 	}
 
-	public Offer(int merchantId, int categoryId, int id, String title, int brandId, String brandName,
+	public Offer(long merchantId, long categoryId, long id, String title, long brandId, String brandName,
 			String description, String manufacturer, String url, List<String> images, String sku, String detailUrl,
 			double price, double originalPrice, double markdownPercent, boolean bidded, String merchantProductId,
 			String merchantName, boolean merchantCertified, String merchantCertificationLevel, String merchantLogoUrl,

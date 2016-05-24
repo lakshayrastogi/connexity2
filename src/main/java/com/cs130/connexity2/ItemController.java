@@ -25,11 +25,12 @@ public class ItemController {
 		if (productId.isEmpty()) {
     		return "redirect:/main";
     	}
+		CatalogSearchClient searchClient = new CatalogSearchClient();
+		
 		ProductQuery newQuery = new ProductQuery();
     	newQuery.setQueryType(Globals.SearchType.PRODUCT);
     	newQuery.setProductId(productId);
     	newQuery.setProductIdType("SZOID");
-		CatalogSearchClient searchClient = new CatalogSearchClient();
 		Offer offerResult = searchClient.getItemInfo(newQuery);
 		model.addAttribute("offerResult", offerResult);
 		//test output
@@ -39,11 +40,34 @@ public class ItemController {
 				"Brand: " + offerResult.getBrandName() + '\n' +
 				"Description: " + offerResult.getDescription() + '\n' +
 				"Price: $" + offerResult.getPrice() + '\n' +
-				"Merchant Certified: " + offerResult.isMerchantCertified() + '\n' +
+				"Relevancy: " + offerResult.getRelevancy() + '\n' +
 				"merchantId: " + offerResult.getMerchantId() + '\n' +
-				"merchantProductId: " + offerResult.getMerchantProductId() + '\n' +
+				"categoryId: " + offerResult.getCategoryId() + '\n' +
 				"id: " + offerResult.getId() + '\n';
 		System.out.println(res);
+		
+		//Category query for related items
+		ProductQuery catQuery = new ProductQuery();
+		catQuery.setQueryType(Globals.SearchType.PRODUCT);
+		catQuery.setCategoryId(offerResult.getCategoryId());
+		List<SearchResult> categorySearchResults = searchClient.getSearchResults(catQuery);
+		model.addAttribute("categorySearchResults", categorySearchResults);
+		//test output
+		System.out.println("Related Offers ------------------------------------------");
+		for (int i = 0; i < categorySearchResults.size(); i++) {
+			System.out.println("Offer " + (i+1) + '\n' + "---------------------------");
+			SearchResult searchRes = categorySearchResults.get(i);
+			String catRes = 
+					"Title: " + searchRes.getTitle() + '\n' +
+					"Brand: " + searchRes.getBrandName() + '\n' +
+					"Description: " + searchRes.getDescription() + '\n' +
+					"Price: $" + searchRes.getPrice() + '\n' +
+					"Relevancy: " + searchRes.getRelevancy() + '\n' +
+					"merchantId: " + searchRes.getMerchantId() + '\n' +
+					"categoryId: " + searchRes.getCategoryId() + '\n' +
+					"id: " + searchRes.getId() + '\n';
+			System.out.println(catRes);
+		}
 		
 		//Twitter
 		if (Globals.USE_TWITTER) {

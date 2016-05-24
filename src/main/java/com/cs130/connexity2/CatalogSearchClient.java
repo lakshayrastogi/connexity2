@@ -60,7 +60,7 @@ public class CatalogSearchClient {
 		} catch (Exception e) {res.setTitle(null); e.printStackTrace();}
 		try {
 			res.setBrandName((String) ((JSONObject) jsonRes.get("brand")).get("name"));
-		} catch (Exception e) {res.setBrandName(null); e.printStackTrace();}
+		} catch (Exception e) {res.setBrandName(null); /*e.printStackTrace();*/}
 		try {
 			res.setDescription((String) jsonRes.get("description"));
 		} catch (Exception e) {res.setDescription(null); e.printStackTrace();}
@@ -134,7 +134,7 @@ public class CatalogSearchClient {
 		} catch (Exception e) {offer.setTitle(null); e.printStackTrace();}
 		try {
 			offer.setBrandName((String) ((JSONObject) jsonRes.get("brand")).get("name"));
-		} catch (Exception e) {offer.setBrandName(null); e.printStackTrace();}
+		} catch (Exception e) {offer.setBrandName(null); /*e.printStackTrace();*/}
 		try {
 			offer.setDescription((String) jsonRes.get("description"));
 		} catch (Exception e) {offer.setDescription(null); e.printStackTrace();}
