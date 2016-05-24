@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Montez' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
-     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   	<script src="http://brm.io/js/libs/matchHeight/jquery.matchHeight-min.js"></script>
@@ -37,7 +38,7 @@
         }
         .searchResults {
     		background-color: #F4F4F4;
-        	font-family: "Futura";
+        	font-family: 'Open Sans', sans-serif;
 		}
         .navbar-default {
         	background-color: #373737;
@@ -114,6 +115,10 @@
 		    margin-top: -20px;
 		    overflow-y: auto;
 		    //background-color: white;
+		}
+		.twitter-tweet
+		{
+			pointer-events: none;
 		}
 		#sidebar-nav 
 		{
@@ -361,6 +366,30 @@
 		       			{{/tweetHtmlSnippets}}
 		       		</div>
 	       		</div>
+   				<script>
+					var i = 0;
+					var tweetText = "";
+					document.write("{{#tweetHtmlSnippets}}");
+						i++;
+					document.write("{{/tweetHtmlSnippets}}");
+					console.log("Number of Tweets: " + i);
+					console.log("Element: " + document.getElementById("sidebar-nav"));
+					if(i == 0)
+					{
+						var tweets = document.getElementById("tweets");
+						var side = document.getElementById("sidebar-nav");
+						side.style.textAlign = "center";
+						side.style.position = "relative";
+						side.style.top = "50%";
+						side.style.transform = "translateY(-50%)";
+						side.style.msTransform = "translateY(-50%)";
+						side.style.webkitTransform = "translateY(-50%)";
+						tweets.style.backgroundColor = "#D3D3D3";
+						side.style.color = "#373737";
+						side.style.fontSize = "18px";
+						document.getElementById("sidebar-nav").innerHTML = "No Related Tweets!";
+					}
+			</script>
 	       	</div>
        	</div>
 	</body>
