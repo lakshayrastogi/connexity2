@@ -30,8 +30,8 @@ public class Globals {
 	// JDBC driver name and database URL
 	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	// MAMP port 8889, if using terminal/linux version of mySQL, use 3306
-	public static final String HOST_URL = "jdbc:mysql://localhost:3306/";
-	public static final String DB_URL = "jdbc:mysql://localhost:3306/CONNEXITY";
+	public static final String HOST_URL = "jdbc:mysql://localhost:8889/";
+	public static final String DB_URL = "jdbc:mysql://localhost:8889/CONNEXITY";
 
 	//  Database credentials
 	public static final String USER = "root";
