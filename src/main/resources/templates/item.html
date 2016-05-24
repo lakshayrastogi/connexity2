@@ -43,6 +43,8 @@
 		}
 		body
 		{
+			max-width: 100%;
+    		overflow-x: hidden;
 			background-color: #F4F4F4;
 			margin-top:70px;
 			font-family: 'Open Sans', sans-serif;
@@ -74,13 +76,15 @@
 		}
 		#tweets
 		{
-			//z-index: 1000;
+			max-width: 100%;
+    		overflow-x: hidden;
 		    position: fixed;
+		    z-index: 1000;
 		    right: 250px;
-		    //width: 250px;
 		    height: 100%;
 		    margin-right: -250px;
 		    margin-top: -20px;
+   		    padding-bottom: 50px;
 		    overflow-y: auto;
 		    //background-color: white;
 		}
@@ -89,8 +93,7 @@
 		    position: absolute;
 		    top: 0;
 		    width: 100%;
-		    margin: 0;
-		    padding: 0;
+		    padding-right: 25px;
 		    list-style: none;
 		}
 		.twitter-tweet
