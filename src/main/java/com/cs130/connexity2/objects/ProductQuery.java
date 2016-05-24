@@ -54,7 +54,7 @@ public class ProductQuery extends Query{
 		this.zipCode = "";
 		this.freeShipping = false;
 		this.start = 0;
-		this.results = Globals.MAX_QUERY_RESULTS;
+		this.results = 10;
 		this.backFillResults = 0;
 		this.startOffers = 0;
 		this.resultsOffers = 0;

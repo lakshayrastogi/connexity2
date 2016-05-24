@@ -52,16 +52,16 @@ public class SearchController {
     	}
     	model.addAttribute("keyword", keyword);
     	// TODO: Add more checks for valid input
-    	ProductQuery newQuery = new ProductQuery();
-    	newQuery.setQueryType(Globals.SearchType.PRODUCT);
-    	newQuery.setKeyword(keyword);
-		CatalogSearchClient searchClient = new CatalogSearchClient();
-		//List<SearchResult> searchResults = searchClient.getSearchResults(newQuery);
-		
+    	
+    	CatalogSearchClient searchClient = new CatalogSearchClient();
 		
 		FutureTask<List<SearchResult>> catalogSearchTask = new FutureTask<List<SearchResult>>(new Callable<List<SearchResult>>() {
 			@Override
 			public List<SearchResult> call() throws Exception {
+				ProductQuery newQuery = new ProductQuery();
+		    	newQuery.setQueryType(Globals.SearchType.PRODUCT);
+		    	newQuery.setKeyword(keyword);
+		    	newQuery.setResults(Globals.NUM_SEARCH_RESULTS);
 				return searchClient.getSearchResults(newQuery);
 			}
 		});
