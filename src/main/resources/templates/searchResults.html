@@ -214,20 +214,19 @@
 					        	Sort by:
 					        	</b>
 					        	<div class="checkbox">
-					        		<label><input id="Name" type="checkbox" value="name" {{#name}} checked {{/name}}>Name</label>
+					        		<label><input id="Name" type="checkbox" name="refine" value="name" {{#name}} checked {{/name}}>Name</label>
 				        		</div>
 				        		<div class="checkbox">
-				        		
-					        		<label><input id="Seller" type="checkbox" value="seller" {{#seller}} checked {{/seller}}>Seller</label>
+					        		<label><input id="Seller" type="checkbox" name="refine" value="seller" {{#seller}} checked {{/seller}}>Seller</label>
 				        		</div>
 				        		<div class="checkbox">
-					        		<label><input id="Rating" type="checkbox" value="rating" {{#rating}} checked {{/rating}}>Rating</label>
+					        		<label><input id="Rating" type="checkbox" name="refine" value="rating" {{#rating}} checked {{/rating}}>Rating</label>
 					        	</div>
 					        	<div class="checkbox">
-					        		<label><input id="PriceLH" type="checkbox" value="priceLH" {{#priceLH}} checked {{/priceLH}}>Price (Low to High)</label>
+					        		<label><input id="PriceLH" type="checkbox" name="refine" value="priceLH" {{#priceLH}} checked {{/priceLH}}>Price (Low to High)</label>
 					        	</div>
 					        	<div class="checkbox">
-					        		<label><input id="PriceHL" type="checkbox" value="priceHL" {{#priceHL}} checked {{/priceHL}}>Price (High to Low)</label>
+					        		<label><input id="PriceHL" type="checkbox" name="refine" value="priceHL" {{#priceHL}} checked {{/priceHL}}>Price (High to Low)</label>
 					        	</div>
 					        	
 					        	<!-- Handle redirection upon checkbox check/uncheck -->
@@ -235,7 +234,8 @@
 					        		$(document).ready(function(){
 					        			$('input[type="checkbox"]').click(function(){
 					        	            if($(this).prop("checked") == true){
-					        	            	window.location.replace("http://localhost:8080/searchResults?" + getNewUrl($(this).val(), true));
+					        	            	$('input[type="checkbox"]').not(this).prop('checked', false);
+					        	            	window.location.replace("http://localhost:8080/searchResults?" + getNewUrl($(this).val(), true)); 
 					        	            }
 					        	            else if($(this).prop("checked") == false){
 					        	            	window.location.replace("http://localhost:8080/searchResults?" + getNewUrl($(this).val(), false));
@@ -261,6 +261,11 @@
 					        			        		parameterName[1] = false;
 					        			        	else
 					        			        		parameterName[1] = false;
+					        			        }
+					        			        //This allows for only one checkbox to be checked at a time
+					        			        else if (parameterName[0] !== "keyword")
+					        			        {
+					        			        	parameterName[1] = false;	
 					        			        }
 					        			        joinParam = parameterName.join("=");
 					        			        urlVariables[i] = joinParam;
