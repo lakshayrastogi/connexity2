@@ -109,12 +109,13 @@ public class SearchController {
 		}
 		
 		String whereClause = "where 1 ";
+		String columns = "*";
 		if (priceLH) {
 			whereClause += "order by price asc ";
 		} else if (priceHL) {
 			whereClause += "order by price desc";
 		}
-		List<SearchResult> sr = searchJT.getSearchResults(whereClause);
+		List<SearchResult> sr = searchJT.selectSearchResults(columns, whereClause);
 		
 		model.addAttribute("searchResults", sr);
 		//model.addAttribute("searchResults", searchResults);

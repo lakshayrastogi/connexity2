@@ -4,6 +4,7 @@ import com.cs130.connexity2.util.Globals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -64,8 +65,8 @@ public class SearchResultJDBCTemplate {
 		}
 	}
 	
-	public List<SearchResult> getSearchResults(String clause) {
-	      String sql = "select * from SearchResults " + clause;
+	public List<SearchResult> selectSearchResults(String columns, String clause) {
+	      String sql = "select "+ columns + " from SearchResults " + clause;
 	      List<SearchResult> searchResults = new ArrayList<>();
 	      try{
 		      searchResults = jt.query(sql, new SearchResultsMapper());	    	  
@@ -75,6 +76,17 @@ public class SearchResultJDBCTemplate {
 	    	  System.out.println("DONE Fetching Records!");
 	      }
 	      return searchResults;
+	}
+	
+	public HashMap<String, Integer> selectMerchantNames() {
+		String sql = "select merchantName, count(*) as total from SearchResults group by merchantName";
+		try{
+			jt.execute(sql);
+	    }catch(Exception e){
+	    	System.out.println(e.getMessage());
+	    }finally{
+	    	System.out.println("DONE selecting merchant names!");
+	    }
 	}
 	
 	public void deleteAllRows() {
