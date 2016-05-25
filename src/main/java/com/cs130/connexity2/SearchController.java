@@ -107,7 +107,14 @@ public class SearchController {
 				searchJT.insertRecord(searchResult);
 			}
 		}
-		List<SearchResult> sr = searchJT.getSearchResults("");
+		
+		String whereClause = "where 1 ";
+		if (priceLH) {
+			whereClause += "order by price asc ";
+		} else if (priceHL) {
+			whereClause += "order by price desc";
+		}
+		List<SearchResult> sr = searchJT.getSearchResults(whereClause);
 		
 		model.addAttribute("searchResults", sr);
 		//model.addAttribute("searchResults", searchResults);

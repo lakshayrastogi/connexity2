@@ -78,7 +78,7 @@ public class SearchResultJDBCTemplate {
 	}
 	
 	public void deleteAllRows() {
-	      String sql = "delete from SearchResults";
+	      String sql = "truncate SearchResults";
 	      try{
 	    	  jt.execute(sql);
 	      }catch(Exception e){
