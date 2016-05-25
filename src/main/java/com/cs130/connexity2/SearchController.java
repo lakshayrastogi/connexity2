@@ -38,6 +38,10 @@ public class SearchController {
     	return "main";
     } 
     
+    public boolean validKeyword(String keyword) {
+    	return (keyword.trim().length() > 0);
+    }
+    
     @RequestMapping(value="/searchResults",method=RequestMethod.GET)
     public String searchResults(@RequestParam(value="keyword",required=true) String keyword, 
     							@RequestParam(value="name", required=false, defaultValue="false") boolean name,
@@ -47,7 +51,7 @@ public class SearchController {
     							@RequestParam(value="priceHL", required=false, defaultValue="false") boolean priceHL,
     							Model model){
     	System.out.println(name);
-    	if (keyword.isEmpty()) {
+    	if (!validKeyword(keyword)) {
     		return "redirect:/main";
     	}
     	model.addAttribute("keyword", keyword);
@@ -99,7 +103,7 @@ public class SearchController {
 			}
             System.out.println("twitterSearchTask finished");
         }
-        
+        /*
 		SearchResultJDBCTemplate searchJT = new SearchResultJDBCTemplate();
 		if (!searchResults.isEmpty()) {
 			searchJT.deleteAllRows();
@@ -107,16 +111,51 @@ public class SearchController {
 				searchJT.insertRecord(searchResult);
 			}
 		}
+		*/
 		
-		String whereClause = "where 1 ";
-		if (priceLH) {
-			whereClause += "order by price asc ";
-		} else if (priceHL) {
-			whereClause += "order by price desc";
-		}
-		List<SearchResult> sr = searchJT.getSearchResults(whereClause);
 		
-		model.addAttribute("searchResults", sr);
+        final boolean refinedResults = (name || seller || rating || priceLH || priceHL);
+        FutureTask<List<SearchResult>> sqlTask = new FutureTask<List<SearchResult>>(new Callable<List<SearchResult>>() {
+			@Override
+			public List<SearchResult> call() throws Exception {
+				SearchResultJDBCTemplate searchJT = new SearchResultJDBCTemplate();
+				List<SearchResult> searchResults = catalogSearchTask.get();
+				String whereClause = "where 1 ";
+				if (priceLH) {
+					whereClause += "order by price asc ";
+				} else if (priceHL) {
+					whereClause += "order by price desc";
+				}
+				//refinedResults=false implies new keyword search --> replace data in sql database
+				if (!searchResults.isEmpty() && !refinedResults) {
+					searchJT.deleteAllRows();
+					for (SearchResult searchResult : searchResults) {
+						searchJT.insertRecord(searchResult);
+					}
+				}
+				return searchJT.getSearchResults(whereClause);
+			}
+		});
+        executor = Executors.newFixedThreadPool(1);
+        executor.execute(sqlTask);
+        List<SearchResult> sr = null;
+        //if refinement specified, wait on sqlTask to complete and
+        //sort results using sql data
+        if (refinedResults) {
+        	try {
+    			sr = sqlTask.get();
+    		} catch (InterruptedException | ExecutionException e) {
+    			e.printStackTrace();
+    		}
+        	//TODO: refine based on refinement category
+        	//...
+        	model.addAttribute("searchResults", sr);
+        }
+        else {
+        	model.addAttribute("searchResults", searchResults);
+        }
+		
+		//model.addAttribute("searchResults", sr);
 		//model.addAttribute("searchResults", searchResults);
 		model.addAttribute("name", name);
 		model.addAttribute("seller", seller);
