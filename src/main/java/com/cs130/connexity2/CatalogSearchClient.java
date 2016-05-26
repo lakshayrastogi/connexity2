@@ -56,17 +56,41 @@ public class CatalogSearchClient {
 			res.setId(((long) jsonRes.get("id")));
 		} catch (Exception e) {res.setId(-1); e.printStackTrace();}
 		try {
-			res.setTitle((String) jsonRes.get("title"));
-		} catch (Exception e) {res.setTitle(null); e.printStackTrace();}
+			String title = (String) jsonRes.get("title");
+			if (title != null) {
+				res.setTitle(title);
+			}
+			else {
+				res.setTitle("");
+			}
+		} catch (Exception e) {res.setTitle(""); e.printStackTrace();}
 		try {
-			res.setBrandName((String) ((JSONObject) jsonRes.get("brand")).get("name"));
-		} catch (Exception e) {res.setBrandName(null); /*e.printStackTrace();*/}
+			String brandName = (String) ((JSONObject) jsonRes.get("brand")).get("name");
+			if (brandName != null) {
+				res.setBrandName(brandName);
+			}
+			else {
+				res.setBrandName("");
+			}
+		} catch (Exception e) {res.setBrandName(""); /*e.printStackTrace();*/}
 		try {
-			res.setDescription((String) jsonRes.get("description"));
-		} catch (Exception e) {res.setDescription(null); e.printStackTrace();}
+			String description = (String) jsonRes.get("description");
+			if (description != null) {
+				res.setDescription(description);
+			}
+			else {
+				res.setDescription("");
+			}
+		} catch (Exception e) {res.setDescription(""); e.printStackTrace();}
 		try {
-			res.setUrl((String) ((JSONObject) jsonRes.get("url")).get("value"));
-		} catch (Exception e) {res.setUrl(null); e.printStackTrace();}
+			String url = (String) ((JSONObject) jsonRes.get("url")).get("value");
+			if (url != null) {
+				res.setUrl(url);
+			}
+			else {
+				res.setUrl("");
+			}
+		} catch (Exception e) {res.setUrl(""); e.printStackTrace();}
 		try {
 			List<String> images = new ArrayList<>();
 			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonRes.get("images")).get("image");
@@ -77,11 +101,23 @@ public class CatalogSearchClient {
 			res.setImages(images);
 		} catch (Exception e) {res.setImages(null); e.printStackTrace();}
 		try {
-			res.setSku((String) jsonRes.get("sku"));
-		} catch (Exception e) {res.setSku(null); e.printStackTrace();}
+			String sku = (String) jsonRes.get("sku");
+			if (sku != null) {
+				res.setSku(sku);
+			}
+			else {
+				res.setSku("");
+			}
+		} catch (Exception e) {res.setSku(""); e.printStackTrace();}
 		try {
-			res.setDetailUrl((String) ((JSONObject) jsonRes.get("detailUrl")).get("value"));
-		} catch (Exception e) {res.setDetailUrl(null); e.printStackTrace();}
+			String detailUrl = (String) ((JSONObject) jsonRes.get("detailUrl")).get("value");
+			if (detailUrl != null) {
+				res.setDetailUrl(detailUrl);
+			}
+			else {
+				res.setDetailUrl("");
+			}
+		} catch (Exception e) {res.setDetailUrl(""); e.printStackTrace();}
 		try {
 			res.setPrice((((Long)((JSONObject) jsonRes.get("price")).get("integral")).doubleValue()/100.0));
 		} catch (Exception e) {res.setPrice(-1); e.printStackTrace();}
@@ -89,10 +125,22 @@ public class CatalogSearchClient {
 			res.setOriginalPrice((((Long)((JSONObject) jsonRes.get("originalPrice")).get("integral")).doubleValue())/100.0);
 		} catch (Exception e) {res.setOriginalPrice(-1); e.printStackTrace();}
 		try {
-			res.setPriceStr((String) ((JSONObject) jsonRes.get("price")).get("value"));
+			String priceStr = (String) ((JSONObject) jsonRes.get("price")).get("value");
+			if (priceStr != null) {
+				res.setPriceStr(priceStr);
+			}
+			else {
+				res.setPriceStr("N/A");
+			}
 		} catch (Exception e) {res.setPriceStr("N/A"); e.printStackTrace();}
 		try {
-			res.setOriginalPriceStr((String) ((JSONObject) jsonRes.get("originalPrice")).get("value"));
+			String originalPriceStr = (String) ((JSONObject) jsonRes.get("originalPrice")).get("value");
+			if (originalPriceStr != null) {
+				res.setOriginalPriceStr(originalPriceStr);
+			}
+			else {
+				res.setOriginalPriceStr("N/A");
+			}
 		} catch (Exception e) {res.setOriginalPriceStr("N/A"); e.printStackTrace();}
 		try {
 			res.setMarkdownPercent((Double) jsonRes.get("markdownPercent"));
@@ -101,17 +149,35 @@ public class CatalogSearchClient {
 			res.setBidded ((boolean) jsonRes.get("bidded"));
 		} catch (Exception e) {res.setBidded(false); e.printStackTrace();}
 		try {
-			res.setMerchantName((String) jsonRes.get("merchantName"));
-		} catch (Exception e) {res.setMerchantName(null); e.printStackTrace();}
+			String merchantName = (String) jsonRes.get("merchantName");
+			if (merchantName != null) {
+				res.setMerchantName(merchantName);
+			}
+			else {
+				res.setMerchantName("");
+			}
+		} catch (Exception e) {res.setMerchantName(""); e.printStackTrace();}
 		try {
 			res.setMerchantCertified((boolean) (((JSONObject) jsonRes.get("merchantCertification")).get("certified")));
 		} catch (Exception e) {res.setMerchantCertified(false); e.printStackTrace();}
 		try {
-			res.setMerchantLogoUrl((String) jsonRes.get("merchantLogoUrl"));
-		} catch (Exception e) {res.setMerchantLogoUrl(null); e.printStackTrace();}
+			String merchantLogoUrl = (String) jsonRes.get("merchantLogoUrl");
+			if (merchantLogoUrl != null) {
+				res.setMerchantLogoUrl(merchantLogoUrl);
+			}
+			else {
+				res.setMerchantLogoUrl("");
+			}
+		} catch (Exception e) {res.setMerchantLogoUrl(""); e.printStackTrace();}
 		try {
-			res.setCondition((String) jsonRes.get("condition"));
-		} catch (Exception e) {res.setCondition(null); e.printStackTrace();}
+			String condition = (String) jsonRes.get("condition");
+			if (condition != null) {
+				res.setCondition(condition);
+			}
+			else {
+				res.setCondition("");
+			}
+		} catch (Exception e) {res.setCondition(""); e.printStackTrace();}
 		try {
 			res.setRelevancy((Double) jsonRes.get("relevancy"));
 		} catch (Exception e) {res.setRelevancy(-1); e.printStackTrace();}
@@ -130,11 +196,17 @@ public class CatalogSearchClient {
 			offer.setId((long) jsonRes.get("id"));
 		} catch (Exception e) {offer.setId(-1); e.printStackTrace();}
 		try {
-			offer.setTitle((String) jsonRes.get("title"));
-		} catch (Exception e) {offer.setTitle(null); e.printStackTrace();}
+			String title = (String) jsonRes.get("title");
+			if (title != null) {
+				offer.setTitle(title);
+			}
+			else {
+				offer.setTitle("");
+			}
+		} catch (Exception e) {offer.setTitle(""); e.printStackTrace();}
 		try {
 			offer.setBrandName((String) ((JSONObject) jsonRes.get("brand")).get("name"));
-		} catch (Exception e) {offer.setBrandName(null); /*e.printStackTrace();*/}
+		} catch (Exception e) {offer.setBrandName(""); /*e.printStackTrace();*/}
 		try {
 			offer.setDescription((String) jsonRes.get("description"));
 		} catch (Exception e) {offer.setDescription(null); e.printStackTrace();}
