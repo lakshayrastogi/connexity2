@@ -40,13 +40,14 @@ public class ItemController {
 		Offer offerResult = searchClient.getItemInfo(newQuery);
 		model.addAttribute("offerResult", offerResult);
 		//test output
-		System.out.println("Offer 1 \n ---------------------------");
+		System.out.println("Item Offer \n ---------------------------");
 		String res = 
 				"Title: " + offerResult.getTitle() + '\n' +
 				"Brand: " + offerResult.getBrandName() + '\n' +
 				"Description: " + offerResult.getDescription() + '\n' +
 				"Price: $" + offerResult.getPrice() + '\n' +
 				"Relevancy: " + offerResult.getRelevancy() + '\n' +
+				"merchantLogoUrl: " + offerResult.getMerchantLogoUrl() + '\n' +
 				"merchantId: " + offerResult.getMerchantId() + '\n' +
 				"categoryId: " + offerResult.getCategoryId() + '\n' +
 				"id: " + offerResult.getId() + '\n';

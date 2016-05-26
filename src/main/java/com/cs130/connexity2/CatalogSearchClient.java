@@ -44,7 +44,7 @@ public class CatalogSearchClient {
 	    }
 	}
 	
-	private SearchResult convertToSearchResult(JSONObject jsonRes) throws NullPointerException {
+	private SearchResult convertToSearchResult(JSONObject jsonRes) {
 		SearchResult res = new SearchResult();
 		try {
 			res.setMerchantId((long) jsonRes.get("merchantId"));
@@ -118,7 +118,7 @@ public class CatalogSearchClient {
 		return res;
 	}
 	
-	private Offer convertToOffer(JSONObject jsonRes) throws NullPointerException {
+	private Offer convertToOffer(JSONObject jsonRes) {
 		Offer offer = new Offer();
 		try {
 			offer.setMerchantId((long) jsonRes.get("merchantId"));
@@ -184,8 +184,14 @@ public class CatalogSearchClient {
 			offer.setMerchantCertificationLevel((String) (((JSONObject) jsonRes.get("merchantCertification")).get("level")));
 		} catch (Exception e) {offer.setMerchantCertificationLevel(null); e.printStackTrace();}
 		try {
-			offer.setMerchantLogoUrl((String) jsonRes.get("merchantLogoUrl"));
-		} catch (Exception e) {offer.setMerchantLogoUrl(null); e.printStackTrace();}
+			String merchantLogoUrl = (String) jsonRes.get("merchantLogoUrl");
+			if (merchantLogoUrl != null) {
+				offer.setMerchantLogoUrl(merchantLogoUrl);
+			}
+			else {
+				offer.setMerchantLogoUrl("");
+			}
+		} catch (Exception e) {offer.setMerchantLogoUrl(""); e.printStackTrace();}
 		try {
 			offer.setStock((String) jsonRes.get("stock"));
 		} catch (Exception e) {offer.setStock(null); e.printStackTrace();}
