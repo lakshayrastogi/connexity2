@@ -230,8 +230,17 @@
 							</a>
 						</p>
 						<p style='font-weight:bold; font-size: 16px;'>
-							${{price}}
+							<span id="originalPrice">${{originalPrice}}</span> <span id="discountedPrice" style="color: red; visibility: hidden;'">${{price}}</span>
 						</p>
+						<script>
+							var originalPrice = document.getElementById("originalPrice");
+							var discountedPrice = document.getElementById("discountedPrice");
+							if (originalPrice.innerHTML != discountedPrice.innerHTML)
+								{
+									originalPrice.style.textDecoration = "line-through";
+									discountedPrice.style.visibility = "visible";
+								}
+						</script>
 						<a href='{{url}}' style='color:#373737;'>
 							<button class='btn btn-default' type='submit'>Buy Now!</button>
 						</a>

@@ -308,13 +308,25 @@
 	       						</div>
        							<div class='caption' style="background-color: #DCD0C0; color: white;">
        								<a href='http://localhost:8080/item?productId={{id}}&keyword={{keyword}}' style='color: white; display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>
-       								<p style='text-align:center;'> {{priceStr}} </p>
-       								<p style='text-align:center;'> {{merchantName}} </p>
+       								<p class="originalPrice" style='text-align:center; margin-top: 0em; margin-bottom: 0em;'>{{originalPriceStr}}</p>
+       								<p class="discountedPrice" style='text-align:center; margin-top: 0em; margin-bottom: 0em; color: red; visibility:hidden;'>{{priceStr}}</p>
+       								<p style='text-align:center; margin-top: 0em; margin-bottom: 0em;'> {{merchantName}} </p>
        							</div>
 	       					</div>
 	       				</div>
 	              		{{/searchResults}}
-	              		
+	              		<script>
+       									var originalPrice = document.getElementsByClassName("originalPrice");
+       									var discountedPrice = document.getElementsByClassName("discountedPrice");
+       									for (var i = 0; i < originalPrice.length; i++)
+       									{
+	       									if (originalPrice[i].innerHTML != discountedPrice[i].innerHTML)
+	       									{
+	       										originalPrice[i].style.textDecoration = "line-through";
+	       										discountedPrice[i].style.visibility = "visible";
+	       									}
+       									}
+     					</script>
 		           		<script>	
 		           		/*
 		           			var text = "";
