@@ -1,41 +1,63 @@
 package com.cs130.connexity2.objects;
 
+import java.util.ArrayList;
+
 import javax.validation.constraints.NotNull;
 
 public class Merchant {
-	
-	@NotNull
-	private int mid;
-	@NotNull
+
+	private long mid;
 	private String name;
-	
 	private String url, merchantUrl, logoUrl;
-	private int totalProductCount;
 	private String countryCode;
-	private int rating;
-	private String merchantReview;
+	
+	//Merchant Rating Info
+	private long ratingPeriod;
+	private ArrayList<Dimension> dimensionalAverages;
+	private ArrayList<Percentage> periodNinety;
+	private String certificationUrl;
+	private String certificationValue;
+	private String ratingUrl;
+	private String ratingDetailUrl;
 	
 	public Merchant() {
+		this.mid = -1;
+		this.name = "";
+		this.url = "";
+		this.merchantUrl = "";
+		this.logoUrl = "";
+		this.countryCode = "";
+		this.ratingPeriod = -1;
+		this.certificationUrl = "";
+		this.certificationValue = "";
+		this.ratingUrl = "";
+		this.ratingDetailUrl = "";
 	}
 
-	public Merchant(int mid, String name, String url, String merchantUrl, String logoUrl, int totalProductCount,
-			String countryCode, int rating, String merchantReview) {
+	public Merchant(long mid, String name, String url, String merchantUrl, String logoUrl,
+			String countryCode, long ratingPeriod, ArrayList<Dimension> dimensionalAverages,
+			ArrayList<Percentage> periodNinety, String certificationUrl, String certificationValue, String ratingUrl,
+			String ratingDetailUrl) {
 		this.mid = mid;
 		this.name = name;
 		this.url = url;
 		this.merchantUrl = merchantUrl;
 		this.logoUrl = logoUrl;
-		this.totalProductCount = totalProductCount;
 		this.countryCode = countryCode;
-		this.rating = rating;
-		this.merchantReview = merchantReview;
+		this.ratingPeriod = ratingPeriod;
+		this.dimensionalAverages = dimensionalAverages;
+		this.periodNinety = periodNinety;
+		this.certificationUrl = certificationUrl;
+		this.certificationValue = certificationValue;
+		this.ratingUrl = ratingUrl;
+		this.ratingDetailUrl = ratingDetailUrl;
 	}
 
-	public int getMid() {
+	public long getMid() {
 		return mid;
 	}
 
-	public void setMid(int mid) {
+	public void setMid(long mid) {
 		this.mid = mid;
 	}
 
@@ -71,14 +93,6 @@ public class Merchant {
 		this.logoUrl = logoUrl;
 	}
 
-	public int getTotalProductCount() {
-		return totalProductCount;
-	}
-
-	public void setTotalProductCount(int totalProductCount) {
-		this.totalProductCount = totalProductCount;
-	}
-
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -87,20 +101,59 @@ public class Merchant {
 		this.countryCode = countryCode;
 	}
 
-	public int getRating() {
-		return rating;
+	public long getRatingPeriod() {
+		return ratingPeriod;
 	}
 
-	public void setRating(int rating) {
-		this.rating = rating;
+	public void setRatingPeriod(long ratingPeriod) {
+		this.ratingPeriod = ratingPeriod;
 	}
 
-	public String getMerchantReview() {
-		return merchantReview;
+	public ArrayList<Dimension> getDimensionalAverages() {
+		return dimensionalAverages;
 	}
 
-	public void setMerchantReview(String merchantReview) {
-		this.merchantReview = merchantReview;
+	public void setDimensionalAverages(ArrayList<Dimension> dimensionalAverages) {
+		this.dimensionalAverages = dimensionalAverages;
+	}
+
+	public ArrayList<Percentage> getPeriodNinety() {
+		return periodNinety;
+	}
+
+	public void setPeriodNinety(ArrayList<Percentage> periodNinety) {
+		this.periodNinety = periodNinety;
+	}
+
+	public String getCertificationUrl() {
+		return certificationUrl;
+	}
+
+	public void setCertificationUrl(String certificationUrl) {
+		this.certificationUrl = certificationUrl;
+	}
+
+	public String getCertificationValue() {
+		return certificationValue;
+	}
+
+	public void setCertificationValue(String certificationValue) {
+		this.certificationValue = certificationValue;
+	}
+
+	public String getRatingUrl() {
+		return ratingUrl;
+	}
+
+	public void setRatingUrl(String ratingUrl) {
+		this.ratingUrl = ratingUrl;
 	}
 	
+	public String getRatingDetailUrl() {
+		return ratingDetailUrl;
+	}
+
+	public void setRatingDetailUrl(String ratingDetailUrl) {
+		this.ratingDetailUrl = ratingDetailUrl;
+	}
 }
