@@ -5,6 +5,7 @@ import com.cs130.connexity2.util.Globals;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,7 +55,7 @@ public class SearchResultJDBCTemplate {
 		// Convert List<String> to JSON String
 		Gson gson = new Gson();
 		String imageInString = gson.toJson(sr.getImages());
-		
+		System.out.println(imageInString);
 		try{
 			jt.update(sql, sr.getMerchantId(), sr.getId(), sr.getTitle(), sr.getBrandName(), sr.getDescription(), sr.getUrl(),
 					imageInString, sr.getPrice(), sr.getPriceStr(), sr.getMerchantName(), sr.getMerchantLogoUrl());
@@ -78,15 +79,17 @@ public class SearchResultJDBCTemplate {
 	      return searchResults;
 	}
 	
-	public HashMap<String, Integer> selectMerchantNames() {
+	public List<Map<String, Object>> selectMerchantNames() {
 		String sql = "select merchantName, count(*) as total from SearchResults group by merchantName";
+		List<Map<String, Object>> list = new ArrayList<>();
 		try{
-			jt.execute(sql);
+			list = jt.queryForList(sql);
 	    }catch(Exception e){
 	    	System.out.println(e.getMessage());
 	    }finally{
 	    	System.out.println("DONE selecting merchant names!");
 	    }
+		return list;
 	}
 	
 	public void deleteAllRows() {

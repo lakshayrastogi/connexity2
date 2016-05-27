@@ -221,7 +221,25 @@
 				        		</div>
 				        		<div class="checkbox">
 					        		<label><input id="Seller" type="checkbox" name="refine" value="seller" {{#seller}} checked {{/seller}}>Seller</label>
+					        		{{#seller}}
+					        		{{#merchantNames}}
+					        		<label style="display: block; margin-left:20px;"><input id={{merchantName}} type="checkbox" name="refine" value="mName">{{merchantName}} ({{total}})</label>
+									{{/merchantNames}}
+									{{/seller}}
 				        		</div>
+				        		<script>
+				        			if ("{{seller}}" == "true") {
+					        			var arr = "{{merchantNameIds}}";
+					        			arr = JSON.parse(arr.replace(/&quot;/g,'"'));
+					        			console.log(arr);
+					        			for (var i = 0; i < arr.length; i++) {
+					        				var id = ("#" + arr[i]).replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&");;
+					        				$(id).prop('checked', true);
+					        			    console.log(id);
+					        			}
+				        			}
+				        			
+				        		</script>
 				        		<div class="checkbox">
 					        		<label><input id="Rating" type="checkbox" name="refine" value="rating" {{#rating}} checked {{/rating}}>Rating</label>
 					        	</div>
@@ -231,21 +249,21 @@
 					        	<div class="checkbox">
 					        		<label><input id="PriceHL" type="checkbox" name="refine" value="priceHL" {{#priceHL}} checked {{/priceHL}}>Price (High to Low)</label>
 					        	</div>
-					        	
+					      
 					        	<!-- Handle redirection upon checkbox check/uncheck -->
 					        	<script type="text/javascript">
 					        		$(document).ready(function(){
+					        			
 					        			$('input[type="checkbox"]').click(function(){
 					        	            if($(this).prop("checked") == true){
-					        	            	$('input[type="checkbox"]').not(this).prop('checked', false);
-					        	            	window.location.replace("http://localhost:8080/searchResults?" + getNewUrl($(this).val(), true)); 
+					        	            	window.location.replace("http://localhost:8080/searchResults?" + getNewUrl($(this).val(), true, $(this).attr("id"))); 
 					        	            }
 					        	            else if($(this).prop("checked") == false){
-					        	            	window.location.replace("http://localhost:8080/searchResults?" + getNewUrl($(this).val(), false));
+					        	            	window.location.replace("http://localhost:8080/searchResults?" + getNewUrl($(this).val(), false, $(this).attr("id")));
 					        	            }
 					        	        });
 					        			
-					        			var getNewUrl = function getNewUrl(param, isChecked) {
+					        			var getNewUrl = function getNewUrl(param, isChecked, id) {
 					        			    var url = decodeURIComponent(window.location.search.substring(1)),
 					        			        urlVariables = url.split('&'),
 					        			        parameterName,
@@ -253,36 +271,52 @@
 					        			        i,
 					        			        parameterFound = false;
 
-					        			    for (i = 0; i < urlVariables.length; i++) {
-					        			        parameterName = urlVariables[i].split('=');
-
-					        			        if (parameterName[0] === param) {
-					        			        	parameterFound = true;
-					        			        	if (isChecked == true)
+					        			    if (param == "seller" && !isChecked) {
+					        			    	urlVariables = jQuery.grep(urlVariables, function (value) {
+					        			    		return value.indexOf("mName=") != 0;
+					        			    	});
+					        			    }
+					        			    if (param === "mName") {
+					        			    	if (!isChecked) {
+						        			    	var removeItem = "mName=" + id;
+						        			    	urlVariables = jQuery.grep(urlVariables, function (value) {
+						        			    		return value != removeItem;
+						        			    	});
+					        			    	} else {
+					        			    		urlVariables.push("mName="+id);
+					        			    	}
+					        			    } else {
+						        			    for (i = 0; i < urlVariables.length; i++) {
+						        			        parameterName = urlVariables[i].split('=');
+						        			        
+						        			        
+						        			        if (parameterName[0] === param) {
+						        			        	parameterFound = true;
+							        			        if (isChecked == true)
+							        			    		parameterName[1] = true;
+							        			        else if (isChecked == false)
+							        			        	parameterName[1] = false;
+							        			        else
+							        			        	parameterName[1] = false;
+						        			        }
+						        			        //This allows for only one checkbox to be checked at a time
+						        			        else if ((param == "priceLH" && isChecked && parameterName[0] == "priceHL") || (param == "priceHL" && isChecked && parameterName[0] == "priceLH")) {
+						        			        	parameterName[1] = false;
+						        			        }
+						        			        joinParam = parameterName.join("=");
+						        			        urlVariables[i] = joinParam;
+						        			    }
+						        			    if (!parameterFound) {
+						        			    	parameterName[0] = param;
+						        			    	if (isChecked == true)
 					        			        		parameterName[1] = true;
 					        			        	else if (isChecked == false)
 					        			        		parameterName[1] = false;
 					        			        	else
 					        			        		parameterName[1] = false;
-					        			        }
-					        			        //This allows for only one checkbox to be checked at a time
-					        			        else if (parameterName[0] !== "keyword")
-					        			        {
-					        			        	parameterName[1] = false;	
-					        			        }
-					        			        joinParam = parameterName.join("=");
-					        			        urlVariables[i] = joinParam;
-					        			    }
-					        			    if (!parameterFound) {
-					        			    	parameterName[0] = param;
-					        			    	if (isChecked == true)
-				        			        		parameterName[1] = true;
-				        			        	else if (isChecked == false)
-				        			        		parameterName[1] = false;
-				        			        	else
-				        			        		parameterName[1] = false;
-					        			    	joinParam = parameterName.join("=");
-					        			        urlVariables[i] = joinParam; 
+						        			    	joinParam = parameterName.join("=");
+						        			        urlVariables[i] = joinParam; 
+						        			    }
 					        			    }
 					        			    return (urlVariables.join("&"));
 					        			};
@@ -380,8 +414,6 @@
 					document.write("{{#tweetHtmlSnippets}}");
 						i++;
 					document.write("{{/tweetHtmlSnippets}}");
-					console.log("Number of Tweets: " + i);
-					console.log("Element: " + document.getElementById("sidebar-nav"));
 					if(i == 0)
 					{
 						var tweets = document.getElementById("tweets");

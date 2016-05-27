@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.Map;
 
 import com.cs130.connexity2.twitter.TwitterSearchClient;
 import com.cs130.connexity2.util.Globals;
@@ -22,6 +23,10 @@ import com.cs130.connexity2.objects.Query;
 import com.cs130.connexity2.objects.SearchResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+
+import scala.util.parsing.json.JSON;
+
 import com.cs130.connexity2.objects.SearchResultJDBCTemplate;
 
 @Controller
@@ -38,6 +43,10 @@ public class SearchController {
     	return "main";
     } 
     
+    public boolean validKeyword(String keyword) {
+    	return (keyword.trim().length() > 0);
+    }
+    
     @RequestMapping(value="/searchResults",method=RequestMethod.GET)
     public String searchResults(@RequestParam(value="keyword",required=true) String keyword, 
     							@RequestParam(value="name", required=false, defaultValue="false") boolean name,
@@ -45,9 +54,9 @@ public class SearchController {
     							@RequestParam(value="rating", required=false, defaultValue="false") boolean rating,
     							@RequestParam(value="priceLH", required=false, defaultValue="false") boolean priceLH,
     							@RequestParam(value="priceHL", required=false, defaultValue="false") boolean priceHL,
+    							@RequestParam(value="mName", required=false, defaultValue = "") String [] mName,
     							Model model){
-    	System.out.println(name);
-    	if (keyword.isEmpty()) {
+    	if (!validKeyword(keyword)) {
     		return "redirect:/main";
     	}
     	model.addAttribute("keyword", keyword);
@@ -99,7 +108,7 @@ public class SearchController {
 			}
             System.out.println("twitterSearchTask finished");
         }
-        
+        /*
 		SearchResultJDBCTemplate searchJT = new SearchResultJDBCTemplate();
 		if (!searchResults.isEmpty()) {
 			searchJT.deleteAllRows();
@@ -107,18 +116,75 @@ public class SearchController {
 				searchJT.insertRecord(searchResult);
 			}
 		}
+		*/
 		
-		String whereClause = "where 1 ";
-		String columns = "*";
-		if (priceLH) {
-			whereClause += "order by price asc ";
-		} else if (priceHL) {
-			whereClause += "order by price desc";
-		}
-		List<SearchResult> sr = searchJT.selectSearchResults(columns, whereClause);
+        final boolean refinedResults = (name || seller || rating || priceLH || priceHL);
+        FutureTask<List<SearchResult>> sqlTask = new FutureTask<List<SearchResult>>(new Callable<List<SearchResult>>() {
+			@Override
+			public List<SearchResult> call() throws Exception {
+				SearchResultJDBCTemplate searchJT = new SearchResultJDBCTemplate();
+				List<SearchResult> searchResults = catalogSearchTask.get();
+				String whereClause = "where 1 ";
+				String columns = "* ";
+				if (seller) {
+					// Revert merchant names to have spaces instead of hyphens
+			    	if (mName != null) {
+			    		if (mName.length > 0) {
+			    			whereClause += "and (merchantName in ( ";
+			    		}
+			    	for (int i = 0; i < mName.length; i++) {
+						String merchant = mName[i].replace("-", " ");
+						System.out.println(mName[i]);
+						if (i == mName.length-1) {
+							whereClause += "\"" + merchant + "\")) ";
+							break;
+						}
+						whereClause += "\"" + merchant + "\", ";
+					}}
+				}
+				if (priceLH) {
+					whereClause += "order by price asc ";
+				} else if (priceHL) {
+					whereClause += "order by price desc";
+				}
+				//refinedResults=false implies new keyword search --> replace data in sql database
+				if (!searchResults.isEmpty() && !refinedResults) {
+					searchJT.deleteAllRows();
+					for (SearchResult searchResult : searchResults) {
+						searchJT.insertRecord(searchResult);
+					}
+				}
+				
+				List<Map<String, Object>> list = searchJT.selectMerchantNames();
+				for (Map<String, Object> map : list) {
+					map.replace("merchantName", ((String)map.get("merchantName")).replace(" ", "-"));
+				}
+				model.addAttribute("merchantNames", list);
+				return searchJT.selectSearchResults(columns, whereClause);
+			}
+		});
+        executor = Executors.newFixedThreadPool(1);
+        executor.execute(sqlTask);
+        List<SearchResult> sr = null;
+        //if refinement specified, wait on sqlTask to complete and
+        //sort results using sql data
+        if (refinedResults) {
+        	try {
+    			sr = sqlTask.get();
+    		} catch (InterruptedException | ExecutionException e) {
+    			e.printStackTrace();
+    		}
+        	//TODO: refine based on refinement category
+        	//...
+        	model.addAttribute("searchResults", sr);
+        }
+        else {
+        	model.addAttribute("searchResults", searchResults);
+        }
 		
-		model.addAttribute("searchResults", sr);
-		//model.addAttribute("searchResults", searchResults);
+        Gson gson = new Gson();
+		String mNameJson = gson.toJson(mName);
+		model.addAttribute("merchantNameIds", mNameJson);
 		model.addAttribute("name", name);
 		model.addAttribute("seller", seller);
 		model.addAttribute("rating", rating);
@@ -126,20 +192,20 @@ public class SearchController {
 		model.addAttribute("priceHL", priceHL);
 		
 		// test output
-		for (int i = 0; i < searchResults.size(); i++) {
-			System.out.println("Offer " + (i+1) + '\n' + "---------------------------");
-			SearchResult searchRes = searchResults.get(i);
-			String res = 
-					"Title: " + searchRes.getTitle() + '\n' +
-					"Brand: " + searchRes.getBrandName() + '\n' +
-					"Description: " + searchRes.getDescription() + '\n' +
-					"Price: $" + searchRes.getPrice() + '\n' +
-					"Relevancy: " + searchRes.getRelevancy() + '\n' +
-					"merchantId: " + searchRes.getMerchantId() + '\n' +
-					"categoryId: " + searchRes.getCategoryId() + '\n' +
-					"id: " + searchRes.getId() + '\n';
-			System.out.println(res);
-		}
+//		for (int i = 0; i < searchResults.size(); i++) {
+//			System.out.println("Offer " + (i+1) + '\n' + "---------------------------");
+//			SearchResult searchRes = searchResults.get(i);
+//			String res = 
+//					"Title: " + searchRes.getTitle() + '\n' +
+//					"Brand: " + searchRes.getBrandName() + '\n' +
+//					"Description: " + searchRes.getDescription() + '\n' +
+//					"Price: $" + searchRes.getPrice() + '\n' +
+//					"Relevancy: " + searchRes.getRelevancy() + '\n' +
+//					"merchantId: " + searchRes.getMerchantId() + '\n' +
+//					"categoryId: " + searchRes.getCategoryId() + '\n' +
+//					"id: " + searchRes.getId() + '\n';
+//			System.out.println(res);
+//		}
 		
 		//Twitter
 		model.addAttribute("tweetHtmlSnippets", tweetHtmlSnippets);
@@ -149,7 +215,7 @@ public class SearchController {
 				System.out.println(tweetHtmlSnippets.get(i));
 			}
 		}
-    	return "searchResults";
+		return "searchResults";
     	
     }
 }
