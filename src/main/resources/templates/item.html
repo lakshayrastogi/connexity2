@@ -11,6 +11,7 @@
   <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js'></script>
   <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+  <script src="http://brm.io/js/libs/matchHeight/jquery.matchHeight-min.js"></script>
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <title>Corradr</title>
   <style>
@@ -52,6 +53,7 @@
 		.content-wrapper
 		{
 			color: #373737;
+			margin-bottom: 30px;
 		}
 		.seller-wrapper
 		{
@@ -100,7 +102,68 @@
 		{
 			pointer-events: none;
 		}
+		@media (max-width: 768px) 
+		{
+		    #tweets
+		    {
+		    	display: none;
+		    }
+		}			
+		#list-container
+		{
+			overflow:hidden; 
+			float:left;    
+		}	
+		.list
+		{
+		    background:grey;
+		    min-width:100%;
+		    float:left;
+		}
+		/* CSS used here will be applied after bootstrap.css */
+		.carousel {
+			width:100%;
+			height: auto;
+		    margin-top: 20px;
+		    overflow: hidden;
+		}
+		.item .thumb {
+			width: 25%;
+			cursor: pointer;
+			float: left;
+		}
+		.item .thumb img {
+			width: 100%;
+			margin: 2px;
+		}
+		.item img {
+			width: 100%;	
+		}
   </style>
+  <script>
+	  (function() {
+	      $(function() {
+	          $('.thumbnailAndCaption').matchHeight({
+	              byRow: true,
+	              property: 'height',
+	              target: null,
+	              remove: false
+	          });
+	      });
+	  })();
+  </script>
+  <script>
+	    function getQueryVariable(variable)
+	    {
+	           var query = window.location.search.substring(1);
+	           var vars = query.split("&");
+	           for (var i=0;i<vars.length;i++) {
+	                   var pair = vars[i].split("=");
+	                   if(pair[0] == variable){return pair[1];}
+	           }
+	           return(false);
+	    }
+    </script>
 </head>
 
 <body>
@@ -167,8 +230,17 @@
 							</a>
 						</p>
 						<p style='font-weight:bold; font-size: 16px;'>
-							${{price}}
+							<span id="originalPrice">${{originalPrice}}</span> <span id="discountedPrice" style="color: red; visibility: hidden;'">${{price}}</span>
 						</p>
+						<script>
+							var originalPrice = document.getElementById("originalPrice");
+							var discountedPrice = document.getElementById("discountedPrice");
+							if (originalPrice.innerHTML != discountedPrice.innerHTML)
+								{
+									originalPrice.style.textDecoration = "line-through";
+									discountedPrice.style.visibility = "visible";
+								}
+						</script>
 						<a href='{{url}}' style='color:#373737;'>
 							<button class='btn btn-default' type='submit'>Buy Now!</button>
 						</a>
@@ -180,6 +252,57 @@
 					</div>
 			</div>
 			{{/offerResult}}
+			<div class="col-md-12" id="carouselAndTitle" style="color: #373737; border-top-style: solid; border-top-color: #c0b283; border-top-width: 1px; margin-top: 30px;">
+				<div class="title">
+					<h3>Related Items</h3>
+				</div>
+		        <div id="thumbcarousel" class="carousel slide" data-interval="false" style="margin-bottom: 50px;">
+		            <div class="carousel-inner">
+		            	<script>
+			            	var text = "";
+		           			var i = 0;
+		              		document.write("{{#categorySearchResults}}");
+		              			if(i == 0)
+		              			{
+		              				text += ' <div class="item active">\n';
+		              			}
+		              			else if(i%4 == 0)
+		              			{
+		              				text += '</div>\n';
+		              				text += ' <div class="item">\n';
+		              			}
+		              			text += '<div data-target="#carousel" data-slide-to="' + i + '" class="thumb">\n';
+		              				text += '<div class="thumbnailAndCaption">\n'
+				              			text += '<div class="thumbnail" style="margin: none; padding: none;">\n';
+				              				var keyword = "keyword";
+				              				var key = getQueryVariable(keyword);
+				              				//console.log("Keyword: " + key);
+			       							//Link/Card Body
+			       							text += '<a href="http://localhost:8080/item?productId={{id}}&keyword=' + key + '">\n';
+			       								text += '<img src="{{images.3}}" alt="Card image cap" style="width: 100%">\n';
+			   								text += '</a>\n';
+										text += '</div>\n';
+										text += '<div class="caption" style="background-color: #DCD0C0; color: white; margin:none; padding: none;">\n';
+											text += '<a href="http://localhost:8080/item?productId={{id}}&keyword=' + key + '" style="color: white; display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;"> {{title}} </a>\n';
+											text += '<p style="text-align:center;"> {{priceStr}} </p>\n';
+											text += '<p style="text-align:center;"> {{merchantName}} </p>\n';
+										text += '</div>\n';
+									text += '</div>\n';
+								text += '</div>\n';
+		              			i++;
+		              		document.write("{{/categorySearchResults}}");
+		              		text += '</div>\n';
+		              		document.write(text);
+		            	</script>
+		            </div><!-- /carousel-inner -->
+		            <a class="left carousel-control" href="#thumbcarousel" role="button" data-slide="prev">
+		                <span class="glyphicon glyphicon-chevron-left"></span>
+		            </a>
+		            <a class="right carousel-control" href="#thumbcarousel" role="button" data-slide="next">
+		                <span class="glyphicon glyphicon-chevron-right"></span>
+		            </a>
+		        </div> <!-- /thumbcarousel -->
+			</div>
 		</div>
 		<div class='col-xs-0 col-sm-3 col-md-3 col-lg-3' id='tweets'>
 			<div id='sidebar-nav'>
@@ -213,6 +336,7 @@
 			}
 		</script>
     </div>
+    
   </div>
 </body>
 
