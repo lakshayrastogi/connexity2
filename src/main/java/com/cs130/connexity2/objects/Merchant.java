@@ -1,32 +1,31 @@
 package com.cs130.connexity2.objects;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
 public class Merchant {
 
-	private long mid;
+	private long merchantId;
 	private String name;
 	private String url, merchantUrl, logoUrl;
-	private String countryCode;
 	
 	//Merchant Rating Info
 	private long ratingPeriod;
-	private ArrayList<Dimension> dimensionalAverages;
-	private ArrayList<Percentage> periodNinety;
+	private List<Dimension> dimensionalAverages;
+	private List<Percentage> periodNinety;
 	private String certificationUrl;
 	private String certificationValue;
 	private String ratingUrl;
 	private String ratingDetailUrl;
 	
 	public Merchant() {
-		this.mid = -1;
+		this.merchantId = -1;
 		this.name = "";
 		this.url = "";
 		this.merchantUrl = "";
 		this.logoUrl = "";
-		this.countryCode = "";
 		this.ratingPeriod = -1;
 		this.certificationUrl = "";
 		this.certificationValue = "";
@@ -35,15 +34,14 @@ public class Merchant {
 	}
 
 	public Merchant(long mid, String name, String url, String merchantUrl, String logoUrl,
-			String countryCode, long ratingPeriod, ArrayList<Dimension> dimensionalAverages,
-			ArrayList<Percentage> periodNinety, String certificationUrl, String certificationValue, String ratingUrl,
+			long ratingPeriod, List<Dimension> dimensionalAverages,
+			List<Percentage> periodNinety, String certificationUrl, String certificationValue, String ratingUrl,
 			String ratingDetailUrl) {
-		this.mid = mid;
+		this.merchantId = mid;
 		this.name = name;
 		this.url = url;
 		this.merchantUrl = merchantUrl;
 		this.logoUrl = logoUrl;
-		this.countryCode = countryCode;
 		this.ratingPeriod = ratingPeriod;
 		this.dimensionalAverages = dimensionalAverages;
 		this.periodNinety = periodNinety;
@@ -53,12 +51,12 @@ public class Merchant {
 		this.ratingDetailUrl = ratingDetailUrl;
 	}
 
-	public long getMid() {
-		return mid;
+	public long getMerchantId() {
+		return merchantId;
 	}
 
-	public void setMid(long mid) {
-		this.mid = mid;
+	public void setMerchantId(long merchantId) {
+		this.merchantId = merchantId;
 	}
 
 	public String getName() {
@@ -93,14 +91,6 @@ public class Merchant {
 		this.logoUrl = logoUrl;
 	}
 
-	public String getCountryCode() {
-		return countryCode;
-	}
-
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
-
 	public long getRatingPeriod() {
 		return ratingPeriod;
 	}
@@ -109,19 +99,19 @@ public class Merchant {
 		this.ratingPeriod = ratingPeriod;
 	}
 
-	public ArrayList<Dimension> getDimensionalAverages() {
+	public List<Dimension> getDimensionalAverages() {
 		return dimensionalAverages;
 	}
 
-	public void setDimensionalAverages(ArrayList<Dimension> dimensionalAverages) {
+	public void setDimensionalAverages(List<Dimension> dimensionalAverages) {
 		this.dimensionalAverages = dimensionalAverages;
 	}
 
-	public ArrayList<Percentage> getPeriodNinety() {
+	public List<Percentage> getPeriodNinety() {
 		return periodNinety;
 	}
 
-	public void setPeriodNinety(ArrayList<Percentage> periodNinety) {
+	public void setPeriodNinety(List<Percentage> periodNinety) {
 		this.periodNinety = periodNinety;
 	}
 

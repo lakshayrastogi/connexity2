@@ -40,7 +40,7 @@ public class MerchantController {
     	newQuery.setQueryType(Globals.SearchType.MERCHANT_INFO);
     	newQuery.setMerchantId(merchantId);
     	
-    	//Merchant merchant = searchClient.getMerchantInfo(newQuery);
+    	Merchant merchant = searchClient.getMerchantInfo(newQuery);
     	
 		Offer offerResult = searchClient.getItemInfo(newQuery);
 		
