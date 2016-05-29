@@ -35,45 +35,24 @@ public class MerchantController {
     		return "redirect:/main";
     	}
 		CatalogSearchClient searchClient = new CatalogSearchClient();
-		
-		MerchantQuery newQuery = new MerchantQuery();
-    	newQuery.setQueryType(Globals.SearchType.MERCHANT_INFO);
-    	newQuery.setMerchantId(merchantId);
-    	
-    	Merchant merchant = searchClient.getMerchantInfo(newQuery);
-    	
-		Offer offerResult = searchClient.getItemInfo(newQuery);
-		
-		model.addAttribute("offerResult", offerResult);
-		//test output
-		System.out.println("Offer 1 \n ---------------------------");
-		String res = 
-				"Title: " + offerResult.getTitle() + '\n' +
-				"Brand: " + offerResult.getBrandName() + '\n' +
-				"Description: " + offerResult.getDescription() + '\n' +
-				"Price: $" + offerResult.getPrice() + '\n' +
-				"Relevancy: " + offerResult.getRelevancy() + '\n' +
-				"merchantId: " + offerResult.getMerchantId() + '\n' +
-				"categoryId: " + offerResult.getCategoryId() + '\n' +
-				"id: " + offerResult.getId() + '\n';
-		System.out.println(res);
+
 		//Category query for related items
-		FutureTask<List<SearchResult>> catalogSearchTask = new FutureTask<List<SearchResult>>(new Callable<List<SearchResult>>() {
+		FutureTask<Merchant> catalogSearchTask = new FutureTask<Merchant>(new Callable<Merchant>() {
 			@Override
-			public List<SearchResult> call() throws Exception {
-				ProductQuery catQuery = new ProductQuery();
-				catQuery.setQueryType(Globals.SearchType.PRODUCT);
-				catQuery.setCategoryId(offerResult.getCategoryId());
-				catQuery.setResults(Globals.NUM_RELATED_OFFERS);
-				return searchClient.getSearchResults(catQuery);
+			public Merchant call() throws Exception {
+				MerchantQuery newQuery = new MerchantQuery();
+		    	newQuery.setQueryType(Globals.SearchType.MERCHANT_INFO);
+		    	newQuery.setMerchantId(merchantId);
+		    	return searchClient.getMerchantInfo(newQuery);
 			}
 		});
+		
 		//Twitter search query
 		FutureTask<List<String>> twitterSearchTask = new FutureTask<List<String>>(new Callable<List<String>>() {
 			@Override
 			public List<String> call() throws Exception {
-				TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.ITEM, 
-																				  offerResult.getMerchantName());
+				TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.SEARCH_RESULTS, 
+																				  null);
 				return twitterSearchClient.getHtmlSnippets(merchantName);
 			}
 		});
@@ -81,7 +60,7 @@ public class MerchantController {
         executor.execute(catalogSearchTask);
         executor.execute(twitterSearchTask);
         
-        List<SearchResult> categorySearchResults = null;
+        Merchant merchant = null;
         List<String> tweetHtmlSnippets = null;
         
         while (true) {
@@ -92,11 +71,12 @@ public class MerchantController {
                 break;
             }
             try {
-            	categorySearchResults = catalogSearchTask.get();
+            	merchant = catalogSearchTask.get();
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			}
             System.out.println("catalogSearchTask finished");
+            
             try {
 				tweetHtmlSnippets = twitterSearchTask.get();
 			} catch (InterruptedException | ExecutionException e) {
@@ -105,23 +85,17 @@ public class MerchantController {
             System.out.println("twitterSearchTask finished");
         }
         
-  		model.addAttribute("categorySearchResults", categorySearchResults);
+  		model.addAttribute("merchant", merchant);
   		//test output
   		System.out.println("Related Offers ------------------------------------------");
-  		for (int i = 0; i < categorySearchResults.size(); i++) {
-  			System.out.println("Offer " + (i+1) + '\n' + "---------------------------");
-  			SearchResult searchRes = categorySearchResults.get(i);
-  			String catRes = 
-  					"Title: " + searchRes.getTitle() + '\n' +
-  					"Brand: " + searchRes.getBrandName() + '\n' +
-  					"Description: " + searchRes.getDescription() + '\n' +
-  					"Price: $" + searchRes.getPrice() + '\n' +
-  					"Relevancy: " + searchRes.getRelevancy() + '\n' +
-  					"merchantId: " + searchRes.getMerchantId() + '\n' +
-  					"categoryId: " + searchRes.getCategoryId() + '\n' +
-  					"id: " + searchRes.getId() + '\n';
-  			System.out.println(catRes);
-  		}
+  		System.out.println("Offer 1 \n ---------------------------");
+		String res = 
+				"Name: " + merchant.getName() + '\n' +
+				"Url: " + merchant.getUrl() + '\n' +
+				"Merchant Url: " + merchant.getMerchantUrl() + '\n' +
+				"Merchant Id: " + merchant.getMerchantId();
+		System.out.println(res);
+		
 		//Twitter
   		model.addAttribute("tweetHtmlSnippets", tweetHtmlSnippets);
 		//test output
@@ -132,6 +106,6 @@ public class MerchantController {
 			}
 		}
 		
-		return "item";
+		return "merchant";
 	}
 }
