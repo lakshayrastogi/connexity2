@@ -14,6 +14,7 @@ public class Merchant {
 	//Merchant Rating Info
 	private long ratingPeriod;
 	private List<Dimension> dimensionalAverages;
+	private Dimension overallSatisfaction, customerSupport, likelihoodToBuyAgain, overallRating;
 	private List<Percentage> periodNinety;
 	private String certificationUrl;
 	private boolean certificationValue;
@@ -34,7 +35,8 @@ public class Merchant {
 	}
 
 	public Merchant(long mid, String name, String url, String merchantUrl, String logoUrl,
-			long ratingPeriod, List<Dimension> dimensionalAverages,
+			long ratingPeriod, List<Dimension> dimensionalAverages, Dimension overallSatisfaction, 
+			Dimension customerSupport, Dimension likelihoodToBuyAgain, Dimension overallRating,
 			List<Percentage> periodNinety, String certificationUrl, boolean certificationValue, String ratingUrl,
 			String ratingDetailUrl) {
 		this.merchantId = mid;
@@ -44,6 +46,9 @@ public class Merchant {
 		this.logoUrl = logoUrl;
 		this.ratingPeriod = ratingPeriod;
 		this.dimensionalAverages = dimensionalAverages;
+		this.overallSatisfaction = overallSatisfaction;
+		this.customerSupport = customerSupport;
+		this.likelihoodToBuyAgain = likelihoodToBuyAgain;
 		this.periodNinety = periodNinety;
 		this.certificationUrl = certificationUrl;
 		this.certificationValue = certificationValue;
@@ -102,11 +107,38 @@ public class Merchant {
 	public List<Dimension> getDimensionalAverages() {
 		return dimensionalAverages;
 	}
-
 	public void setDimensionalAverages(List<Dimension> dimensionalAverages) {
 		this.dimensionalAverages = dimensionalAverages;
 	}
-
+	
+	public Dimension getLikelihoodToBuyAgain() {
+		return likelihoodToBuyAgain;
+	}
+	public void setLikelihoodToBuyAgain(Dimension likelihoodToBuyAgain) {
+		this.likelihoodToBuyAgain = likelihoodToBuyAgain;
+	}
+	
+	public Dimension getCustomerSupport() {
+		return customerSupport;
+	}
+	public void setCustomerSupport(Dimension customerSupport) {
+		this.customerSupport = customerSupport;
+	}
+	
+	public Dimension getOverallSatisfaction() {
+		return overallSatisfaction;
+	}
+	public void setOverallSatisfaction(Dimension overallSatisfaction) {
+		this.overallSatisfaction = overallSatisfaction;
+	}
+	
+	public Dimension getOverallRating() {
+		return overallRating;
+	}
+	public void setOverallRating(Dimension overallRating) {
+		this.overallRating = overallRating;
+	}
+	
 	public List<Percentage> getPeriodNinety() {
 		return periodNinety;
 	}

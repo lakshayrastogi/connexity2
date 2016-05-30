@@ -389,10 +389,21 @@ public class CatalogSearchClient {
 				value = (double) ((JSONObject) jsonArr.get(i)).get("value");
 				Dimension newDimension = new Dimension(dimensionName, imageUrl, max, min, value);
 				dimensionalAverages.add(newDimension);
+				if (dimensionName == "ffCustomerSupport") {
+					merchant.setCustomerSupport(newDimension);
+				}
+				else if (dimensionName == "ffOverallSatisfaction") {
+					merchant.setOverallSatisfaction(newDimension);
+				}
+				else if (dimensionName == "ffLikelihoodToBuyAgain") {
+					merchant.setLikelihoodToBuyAgain(newDimension);
+				}
+				else if (dimensionName == "posOverallRating") {
+					merchant.setOverallRating(newDimension);
+				}
 			}
 			merchant.setDimensionalAverages(dimensionalAverages);
 		} catch (Exception e) {merchant.setDimensionalAverages(null); e.printStackTrace();}
-		
 		try {
 			List<Percentage> percentages = new ArrayList<>();
 			String percentType;
