@@ -12,7 +12,8 @@ public class Globals {
 	}
 	public static enum TwitterSearchType {
 		SEARCH_RESULTS,
-		ITEM
+		ITEM,
+		MERCHANT
 	}
 	//Shopzilla Catalog API
 	public static final String BASE_URL = "http://catalog.bizrate.com/services/catalog/v1/us/";

@@ -27,6 +27,9 @@ public class TwitterSearchClient {
 		else if (searchType == Globals.TwitterSearchType.ITEM) {
 			andWords = new String[] {merchantName};
 		}
+		else if (searchType == Globals.TwitterSearchType.MERCHANT) {
+			andWords = new String[] {"review"};
+		}
 	}
 	private SearchParameters formatSearchQuery(String keyword) {
 		StringBuilder query = new StringBuilder();

@@ -51,7 +51,7 @@ public class MerchantController {
 		FutureTask<List<String>> twitterSearchTask = new FutureTask<List<String>>(new Callable<List<String>>() {
 			@Override
 			public List<String> call() throws Exception {
-				TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.SEARCH_RESULTS, 
+				TwitterSearchClient twitterSearchClient = new TwitterSearchClient(Globals.TwitterSearchType.MERCHANT, 
 																				  null);
 				return twitterSearchClient.getHtmlSnippets(merchantName);
 			}
