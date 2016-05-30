@@ -290,12 +290,13 @@ public class CatalogSearchClient {
 	
 	private Merchant convertToMerchant(JSONObject jsonRes) {
 		Merchant merchant = new Merchant();
-		
+		JSONObject jMerchantInfo = (JSONObject) ((JSONObject) jsonRes.get("merchantInfo"));
+		JSONObject jRating = (JSONObject) ((JSONObject) jsonRes.get("merchantRating")).get("rating");
 		try {
-			merchant.setMerchantId((long) jsonRes.get("merchantId"));
+			merchant.setMerchantId((long) jsonRes.get("mid"));
 		} catch (Exception e) {merchant.setMerchantId(-1); e.printStackTrace();}
 		try {
-			String name = (String) jsonRes.get("name");
+			String name = (String) jMerchantInfo.get("name");
 			if (name != null) {
 				merchant.setName(name);
 			}
@@ -304,7 +305,7 @@ public class CatalogSearchClient {
 			}
 		} catch (Exception e) {merchant.setName(""); e.printStackTrace();}
 		try {
-			String url = (String) jsonRes.get("url");
+			String url = (String) jMerchantInfo.get("url");
 			if (url != null) {
 				merchant.setUrl(url);
 			}
@@ -313,7 +314,7 @@ public class CatalogSearchClient {
 			}
 		} catch (Exception e) {merchant.setUrl(""); e.printStackTrace();}
 		try {
-			String merchantUrl = (String) jsonRes.get("merchantUrl");
+			String merchantUrl = (String) jMerchantInfo.get("merchantUrl");
 			if (merchantUrl != null) {
 				merchant.setMerchantUrl(merchantUrl);
 			}
@@ -322,7 +323,7 @@ public class CatalogSearchClient {
 			}
 		} catch (Exception e) {merchant.setMerchantUrl(""); e.printStackTrace();}
 		try {
-			String logoUrl = (String) jsonRes.get("logoUrl");
+			String logoUrl = (String) jMerchantInfo.get("logoUrl");
 			if (logoUrl != null) {
 				merchant.setLogoUrl(logoUrl);
 			}
@@ -331,10 +332,11 @@ public class CatalogSearchClient {
 			}
 		} catch (Exception e) {merchant.setLogoUrl(""); e.printStackTrace();}
 		try {
-			merchant.setRatingPeriod((long) jsonRes.get("ratingPeriod"));
+			merchant.setRatingPeriod((long) jRating.get("ratingPeriod"));
 		} catch (Exception e) {merchant.setRatingPeriod(-1); e.printStackTrace();}		
 		try {
-			String certificationUrl = (String) ((JSONObject) jsonRes.get("Certification")).get("url");
+			
+			String certificationUrl = (String) ((JSONObject)((JSONObject) jRating.get("status")).get("certification")).get("url");
 			if (certificationUrl != null) {
 				merchant.setCertificationUrl(certificationUrl);
 			}
@@ -343,17 +345,10 @@ public class CatalogSearchClient {
 			}
 		} catch (Exception e) {merchant.setCertificationUrl(""); e.printStackTrace();}
 		try {
-			String certificationValue = (String) jsonRes.get("Certification");
-			//String certificationValue = (String) ((JSONObject)jsonRes.get("Certification")).get("value");
-			if (certificationValue != null) {
-				merchant.setCertificationValue(certificationValue);
-			}
-			else {
-				merchant.setCertificationValue("");
-			}
-		} catch (Exception e) {merchant.setCertificationValue(""); e.printStackTrace();}
+			merchant.setCertificationValue((boolean) ((JSONObject)((JSONObject) jRating.get("status")).get("certification")).get("value"));
+		} catch (Exception e) {merchant.setCertificationValue(false); e.printStackTrace();}
 		try {
-			String ratingUrl = (String) ((JSONObject) jsonRes.get("MerchantRating")).get("url");
+			String ratingUrl = (String) jRating.get("url");
 			if (ratingUrl != null) {
 				merchant.setRatingUrl(ratingUrl);
 			}
@@ -362,7 +357,7 @@ public class CatalogSearchClient {
 			}
 		} catch (Exception e) {merchant.setRatingUrl(""); e.printStackTrace();}
 		try {
-			String ratingDetailUrl = (String) ((JSONObject) jsonRes.get("MerchantRating")).get("urlDetail");
+			String ratingDetailUrl = (String) jRating.get("urlDetail");
 			if (ratingDetailUrl != null) {
 				merchant.setRatingDetailUrl(ratingDetailUrl);
 			}
@@ -370,16 +365,6 @@ public class CatalogSearchClient {
 				merchant.setRatingDetailUrl("");
 			}
 		} catch (Exception e) {merchant.setRatingDetailUrl(""); e.printStackTrace();}
-		
-		try {
-			String ratingUrl = (String) jsonRes.get("ratingUrl");
-			if (ratingUrl != null) {
-				merchant.setRatingUrl(ratingUrl);
-			}
-			else {
-				merchant.setRatingUrl("");
-			}
-		} catch (Exception e) {merchant.setRatingUrl(""); e.printStackTrace();}
 		
 		
 		/*
@@ -393,7 +378,7 @@ public class CatalogSearchClient {
 			long max;
 			long min;
 			long value;
-			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonRes.get("DimensionalAverages")).get("Average");
+			JSONArray jsonArr = (JSONArray) ((JSONObject) jRating.get("dimensionalAverages")).get("average");
 			for (int i = 0; i < jsonArr.size(); i++) {
 				dimensionName = (String) ((JSONObject) jsonArr.get(i)).get("dimension");
 				if (!(dimensionName.equals("ffCustomerSupport") || dimensionName.equals("ffOverallSatisfaction") || dimensionName.equals("ffLikelihoodToBuyAgain") || dimensionName.equals("posOverallRating")))
@@ -411,13 +396,14 @@ public class CatalogSearchClient {
 		try {
 			List<Percentage> percentages = new ArrayList<>();
 			String percentType;
-			long percent;
-			JSONArray jsonArr2 = (JSONArray) ((JSONObject) jsonRes.get("Percentages")).get("PercentagePeriod");
+			double percent;
+			JSONArray jsonArr2 = (JSONArray) ((JSONObject) jsonRes.get("percentages")).get("percentagePeriod");
+			//90 day period is last element of list
 			JSONArray jsonArr = (JSONArray) jsonArr2.get(jsonArr2.size()-1);
 			for (int i = 0; i < jsonArr.size(); i++) {
 				//String percentType, long percent
-				percentType = (String) ((JSONObject) jsonArr.get(i)).get("PercentType");
-				percent = (long) ((JSONObject) jsonArr.get(i)).get("Percent");
+				percentType = (String) ((JSONObject) jsonArr.get(i)).get("percentType");
+				percent = (double) ((JSONObject) jsonArr.get(i)).get("percent");
 				Percentage newPercentage = new Percentage(percentType, percent);
 				percentages.add(newPercentage);
 			}
@@ -552,7 +538,7 @@ public class CatalogSearchClient {
 			//convert url to json object
 			JSONObject jsonObj = (JSONObject) jsonParser.parse(readUrl(newUrl));
 			//obtain json merchant info
-			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonObj.get("MerchantsResponse")).get("Merchant");
+			JSONArray jsonArr = (JSONArray) jsonObj.get("merchant");
 			JSONObject jsonRes = (JSONObject) jsonArr.get(0);
 			//Convert the Json to an offer object
 			currentMerchant = convertToMerchant(jsonRes);

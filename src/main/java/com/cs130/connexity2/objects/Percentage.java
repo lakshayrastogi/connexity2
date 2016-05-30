@@ -3,12 +3,12 @@ package com.cs130.connexity2.objects;
 public class Percentage {
 
 	private String percentType;
-	private long percent;
+	private double percent;
 	
 	public Percentage() {
 	}
 	
-	public Percentage(String percentType, long percent) {
+	public Percentage(String percentType, double percent) {
 		this.percentType = percentType;
 		this.percent = percent;
 	}
@@ -21,11 +21,11 @@ public class Percentage {
 		this.percentType = percentType;
 	}
 	
-	public long getPercent() {
+	public double getPercent() {
 		return percent;
 	}
 	
-	public void setPercent(long percent) {
+	public void setPercent(double percent) {
 		this.percent = percent;
 	}
 	

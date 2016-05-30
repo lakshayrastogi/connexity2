@@ -16,7 +16,7 @@ public class Merchant {
 	private List<Dimension> dimensionalAverages;
 	private List<Percentage> periodNinety;
 	private String certificationUrl;
-	private String certificationValue;
+	private boolean certificationValue;
 	private String ratingUrl;
 	private String ratingDetailUrl;
 	
@@ -28,14 +28,14 @@ public class Merchant {
 		this.logoUrl = "";
 		this.ratingPeriod = -1;
 		this.certificationUrl = "";
-		this.certificationValue = "";
+		this.certificationValue = false;
 		this.ratingUrl = "";
 		this.ratingDetailUrl = "";
 	}
 
 	public Merchant(long mid, String name, String url, String merchantUrl, String logoUrl,
 			long ratingPeriod, List<Dimension> dimensionalAverages,
-			List<Percentage> periodNinety, String certificationUrl, String certificationValue, String ratingUrl,
+			List<Percentage> periodNinety, String certificationUrl, boolean certificationValue, String ratingUrl,
 			String ratingDetailUrl) {
 		this.merchantId = mid;
 		this.name = name;
@@ -123,11 +123,11 @@ public class Merchant {
 		this.certificationUrl = certificationUrl;
 	}
 
-	public String getCertificationValue() {
+	public boolean getCertificationValue() {
 		return certificationValue;
 	}
 
-	public void setCertificationValue(String certificationValue) {
+	public void setCertificationValue(boolean certificationValue) {
 		this.certificationValue = certificationValue;
 	}
 
