@@ -166,7 +166,7 @@
    		<div id='mainContainerWrapper' class='col-xs-12 col-sm-9 col-md-9 col-lg-9'>
    			{{#merchant}}
    			<div class='content-wrapper'>
-   				<div class='col-md-5'>
+   				<div class='col-md-6'>
    					<div class='seller-wrapper'>
    						<div class='merchantHead'>
    							<img align='left' src='{{logoUrl}}' alt='Logo' style='padding-right: 12px;'>
@@ -176,11 +176,11 @@
 						</div>
 					</div>
 					<br>
-					<div id="ratings">
+					<div id="ratings" align="center">
 						{{#overallSatisfaction}}
 						<h4>Overall Satisfaction</h4>
 						<div class="progress">
-							<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="10" style="width: 70%">
+							<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="10" style="width: 90%">
 							{{value}}
 							</div>
 						</div>
@@ -188,7 +188,7 @@
 						{{#overallRating}}
 						<h4>Would Shop Here Again</h4>
 						<div class="progress">
-							<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="10" style="width: 70%">
+							<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="10" style="width: 100%">
 							{{value}}
 							</div>
 						</div>
@@ -196,7 +196,7 @@
 						{{#likelihoodToBuyAgain}}					
 						<h4>Likelihood To Recommend</h4>
 						<div class="progress">
-							<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="10" style="width: 70%">
+							<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="10" style="width: 100%">
 							{{value}}
 							</div>
 						</div>
@@ -204,15 +204,15 @@
 						{{#customerSupport}}					
 						<h4>Customer Support</h4>
 						<div class="progress">
-							<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="10" style="width: 70%">
+							<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="10" style="width: 100%">
 							{{value}}
 							</div>
 						</div>
 						{{/customerSupport}}
 					</div>
 				</div>
-					<div class='col-md-7'>
-						<table align="center" style="width: 70%; margin-top: 115px;">
+					<div class='col-md-6'>
+						<table align="center" style="width: 100%; margin-top: 115px; margin-right: 20px;">
 							<tr>
 								<th>Overall Rating</th>
 								<th>Percentage</th>
