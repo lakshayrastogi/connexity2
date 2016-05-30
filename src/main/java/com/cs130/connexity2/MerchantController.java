@@ -93,7 +93,8 @@ public class MerchantController {
 				"Name: " + merchant.getName() + '\n' +
 				"Url: " + merchant.getUrl() + '\n' +
 				"Merchant Url: " + merchant.getMerchantUrl() + '\n' +
-				"Merchant Id: " + merchant.getMerchantId();
+				"Merchant Id: " + merchant.getMerchantId() + '\n' +
+				"Overall Satisfaction: " + merchant.getOverallSatisfaction();
 		System.out.println(res);
 		
 		//Twitter
