@@ -25,6 +25,8 @@ public class SearchResultsMapper implements RowMapper<SearchResult> {
 	      
 	      searchResult.setPrice(rs.getDouble("price"));
 	      searchResult.setPriceStr(rs.getString("priceStr"));
+	      searchResult.setOriginalPrice(rs.getDouble("originalPrice"));
+	      searchResult.setOriginalPriceStr(rs.getString("originalPriceStr"));
 	      searchResult.setMerchantName(rs.getString("merchantName"));
 	      searchResult.setMerchantLogoUrl(rs.getString("merchantLogoUrl"));
 

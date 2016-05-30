@@ -36,6 +36,8 @@ public class SearchResultJDBCTemplate {
 				+ "images VARCHAR(10000),"
 				+ "price DOUBLE,"
 				+ "priceStr VARCHAR(100),"
+				+ "originalPrice DOUBLE,"
+				+ "originalPriceStr VARCHAR(100),"
 				+ "merchantName VARCHAR(100),"
 				+ "merchantLogoUrl VARCHAR(1000)"
 				+ ")";
@@ -49,8 +51,8 @@ public class SearchResultJDBCTemplate {
 	}
 	
 	public void insertRecord(SearchResult sr) {
-		String sql = "insert into SearchResults (merchantId, id, title, brandName, description, url, images, price, priceStr, merchantName, merchantLogoUrl) "
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into SearchResults (merchantId, id, title, brandName, description, url, images, price, priceStr, originalPrice, originalPriceStr, merchantName, merchantLogoUrl) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		// Convert List<String> to JSON String
 		Gson gson = new Gson();
@@ -58,7 +60,7 @@ public class SearchResultJDBCTemplate {
 		System.out.println(imageInString);
 		try{
 			jt.update(sql, sr.getMerchantId(), sr.getId(), sr.getTitle(), sr.getBrandName(), sr.getDescription(), sr.getUrl(),
-					imageInString, sr.getPrice(), sr.getPriceStr(), sr.getMerchantName(), sr.getMerchantLogoUrl());
+					imageInString, sr.getPrice(), sr.getPriceStr(), sr.getOriginalPrice(), sr.getOriginalPriceStr(), sr.getMerchantName(), sr.getMerchantLogoUrl());
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}finally{
