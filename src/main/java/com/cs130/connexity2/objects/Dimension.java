@@ -6,12 +6,12 @@ public class Dimension {
 	private String imageUrl;
 	private long max;
 	private long min;
-	private long value;
+	private double value;
 	
 	public Dimension() {
 	}
 
-	public Dimension(String name, String imageUrl, long max, long min, long value) {
+	public Dimension(String name, String imageUrl, long max, long min, double value) {
 		this.name = name;
 		this.imageUrl = imageUrl;
 		this.max = max;
@@ -51,11 +51,11 @@ public class Dimension {
 		this.min = min;
 	}
 
-	public long getValue() {
+	public double getValue() {
 		return value;
 	}
 
-	public void setValue(long value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 }

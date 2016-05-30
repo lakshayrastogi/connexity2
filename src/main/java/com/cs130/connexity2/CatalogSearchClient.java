@@ -377,7 +377,7 @@ public class CatalogSearchClient {
 			String imageUrl;
 			long max;
 			long min;
-			long value;
+			double value;
 			JSONArray jsonArr = (JSONArray) ((JSONObject) jRating.get("dimensionalAverages")).get("average");
 			for (int i = 0; i < jsonArr.size(); i++) {
 				dimensionName = (String) ((JSONObject) jsonArr.get(i)).get("dimension");
@@ -386,7 +386,7 @@ public class CatalogSearchClient {
 				imageUrl = (String) ((JSONObject) jsonArr.get(i)).get("image");
 				max = (long) ((JSONObject) jsonArr.get(i)).get("max");
 				min = (long) ((JSONObject) jsonArr.get(i)).get("min");
-				value = (long) ((JSONObject) jsonArr.get(i)).get("value");
+				value = (double) ((JSONObject) jsonArr.get(i)).get("value");
 				Dimension newDimension = new Dimension(dimensionName, imageUrl, max, min, value);
 				dimensionalAverages.add(newDimension);
 			}
