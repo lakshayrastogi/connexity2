@@ -381,24 +381,24 @@ public class CatalogSearchClient {
 			JSONArray jsonArr = (JSONArray) ((JSONObject) jRating.get("dimensionalAverages")).get("average");
 			for (int i = 0; i < jsonArr.size(); i++) {
 				dimensionName = (String) ((JSONObject) jsonArr.get(i)).get("dimension");
-				if (!(dimensionName.equals("ffCustomerSupport") || dimensionName.equals("ffOverallSatisfaction") || dimensionName.equals("ffLikelihoodToBuyAgain") || dimensionName.equals("posOverallRating")))
-					continue;
+				System.out.println("dimension: " + dimensionName);
 				imageUrl = (String) ((JSONObject) jsonArr.get(i)).get("image");
 				max = (long) ((JSONObject) jsonArr.get(i)).get("max");
 				min = (long) ((JSONObject) jsonArr.get(i)).get("min");
 				value = (double) ((JSONObject) jsonArr.get(i)).get("value");
 				Dimension newDimension = new Dimension(dimensionName, imageUrl, max, min, value);
 				dimensionalAverages.add(newDimension);
-				if (dimensionName == "ffCustomerSupport") {
+				if (dimensionName.contains("ffCustomerSupport")) {
 					merchant.setCustomerSupport(newDimension);
 				}
-				else if (dimensionName == "ffOverallSatisfaction") {
+				else if (dimensionName.contains("ffOverallSatisfaction")) {
+					System.out.println("setting overallsatisfaction dimension");
 					merchant.setOverallSatisfaction(newDimension);
 				}
-				else if (dimensionName == "ffLikelihoodToBuyAgain") {
+				else if (dimensionName.contains("ffLikelihoodToBuyAgain")) {
 					merchant.setLikelihoodToBuyAgain(newDimension);
 				}
-				else if (dimensionName == "posOverallRating") {
+				else if (dimensionName.contains("posOverallRating")) {
 					merchant.setOverallRating(newDimension);
 				}
 			}
@@ -408,13 +408,19 @@ public class CatalogSearchClient {
 			List<Percentage> percentages = new ArrayList<>();
 			String percentType;
 			double percent;
-			JSONArray jsonArr2 = (JSONArray) ((JSONObject) jsonRes.get("percentages")).get("percentagePeriod");
+			JSONArray jsonArr2 = (JSONArray) ((JSONObject) jRating.get("percentages")).get("percentagePeriod");
 			//90 day period is last element of list
-			JSONArray jsonArr = (JSONArray) jsonArr2.get(jsonArr2.size()-1);
+			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonArr2.get(jsonArr2.size()-1)).get("percentage");
 			for (int i = 0; i < jsonArr.size(); i++) {
 				//String percentType, long percent
 				percentType = (String) ((JSONObject) jsonArr.get(i)).get("percentType");
-				percent = (double) ((JSONObject) jsonArr.get(i)).get("percent");
+				Object jPercent = ((JSONObject) jsonArr.get(i)).get("percent");
+				if (jPercent instanceof Long) {
+					percent = ((Long) jPercent).doubleValue();
+				}
+				else {
+					percent = (double) jPercent;
+				}
 				Percentage newPercentage = new Percentage(percentType, percent);
 				percentages.add(newPercentage);
 			}
