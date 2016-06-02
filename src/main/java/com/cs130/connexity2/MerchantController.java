@@ -86,11 +86,17 @@ public class MerchantController {
         }
         
   		model.addAttribute("merchant", merchant);
+  		boolean hasRating = true;
+  		if (merchant.getDimensionalAverages() == null || merchant.getPeriodNinety() == null) {
+  			hasRating = false;
+  		}
+  		model.addAttribute("hasRating", hasRating);
   		//test output
   		System.out.println("Related Offers ------------------------------------------");
   		System.out.println("Offer 1 \n ---------------------------");
 		String res = 
 				"Name: " + merchant.getName() + '\n' +
+				"hasRating: " + hasRating + '\n' +
 				"Url: " + merchant.getUrl() + '\n' +
 				"Merchant Url: " + merchant.getMerchantUrl() + '\n' +
 				"Merchant Id: " + merchant.getMerchantId() + '\n' +
