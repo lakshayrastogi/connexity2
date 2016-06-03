@@ -22,7 +22,7 @@ public class TwitterSearchClient {
 		orWords = new String[]
 				{"buy", "bought", "purchase", "purchased", "shopping", "shop", "new", "best"};
 		if (searchType == Globals.TwitterSearchType.SEARCH_RESULTS) {
-			andWords = new String[] {"review"};
+			andWords = new String[] {"just bought", "-shipping", "-sale", "-sell", "-deals"};
 		}
 		else if (searchType == Globals.TwitterSearchType.ITEM) {
 			andWords = new String[] {merchantName};
