@@ -475,12 +475,15 @@ public class CatalogSearchClient {
 			//convert url to json object
 			JSONObject jsonObj = (JSONObject) jsonParser.parse(readUrl(newUrl));
 			//obtain json list of offers
+			long totalResults = (long) ((JSONObject) jsonObj.get("offers")).get("totalResults");
 			JSONArray jsonArr = (JSONArray) ((JSONObject) jsonObj.get("offers")).get("offer");
 			for (int i = 0; i < jsonArr.size(); i++) {
 				JSONObject jsonRes = (JSONObject) jsonArr.get(i);
 				/*SearchResult constructor parses JSONObject and 
 				 * sets member variables accordingly */
-				searchResults.add(convertToSearchResult(jsonRes));
+				SearchResult newResult = convertToSearchResult(jsonRes);
+				newResult.setTotalResults(totalResults);
+				searchResults.add(newResult);
 			}
 			return searchResults;
 		} catch (ParseException e) {

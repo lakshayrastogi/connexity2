@@ -25,6 +25,7 @@ public class SearchResult {
 	private String merchantLogoUrl;
 	private String condition;
 	private double relevancy;
+	private long totalResults;
 	
 	public SearchResult() {
 	}
@@ -53,6 +54,7 @@ public class SearchResult {
 		this.merchantLogoUrl = merchantLogoUrl;
 		this.condition = condition;
 		this.relevancy = relevancy;
+		this.totalResults = 250;
 	}
 
 	public long getMerchantId() {
@@ -221,5 +223,13 @@ public class SearchResult {
 
 	public void setRelevancy(double relevancy) {
 		this.relevancy = relevancy;
+	}
+	
+	public long getTotalResults() {
+		return totalResults;
+	}
+	
+	public void setTotalResults(long totalResults) {
+		this.totalResults = totalResults;
 	}
 }
