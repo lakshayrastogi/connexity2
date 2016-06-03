@@ -176,6 +176,7 @@
 						</div>
 					</div>
 					<br>
+					{{#hasRating}}
 					<div id="ratings" align="center">
 						{{#overallSatisfaction}}
 						<h4>Overall Satisfaction</h4>
@@ -224,7 +225,16 @@
 							</tr>
 							{{/periodNinety}}												
 						</table>
-					</div>	
+					</div>
+					{{/hasRating}}
+					{{^hasRating}}
+					</div>
+					<br><br><br>
+					<br><br><br>
+					<br><br><br>
+					<br><br><br>
+					<p align="center" style="font-size: 20px;"><i><b>No ratings to display</b></i></p>
+					{{/hasRating}}	
 			</div>
 			{{/merchant}}
 		</div>
