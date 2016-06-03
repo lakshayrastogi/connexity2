@@ -53,6 +53,7 @@ public class SearchController {
     							@RequestParam(value="priceLH", required=false, defaultValue="false") boolean priceLH,
     							@RequestParam(value="priceHL", required=false, defaultValue="false") boolean priceHL,
     							@RequestParam(value="mName", required=false, defaultValue = "") String [] mName,
+    							@RequestParam(value="page", required=false, defaultValue = "1") String page,
     							Model model){
     	if (!validKeyword(keyword)) {
     		return "redirect:/main";
@@ -69,6 +70,8 @@ public class SearchController {
 		    	newQuery.setQueryType(Globals.SearchType.PRODUCT);
 		    	newQuery.setKeyword(keyword);
 		    	newQuery.setResults(Globals.NUM_SEARCH_RESULTS);
+		    	int pageNum = Integer.parseInt(page);
+		    	newQuery.setStart(pageNum);
 				return searchClient.getSearchResults(newQuery);
 			}
 		});
