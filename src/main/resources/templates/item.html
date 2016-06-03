@@ -215,7 +215,7 @@
    					<div class='seller-wrapper'>
    						<div class='merchantHead'>
    							<img align='left' src='{{merchantLogoUrl}}' alt='Logo' style='padding-right: 12px;'>
-   								<a href='http://localhost:8080/merchant?merchantId={{merchantId}}&merchantName={{merchantName}}' style='color:#373737;'>
+   								<a href='merchant?merchantId={{merchantId}}&merchantName={{merchantName}}' style='color:#373737;'>
    									<h2>{{merchantName}}</h2>
 								</a>
 							</div>
@@ -255,6 +255,7 @@
 			{{/offerResult}}
 			<div class="col-md-12" id="carouselAndTitle" style="color: #373737; border-top-style: solid; border-top-color: #c0b283; border-top-width: 1px; margin-top: 30px;">
 				<div class="title">
+					
 					<h3>Related Items</h3>
 				</div>
 		        <div id="thumbcarousel" class="carousel slide" data-interval="false" style="margin-bottom: 50px;">
@@ -279,12 +280,12 @@
 				              				var key = getQueryVariable(keyword);
 				              				//console.log("Keyword: " + key);
 			       							//Link/Card Body
-			       							text += '<a href="http://localhost:8080/item?productId={{id}}&keyword=' + key + '">\n';
+			       							text += '<a href="item?productId={{id}}&keyword=' + key + '">\n';
 			       								text += '<img src="{{images.3}}" alt="Card image cap" style="width: 100%">\n';
 			   								text += '</a>\n';
 										text += '</div>\n';
 										text += '<div class="caption" style="background-color: #DCD0C0; color: white; margin:none; padding: none;">\n';
-											text += '<a href="http://localhost:8080/item?productId={{id}}&keyword=' + key + '" style="color: white; display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;"> {{title}} </a>\n';
+											text += '<a href="item?productId={{id}}&keyword=' + key + '" style="color: white; display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;"> {{title}} </a>\n';
 											text += '<p style="text-align:center;"> {{priceStr}} </p>\n';
 											text += '<p style="text-align:center;"> {{merchantName}} </p>\n';
 										text += '</div>\n';

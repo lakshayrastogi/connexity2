@@ -12,6 +12,7 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   	<script src="http://brm.io/js/libs/matchHeight/jquery.matchHeight-min.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>	
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Corradr</title>
 
@@ -128,6 +129,17 @@
 		    padding-right: 25px;
   		    padding-bottom: 50px;
 		    list-style: none;
+		}
+		.btn-group 
+		{
+		    margin: 0 auto; 
+		    text-align: center;
+		    width: inherit;
+		    display: inline-block;
+		}
+		.btn
+		{
+			background-color: white;
 		}
     </style>
     
@@ -247,10 +259,10 @@
 					        			
 					        			$('input[type="checkbox"]').click(function(){
 					        	            if($(this).prop("checked") == true){
-					        	            	window.location.replace("http://localhost:8080/searchResults?" + getNewUrl($(this).val(), true, $(this).attr("id"))); 
+					        	            	window.location.replace("searchResults?" + getNewUrl($(this).val(), true, $(this).attr("id"))); 
 					        	            }
 					        	            else if($(this).prop("checked") == false){
-					        	            	window.location.replace("http://localhost:8080/searchResults?" + getNewUrl($(this).val(), false, $(this).attr("id")));
+					        	            	window.location.replace("searchResults?" + getNewUrl($(this).val(), false, $(this).attr("id")));
 					        	            }
 					        	        });
 					        			
@@ -319,7 +331,7 @@
         				</div>
 	        		</div>
 		        </div>
-		        <div class="col-xs-12 col-sm-5 col-md-6 col-lg-7">
+		        <div class="col-xs-12 col-sm-5 col-md-6 col-lg-7" id="results">
 			       <form  id="searchBar" role="form" action="/searchResults" method="GET">
 		               <div class="form-group">
 		                 <input type="text" name="keyword" class="form-control">
@@ -327,34 +339,63 @@
 		               </div>
 		           </form>
 		           		{{#searchResults}}
-			       		<div class='col-xs-12 col-sm-6 col-md-4 col-lg-4'>
+			       		<div class='col-xs-12 col-sm-6 col-md-4 col-lg-4' id="displayItems">
 		           			<div class="thumbnailAndCaption">
 	       						<div class='thumbnail'>
 	       							<!-- Link/Card Body -->
-	       							<a href='http://localhost:8080/item?productId={{id}}&keyword={{keyword}}'>
+	       							<a href='item?productId={{id}}&keyword={{keyword}}'>
 	       								<img src='{{images.3}}' alt='Card image cap' style="width: 100%">
 	       							</a>
 	       						</div>
        							<div class='caption' style="background-color: #DCD0C0; color: white;">
-       								<a href='http://localhost:8080/item?productId={{id}}&keyword={{keyword}}' style='color: white; display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>
+       								<a href='item?productId={{id}}&keyword={{keyword}}' style='color: white; display:block; text-align:center; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical;'> {{title}} </a>
        								<p class="originalPrice" style='text-align:center; margin-top: 0em; margin-bottom: 0em;'>{{originalPriceStr}}</p>
        								<p class="discountedPrice" style='text-align:center; margin-top: 0em; margin-bottom: 0em; color: red; visibility:hidden;'>{{priceStr}}</p>
-       								<p style='text-align:center; margin-top: 0em; margin-bottom: 0em;'> <a href="http://localhost:8080/merchant?merchantId={{merchantId}}&merchantName={{merchantName}}">{{merchantName}}</a> </p>
+       								<p style='text-align:center; margin-top: 0em; margin-bottom: 0em;'> <a href="merchant?merchantId={{merchantId}}&merchantName={{merchantName}}" style="color: white;">{{merchantName}}</a> </p>
        							</div>
 	       					</div>
 	       				</div>
 	              		{{/searchResults}}
 	              		<script>
-       									var originalPrice = document.getElementsByClassName("originalPrice");
-       									var discountedPrice = document.getElementsByClassName("discountedPrice");
-       									for (var i = 0; i < originalPrice.length; i++)
-       									{
-	       									if (originalPrice[i].innerHTML != discountedPrice[i].innerHTML)
-	       									{
-	       										originalPrice[i].style.textDecoration = "line-through";
-	       										discountedPrice[i].style.visibility = "visible";
-	       									}
-       									}
+	              			var add = '<div class="pageButtonsWrapper text-center" style="margin-bottom: 20px;">\n'; 
+              				add += '<div id="pageButtons" class="btn-group" role="group">\n';
+	              			var numPages = "{{searchResults.1.totalResults}}"; 
+	              			numPages = numPages/24;
+	              			var i;
+	              			for(i = 0; i < numPages; i++)
+	              			{
+	              				var plusOneI = i + 1;
+	              				var page = i*24;
+	              				var currPage = getQueryVariable('page');
+	              				if(currPage == null)
+	              				{
+	              					currPage = 0;	
+	              				}
+	              				console.log(currPage);
+	              				if(currPage != null && currPage == page)
+	              				{
+	              					add += '<a href="searchResults?keyword={{keyword}}&page=' + page + '" class=" btn btn-default active">' + plusOneI + '</a>\n';
+	              				}
+	              				else
+	              				{
+	              					add += '<a href="searchResults?keyword={{keyword}}&page=' + page + '" class=" btn btn-default">' + plusOneI + '</a>\n';
+	              				}
+	              			}
+	              			add += '</div>\n';
+	              			add += '</div>\n';
+	              			document.write(add);
+	              		</script>
+              			<script>
+								var originalPrice = document.getElementsByClassName("originalPrice");
+								var discountedPrice = document.getElementsByClassName("discountedPrice");
+								for (var i = 0; i < originalPrice.length; i++)
+								{
+									if (originalPrice[i].innerHTML != discountedPrice[i].innerHTML)
+									{
+										originalPrice[i].style.textDecoration = "line-through";
+										discountedPrice[i].style.visibility = "visible";
+									}
+								}
      					</script>
 	          	</div>
    		       	<div class='col-xs-0 col-sm-3 col-md-3 col-lg-3' id="tweets" >
