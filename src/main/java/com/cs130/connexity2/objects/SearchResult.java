@@ -1,11 +1,6 @@
 package com.cs130.connexity2.objects;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 public class SearchResult {
 	private long merchantId, categoryId, id;

@@ -1,6 +1,5 @@
 package com.cs130.connexity2;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -16,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cs130.connexity2.objects.Merchant;
 import com.cs130.connexity2.objects.MerchantQuery;
-import com.cs130.connexity2.objects.Offer;
-import com.cs130.connexity2.objects.ProductQuery;
-import com.cs130.connexity2.objects.SearchResult;
 import com.cs130.connexity2.twitter.TwitterSearchClient;
 import com.cs130.connexity2.util.Globals;
 

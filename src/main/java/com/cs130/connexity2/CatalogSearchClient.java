@@ -365,12 +365,6 @@ public class CatalogSearchClient {
 				merchant.setRatingDetailUrl("");
 			}
 		} catch (Exception e) {merchant.setRatingDetailUrl(""); e.printStackTrace();}
-		
-		
-		/*
-		private ArrayList<Dimension> dimensionalAverages;
-		private ArrayList<Percentage> periodNinety;
-			 */
 		try {
 			List<Dimension> dimensionalAverages = new ArrayList<>();
 			String dimensionName;
@@ -432,7 +426,6 @@ public class CatalogSearchClient {
 
 	public List<SearchResult> getSearchResults(Query query) {
 		try {
-			//publisherId=608865&keyword=shoes&results=20&resultsOffers=10&format=json&offersOnly=true
 			List<SearchResult> searchResults = new ArrayList<>();
 			String newUrl = Globals.BASE_URL;
 			switch(query.getQueryType()){

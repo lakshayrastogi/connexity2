@@ -1,9 +1,6 @@
 package com.cs130.connexity2.objects;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.validation.constraints.NotNull;
 
 public class Merchant {
 

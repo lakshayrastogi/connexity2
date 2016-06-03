@@ -1,7 +1,5 @@
 package com.cs130.connexity2.objects;
 
-import com.cs130.connexity2.util.Globals;
-
 public class ProductQuery extends Query{
 
 	private long placementId; //Default 1

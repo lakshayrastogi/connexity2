@@ -25,10 +25,10 @@ public class TwitterSearchClient {
 			andWords = new String[] {"just bought", "-shipping", "-sale", "-sell", "-deals"};
 		}
 		else if (searchType == Globals.TwitterSearchType.ITEM) {
-			andWords = new String[] {merchantName};
+			andWords = new String[] {merchantName, "-shipping", "-sale", "-sell"};
 		}
 		else if (searchType == Globals.TwitterSearchType.MERCHANT) {
-			andWords = new String[] {"review"};
+			andWords = new String[] {"review", "-shipping", "-sale", "-sell"};
 		}
 	}
 	private SearchParameters formatSearchQuery(String keyword) {

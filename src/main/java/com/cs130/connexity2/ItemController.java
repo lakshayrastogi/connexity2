@@ -1,6 +1,5 @@
 package com.cs130.connexity2;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;

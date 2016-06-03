@@ -1,13 +1,11 @@
 package com.cs130.connexity2;
 
-import org.neo4j.cypher.internal.compiler.v2_1.executionplan.builders.GlobalStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -19,13 +17,8 @@ import java.util.Map;
 import com.cs130.connexity2.twitter.TwitterSearchClient;
 import com.cs130.connexity2.util.Globals;
 import com.cs130.connexity2.objects.ProductQuery;
-import com.cs130.connexity2.objects.Query;
 import com.cs130.connexity2.objects.SearchResult;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-
-import scala.util.parsing.json.JSON;
 
 import com.cs130.connexity2.objects.SearchResultJDBCTemplate;
 
@@ -39,7 +32,6 @@ public class SearchController {
     
     @RequestMapping(value="/main", method=RequestMethod.GET)
     public String main(Model model){
-    	//model.addAttribute("productQuery", new ProductQuery());
     	return "main";
     } 
     
@@ -109,15 +101,6 @@ public class SearchController {
 			}
             System.out.println("twitterSearchTask finished");
         }
-        /*
-		SearchResultJDBCTemplate searchJT = new SearchResultJDBCTemplate();
-		if (!searchResults.isEmpty()) {
-			searchJT.deleteAllRows();
-			for (SearchResult searchResult : searchResults) {
-				searchJT.insertRecord(searchResult);
-			}
-		}
-		*/
 		
         final boolean refinedResults = (seller || priceLH || priceHL);
         FutureTask<List<SearchResult>> sqlTask = new FutureTask<List<SearchResult>>(new Callable<List<SearchResult>>() {
@@ -161,6 +144,7 @@ public class SearchController {
 					map.replace("merchantName", ((String)map.get("merchantName")).replace(" ", "-"));
 				}
 				model.addAttribute("merchantNames", list);
+				
 				return searchJT.selectSearchResults(columns, whereClause);
 			}
 		});
@@ -175,8 +159,7 @@ public class SearchController {
     		} catch (InterruptedException | ExecutionException e) {
     			e.printStackTrace();
     		}
-        	//TODO: refine based on refinement category
-        	//...
+        	
         	model.addAttribute("searchResults", sr);
         }
         else {
@@ -190,21 +173,6 @@ public class SearchController {
 		model.addAttribute("priceLH", priceLH);
 		model.addAttribute("priceHL", priceHL);
 		
-		// test output
-//		for (int i = 0; i < searchResults.size(); i++) {
-//			System.out.println("Offer " + (i+1) + '\n' + "---------------------------");
-//			SearchResult searchRes = searchResults.get(i);
-//			String res = 
-//					"Title: " + searchRes.getTitle() + '\n' +
-//					"Brand: " + searchRes.getBrandName() + '\n' +
-//					"Description: " + searchRes.getDescription() + '\n' +
-//					"Price: $" + searchRes.getPrice() + '\n' +
-//					"Relevancy: " + searchRes.getRelevancy() + '\n' +
-//					"merchantId: " + searchRes.getMerchantId() + '\n' +
-//					"categoryId: " + searchRes.getCategoryId() + '\n' +
-//					"id: " + searchRes.getId() + '\n';
-//			System.out.println(res);
-//		}
 		
 		//Twitter
 		model.addAttribute("tweetHtmlSnippets", tweetHtmlSnippets);
@@ -218,18 +186,3 @@ public class SearchController {
     	
     }
 }
-
-/*
- * Another way to get the user information that is placed directly into the object
- * 
-@RequestMapping(value="/main", method=RequestMethod.GET)
-public String main(Model model){
-	model.addAttribute("productQuery", new ProductQuery());
-	return "main";
-} 
-@RequestMapping(value="/searchResults",method=RequestMethod.GET)
-public String searchResults(@ModelAttribute ProductQuery query, Model model){
-	System.out.println(query.getKeyword());
-	return "searchResults";
-}
-*/
