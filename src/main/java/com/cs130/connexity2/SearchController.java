@@ -49,9 +49,7 @@ public class SearchController {
     
     @RequestMapping(value="/searchResults",method=RequestMethod.GET)
     public String searchResults(@RequestParam(value="keyword",required=true) String keyword, 
-    							@RequestParam(value="name", required=false, defaultValue="false") boolean name,
     							@RequestParam(value="seller", required=false, defaultValue="false") boolean seller,
-    							@RequestParam(value="rating", required=false, defaultValue="false") boolean rating,
     							@RequestParam(value="priceLH", required=false, defaultValue="false") boolean priceLH,
     							@RequestParam(value="priceHL", required=false, defaultValue="false") boolean priceHL,
     							@RequestParam(value="mName", required=false, defaultValue = "") String [] mName,
@@ -121,7 +119,7 @@ public class SearchController {
 		}
 		*/
 		
-        final boolean refinedResults = (name || seller || rating || priceLH || priceHL);
+        final boolean refinedResults = (seller || priceLH || priceHL);
         FutureTask<List<SearchResult>> sqlTask = new FutureTask<List<SearchResult>>(new Callable<List<SearchResult>>() {
 			@Override
 			public List<SearchResult> call() throws Exception {
@@ -188,9 +186,7 @@ public class SearchController {
         Gson gson = new Gson();
 		String mNameJson = gson.toJson(mName);
 		model.addAttribute("merchantNameIds", mNameJson);
-		model.addAttribute("name", name);
 		model.addAttribute("seller", seller);
-		model.addAttribute("rating", rating);
 		model.addAttribute("priceLH", priceLH);
 		model.addAttribute("priceHL", priceHL);
 		
